@@ -1,0 +1,312 @@
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:untitled4/const.dart' as app_const;
+import 'package:untitled4/navigation/navigation_service.dart';
+
+import 'package:untitled4/widgets/category.dart';
+import 'package:untitled4/core/widgets/base_screen.dart';
+import 'package:untitled4/l10n/app_localizations.dart';
+import 'package:untitled4/providers/language_provider.dart';
+import 'package:untitled4/core/widgets/rtl_text.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled4/features/home/bloc/home_bloc.dart';
+import 'package:untitled4/features/home/presentation/pages/syrian_governorates_page.dart';
+import 'package:untitled4/features/services/services_tabs_screen.dart';
+
+class DirectionalText extends StatelessWidget {
+  final String text;
+  final TextStyle? style;
+  final bool isArabic;
+
+  const DirectionalText({
+    super.key,
+    required this.text,
+    this.style,
+    required this.isArabic,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return isArabic
+        ? RTLText(text: text, style: style)
+        : Text(text, style: style);
+  }
+}
+
+class Homepage extends BaseScreen {
+  const Homepage({super.key}) : super(navigationIndex: 2);
+
+  @override
+  State<BaseScreen> createState() => _HomepageState();
+}
+
+class _HomepageState extends BaseScreenState<Homepage> {
+  final Map<String, String> categoryImages = {
+    'tourism sites': 'assets/images/tourism_sites.jpg',
+    'Historical sites': 'assets/images/hestorical_sites.jpg',
+    'مواقع تاريخية': 'assets/images/relagion_sites.jpg',
+    'Services': 'assets/images/services.jpg',
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(HomeStarted());
+  }
+
+  String getTourismType(String title, BuildContext context) {
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    if (isArabic) {
+      if (title == 'المواقع السياحية') return 'سياحي';
+      if (title == 'المواقع التاريخية') return 'تاريخي';
+      if (title == 'المواقع الدينية') return 'ديني';
+    } else {
+      if (title == 'Tourism Sites') return 'سياحي';
+      if (title == 'Historical Sites') return 'تاريخي';
+      if (title == 'Religious Sites') return 'ديني';
+    }
+    return '';
+  }
+
+  @override
+  Widget buildBody(BuildContext context) {
+    final isArabic =
+        context.watch<LanguageProvider>().currentLocale.languageCode == 'ar';
+    final l10n = AppLocalizations.of(context)!;
+
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state is HomeLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is HomeError) {
+          return Center(child: Text(state.message));
+        }
+
+        if (state is HomeLoaded) {
+          return Directionality(
+            textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+            child: Scaffold(
+              backgroundColor: app_const.AppColors.backgroundLight,
+              drawer: Drawer(
+                child: ListView(
+                  children: [
+                    DrawerHeader(
+                      decoration: const BoxDecoration(
+                        color: app_const.AppColors.primary,
+                      ),
+                      child: DirectionalText(
+                        text: l10n.menu,
+                        isArabic: isArabic,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    ListTile(
+                      title: DirectionalText(
+                        text: l10n.aboutApp,
+                        isArabic: isArabic,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                backgroundColor: app_const.AppColors.primary,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DirectionalText(
+                      text: isArabic ? 'السياحة في سوريا' : 'Syria Tourism',
+                      isArabic: isArabic,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    PopupMenuButton<String>(
+                      icon: const Icon(Icons.language, color: Colors.white),
+                      onSelected: (value) async {
+                        final languageId = value == 'ar'
+                            ? 1
+                            : value == 'en'
+                                ? 2
+                                : 3;
+                        context
+                            .read<HomeBloc>()
+                            .add(HomeLanguageChanged(languageId));
+                        await context
+                            .read<LanguageProvider>()
+                            .changeLanguage(value);
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 'ar',
+                          child: RTLText(
+                            text: l10n.arabic,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'en',
+                          child: Text(
+                            l10n.english,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'fr',
+                          child: Text(
+                            l10n.french,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                elevation: 0,
+              ),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      height: 180,
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: 160.0,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                          onPageChanged: (index, reason) {
+                            context
+                                .read<HomeBloc>()
+                                .add(HomeSliderChanged(index));
+                          },
+                        ),
+                        items: state.sliderImages.map((imagePath) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.asset(
+                                  imagePath,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                              ).animate().fadeIn(duration: 500.ms);
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:
+                          List.generate(state.sliderImages.length, (index) {
+                        bool isActive = state.currentSliderIndex == index;
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          width: isActive ? 12 : 8,
+                          height: isActive ? 12 : 8,
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isActive
+                                ? app_const.AppColors.secondary
+                                : Colors.grey[300],
+                          ),
+                        );
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: isArabic
+                            ? CrossAxisAlignment.end
+                            : CrossAxisAlignment.start,
+                        children: [
+                          DirectionalText(
+                            text: l10n.tourismSites,
+                            isArabic: isArabic,
+                            style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: app_const.AppColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          DirectionalText(
+                            text: l10n.searchHint,
+                            isArabic: isArabic,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 1,
+                            ),
+                            itemCount: state.categories.length,
+                            itemBuilder: (context, index) {
+                              final category = state.categories[index];
+                              final imagePath =
+                                  categoryImages[category.catName] ??
+                                      'assets/images/default.jpg';
+
+                              return Category_Card(
+                                category: category,
+                                onTap: () {
+                                  final categoryType =
+                                      getTourismType(category.catName, context);
+                                  context.read<HomeBloc>().add(
+                                        HomeCategorySelected(
+                                          categoryTitle: category.catName,
+                                          categoryType: categoryType,
+                                        ),
+                                      );
+                                  if (category.catName == 'Services') {
+                                    NavigationService.navigateToServices();
+                                  } else {
+                                    NavigationService.navigateToGovernorates(
+                                      categoryType,
+                                      languageId: state.languageId,
+                                      categoryId: category.id,
+                                    );
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        return const Center(child: Text('Something went wrong'));
+      },
+    );
+  }
+}
