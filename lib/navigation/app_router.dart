@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled4/core/services/get_it_service.dart';
 import 'package:untitled4/features/about/presentation/pages/about_us_page.dart';
 import 'package:untitled4/features/contact/presentation/pages/contact_us_screen.dart';
 import 'package:untitled4/features/map/presentation/pages/syria_map_page.dart';
+import 'package:untitled4/features/search/cubit/search_cubit_cubit.dart';
 import 'package:untitled4/features/search/presentation/pages/search_page.dart';
+import 'package:untitled4/features/search/repo/search_repo.dart';
 import 'package:untitled4/screens/virtual_tour_screen.dart';
 import 'package:untitled4/screens/welcome_screen.dart';
 import 'package:untitled4/features/home/presentation/pages/homepage.dart';
@@ -37,7 +40,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const Homepage());
       case search:
         return MaterialPageRoute(
-          builder: (_) => const SearchPage(),
+          builder: (_) => BlocProvider(
+            create: (context) => SearchCubit(getIt<SearchRepo>()),
+            child: const SearchPage(),
+          ),
         );
       case map:
         return MaterialPageRoute(builder: (_) => const SyriaMapPage());
