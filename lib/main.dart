@@ -58,9 +58,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => HomeBloc()),
         BlocProvider(
             create: (context) => HomeCubit(getIt<HomeRepo>())..getCategories()),
-        // BlocProvider(
-        //     create: (context) => ContactBloc()
-        //       ..add(const LoadContactInfo())), // Contact Bloc هنا
+        BlocProvider(
+            create: (context) => ContactBloc()
+              ..add(const LoadContactInfo())), // Contact Bloc هنا
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
       ],
       child: Consumer<LanguageProvider>(

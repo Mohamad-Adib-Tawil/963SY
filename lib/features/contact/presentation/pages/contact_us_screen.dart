@@ -6,8 +6,7 @@ import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:untitled4/features/contact/bloc/contact_bloc.dart';
-import 'package:untitled4/core/network/api_client.dart';
-import 'package:untitled4/core/network/api_endpoints.dart';
+
 
 class ContactUsScreen extends BaseScreen {
   const ContactUsScreen({super.key}) : super(navigationIndex: 4);

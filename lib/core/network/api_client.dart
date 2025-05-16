@@ -96,6 +96,7 @@ class ApiClient {
   }) async {
     try {
       developer.log('Making POST request to: ${ApiEndpoints.baseUrl}$path');
+      developer.log('PATH: $path');
       final response = await _dio.post(
         path,
         data: data,
