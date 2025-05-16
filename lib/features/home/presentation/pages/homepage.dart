@@ -11,8 +11,6 @@ import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/home/bloc/home_bloc.dart';
-import 'package:untitled4/features/home/presentation/pages/syrian_governorates_page.dart';
-import 'package:untitled4/features/services/services_tabs_screen.dart';
 
 class DirectionalText extends StatelessWidget {
   final String text;

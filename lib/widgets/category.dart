@@ -20,7 +20,7 @@ class Category_Card extends StatelessWidget {
 
   String get _imagePath {
     if (category is CategoryModel) {
-      return 'http://127.0.0.1:8000${category.catPhoto}';
+      return '${category.catPhoto}';
     }
     return category['imageName'] ?? '';
   }

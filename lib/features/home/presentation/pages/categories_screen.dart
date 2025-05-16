@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/home/bloc/category_bloc.dart';
@@ -35,6 +37,7 @@ class CategoriesScreen extends StatelessWidget {
                     category: category,
                     onTap: () {
                       // Handle category tap
+                      log('Category tapped: ${category}');
                     },
                   );
                 },
@@ -49,3 +52,4 @@ class CategoriesScreen extends StatelessWidget {
     );
   }
 }
+

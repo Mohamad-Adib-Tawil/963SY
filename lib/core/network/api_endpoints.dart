@@ -3,7 +3,7 @@ import 'dart:io' show Platform;
 class ApiEndpoints {
   static String get baseUrl {
     if (Platform.isAndroid) {
-      return 'http://10.0.2.2:8000/api/user'; // Android emulator
+      return 'http://127.0.0.1:8000/api/user'; // Android emulator
     } else if (Platform.isIOS) {
       return 'http://127.0.0.1:8000/api/user'; // iOS simulator
     } else {
