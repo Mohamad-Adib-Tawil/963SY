@@ -8,7 +8,6 @@ import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/places/bloc/places_bloc.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
-import 'package:untitled4/core/widgets/rtl_text.dart';
 
 class SyrianGovernoratesTabs extends StatelessWidget {
   final VoidCallback? onBack;
@@ -246,6 +245,7 @@ class _CustomTabBarState extends State<_CustomTabBar> {
     return SingleChildScrollView(
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         children: List.generate(widget.governorates.length, (index) {

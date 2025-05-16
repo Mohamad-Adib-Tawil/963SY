@@ -3,6 +3,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled4/core/services/custom_bloc_observer.dart';
+import 'package:untitled4/core/services/get_it_service.dart';
+import 'package:untitled4/features/home/home_cubit/home_cubit.dart';
+import 'package:untitled4/features/home/repos/home_repo.dart';
 
 import 'package:untitled4/screens/language_selection_screen.dart';
 import 'package:untitled4/screens/privacy_policy_screen.dart';
@@ -37,7 +41,8 @@ void main() async {
       initialRoute = '/welcome';
     }
   }
-
+  // Bloc.observer = CustomBlocObserver();
+  setupGetIt();
   runApp(MyApp(initialRoute: initialRoute));
 }
 
@@ -52,8 +57,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => HomeBloc()),
         BlocProvider(
-            create: (context) => ContactBloc()
-              ..add(const LoadContactInfo())), // Contact Bloc هنا
+            create: (context) => HomeCubit(getIt<HomeRepo>())..getCategories()),
+        // BlocProvider(
+        //     create: (context) => ContactBloc()
+        //       ..add(const LoadContactInfo())), // Contact Bloc هنا
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
       ],
       child: Consumer<LanguageProvider>(
