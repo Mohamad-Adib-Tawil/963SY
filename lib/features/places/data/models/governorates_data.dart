@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 class GovernoratesData {
   static const List<Governorate> governorates = [
     Governorate(
+      id: 1,
       name: "دمشق",
       description: "العاصمة السورية وتعد من أقدم مدن العالم.",
       image: "assets/images/جامع (4).jpg",
@@ -52,6 +53,7 @@ class GovernoratesData {
       ],
     ),
     Governorate(
+      id: 1,
       name: "حمص",
       description:
           "من أجمل قلاع العالم الأثريّة ومن أفضل التّحصينات الفرنجيّة في الشّرق وأكثرها حفظاً",
@@ -102,6 +104,7 @@ class GovernoratesData {
       ],
     ),
     Governorate(
+      id: 3,
       name: "طرطوس",
       description: "مدينة سورية تقع على ضفاف نهر الأوردة.",
       image: "assets/images/المرقب طرطوس.j2.jpg",

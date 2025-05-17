@@ -25,7 +25,7 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
 
     return BlocConsumer<SearchCubit, SearchCubitState>(
       listener: (context, state) {
-        if(state is SearchCubitSuccess) {
+        if (state is SearchCubitSuccess) {
           log('---Cubit:${state.places.toString()}');
         }
       },
@@ -88,9 +88,7 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
                             Icons.filter_list,
                             color: AppColors.primary,
                           ),
-                          onPressed: () {
-                            
-                          },
+                          onPressed: () {},
                         ),
                         filled: true,
                         fillColor: Colors.white,
@@ -113,43 +111,44 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(20),
-                    child: state is SearchCubitLoding ? const Center(child: CircularProgressIndicator()) :
-                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.findPlaces,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ).animate().fadeIn(delay: 200.ms),
-                        const SizedBox(height: 20),
-                        Expanded(
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.search_off_rounded,
-                                  size: 100,
-                                  color: Colors.grey[400],
-                                ).animate().scale(delay: 400.ms),
-                                const SizedBox(height: 16),
-                                Text(
-                                  l10n.searchResults,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.grey[600],
-                                    fontWeight: FontWeight.w500,
+                    child: state is SearchCubitLoding
+                        ? const Center(child: CircularProgressIndicator())
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.findPlaces,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ).animate().fadeIn(delay: 200.ms),
+                              const SizedBox(height: 20),
+                              Expanded(
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.search_off_rounded,
+                                        size: 100,
+                                        color: Colors.grey[400],
+                                      ).animate().scale(delay: 400.ms),
+                                      const SizedBox(height: 16),
+                                      Text(
+                                        l10n.searchResults,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.grey[600],
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ).animate().fadeIn(delay: 600.ms),
+                                    ],
                                   ),
-                                ).animate().fadeIn(delay: 600.ms),
-                              ],
-                            ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
                   ),
                 ),
               ],

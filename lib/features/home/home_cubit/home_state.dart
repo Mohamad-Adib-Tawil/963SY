@@ -8,11 +8,14 @@ sealed class HomeCubitState extends Equatable {
 }
 
 final class HomeCubitInitial extends HomeCubitState {}
+
 final class HomeCubitLoading extends HomeCubitState {}
+
 final class HomeCubitSuccess extends HomeCubitState {
   final List<CategoryModel> categories;
   const HomeCubitSuccess(this.categories);
 }
+
 final class HomeCubitError extends HomeCubitState {
   final String message;
   const HomeCubitError(this.message);

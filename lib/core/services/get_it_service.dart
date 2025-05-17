@@ -9,5 +9,6 @@ final getIt = GetIt.instance;
 void setupGetIt() {
   getIt.registerSingleton<ApiService>(ApiService(Dio()));
   getIt.registerSingleton<HomeRepo>(HomeRepo(apiService: getIt<ApiService>()));
-  getIt.registerSingleton<SearchRepo>(SearchRepo(apiService: getIt<ApiService>()));
+  getIt.registerSingleton<SearchRepo>(
+      SearchRepo(apiService: getIt<ApiService>()));
 }

@@ -31,6 +31,7 @@ class Governorate {
   final String name;
   final String description;
   final String image;
+  final int id;
   final List<TouristPlace> places;
 
   const Governorate({
@@ -38,6 +39,7 @@ class Governorate {
     required this.description,
     required this.image,
     required this.places,
+    required this.id,
   });
 
   @override

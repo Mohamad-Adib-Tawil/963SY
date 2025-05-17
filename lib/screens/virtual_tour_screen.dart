@@ -33,8 +33,7 @@ class _VirtualTourScreenState extends State<VirtualTourScreen> {
           },
         ),
       )
-      ..loadRequest(
-          Uri.parse('https://yarama127.github.io/omayaad_mosque/'));
+      ..loadRequest(Uri.parse('https://yarama127.github.io/omayaad_mosque/'));
   }
 
   @override

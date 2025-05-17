@@ -29,6 +29,7 @@ class PlacesBloc extends Bloc<PlacesEvent, PlacesState> {
       final List<dynamic> data = response.data['data'] ?? [];
       final List<Governorate> governorates = data.map((json) {
         return Governorate(
+          id: json['id'] ?? 0,
           name: json['city_name'] ?? '',
           description: json['description'] ?? '',
           image: json['photo'] ?? '',

@@ -92,32 +92,16 @@ class _HomepageState extends BaseScreenState<Homepage> {
             textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
             child: Scaffold(
               backgroundColor: app_const.AppColors.backgroundLight,
-              drawer: Drawer(
-                child: ListView(
-                  children: [
-                    DrawerHeader(
-                      decoration: const BoxDecoration(
-                        color: app_const.AppColors.primary,
-                      ),
-                      child: DirectionalText(
-                        text: l10n.menu,
-                        isArabic: isArabic,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+              drawer: ListView(
+                children: [
+                  ListTile(
+                    title: DirectionalText(
+                      text: l10n.aboutApp,
+                      isArabic: isArabic,
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    ListTile(
-                      title: DirectionalText(
-                        text: l10n.aboutApp,
-                        isArabic: isArabic,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               appBar: AppBar(
                 automaticallyImplyLeading: false,
@@ -179,7 +163,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
               ),
               body: BlocListener<HomeCubit, HomeCubitState>(
                 listener: (context, state) {
-                  if(state is HomeCubitSuccess){
+                  if (state is HomeCubitSuccess) {
                     log('success');
                   }
                 },
@@ -282,15 +266,17 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                 return Category_Card(
                                   category: category,
                                   onTap: () {
+                                    log('Category tapped: ${category}');
                                     final categoryType = getTourismType(
                                         category.catName, context);
-                                    context.read<HomeBloc>().add(
-                                          HomeCategorySelected(
-                                            categoryTitle: category.catName,
-                                            categoryType: categoryType,
-                                          ),
-                                        );
-                                    if (category.catName == 'Services') {
+                                    // context.read<HomeBloc>().add(
+                                    //       HomeCategorySelected(
+                                    //         categoryTitle: category.catName,
+                                    //         categoryType: categoryType,
+                                    //       ),
+                                    //     );
+
+                                    if (category.catType == 2) {
                                       NavigationService.navigateToServices();
                                     } else {
                                       NavigationService.navigateToGovernorates(

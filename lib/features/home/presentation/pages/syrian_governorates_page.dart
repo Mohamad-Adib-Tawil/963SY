@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:untitled4/const.dart';
+import 'package:untitled4/core/services/get_it_service.dart';
+import 'package:untitled4/features/home/places_cubit/places_cubit_cubit.dart';
+import 'package:untitled4/features/home/repos/home_repo.dart';
 import 'package:untitled4/models/governorate_m.dart';
 import 'package:untitled4/features/places/presentation/pages/details/place_details_screen.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
@@ -7,6 +12,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/places/bloc/places_bloc.dart';
+import 'package:untitled4/models/place_model.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
 
 class SyrianGovernoratesTabs extends StatelessWidget {
@@ -30,12 +36,15 @@ class SyrianGovernoratesTabs extends StatelessWidget {
             tourismType: tourismType,
             languageId: languageId,
             categoryId: categoryId)),
-      child: _SyrianGovernoratesTabsContent(
-        onBack:
-            onBack ?? () => Navigator.pushReplacementNamed(context, '/home'),
-        tourismType: tourismType,
-        languageId: languageId,
-        categoryId: categoryId,
+      child: BlocProvider(
+        create: (context) => PlacesCubitCubit(getIt<HomeRepo>()),
+        child: _SyrianGovernoratesTabsContent(
+          onBack:
+              onBack ?? () => Navigator.pushReplacementNamed(context, '/home'),
+          tourismType: tourismType,
+          languageId: languageId,
+          categoryId: categoryId,
+        ),
       ),
     );
   }
@@ -70,6 +79,9 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
         }
 
         if (state is PlacesLoaded) {
+          context
+              .read<PlacesCubitCubit>()
+              .getPlaces(categoryId, state.governorates[0].id);
           return DefaultTabController(
             length: state.governorates.length,
             child: Scaffold(
@@ -130,26 +142,44 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
 
   Widget _buildGovernorateView(Governorate governorate, BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: governorate.places.length,
-      itemBuilder: (context, index) {
-        return _buildPlaceCard(context, governorate, governorate.places[index])
-            .animate()
-            .fadeIn(duration: 500.ms)
-            .slideX(begin: 0.1, end: 0, duration: 500.ms);
+    return BlocBuilder<PlacesCubitCubit, PlacesCubitState>(
+      builder: (context, state) {
+        if (state is PlacesCubitLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is PlacesCubitSuccess) {
+          log('___Cubit:*******PLACES : ${state.places.toString()}');
+          return ListView.builder(
+            
+            padding: const EdgeInsets.all(16),
+            itemCount: state.places.length,
+            itemBuilder: (context, index) {
+              return _buildPlaceCard(
+                      context, governorate, state.places[index] )
+                  .animate()
+                  .fadeIn(duration: 500.ms)
+                  .slideX(begin: 0.1, end: 0, duration: 500.ms);
+            },
+          );
+        } else if (state is PlacesCubitFailuer) {
+          return Center(child: Text(state.errorMessage));
+        } else {
+          return const Center(child: Text('Something went wrong'));
+        }
       },
     );
   }
 
   Widget _buildPlaceCard(
-      BuildContext context, Governorate governorate, TouristPlace place) {
+      BuildContext context, Governorate governorate, Place place) {
     final isRTL = Localizations.localeOf(context).languageCode == 'ar';
 
     return GestureDetector(
       onTap: () {
-        NavigationService.navigateTo('/details',
-            arguments: PlaceDetailsScreen(place: place));
+        // NavigationService.navigateTo('/details',
+        //     arguments: PlaceDetailsScreen(place: place));
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -167,7 +197,7 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RTLText(
-                    text: place.name,
+                    text: place.placeName,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
