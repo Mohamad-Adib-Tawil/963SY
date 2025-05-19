@@ -5,6 +5,7 @@ import 'package:untitled4/features/places/presentation/pages/details/place_detai
 import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
+import 'package:untitled4/models/place_model.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
 
 class TouristPlacesScreen extends StatelessWidget {
@@ -100,7 +101,7 @@ class TouristPlacesScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildPlaceImage(place),
-          _buildPlaceContent(context, place),
+          // _buildPlaceContent(context, place),
         ],
       ),
     );
@@ -155,7 +156,7 @@ class TouristPlacesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlaceContent(BuildContext context, TouristPlace place) {
+  Widget _buildPlaceContent(BuildContext context, Place place) {
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: contentPadding, vertical: verticalSpacing),
@@ -172,9 +173,9 @@ class TouristPlacesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlaceName(TouristPlace place) {
+  Widget _buildPlaceName(Place place) {
     return RTLText(
-      text: place.name,
+      text: place.placeName,
       style: const TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
@@ -183,7 +184,7 @@ class TouristPlacesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlaceDescription(TouristPlace place) {
+  Widget _buildPlaceDescription(Place place) {
     final firstLine = place.description.split(RegExp(r'\r?\n')).first.trim();
     return RTLText(
       text: firstLine,
@@ -197,7 +198,7 @@ class TouristPlacesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailsButton(BuildContext context, TouristPlace place) {
+  Widget _buildDetailsButton(BuildContext context, Place place) {
     final l10n = AppLocalizations.of(context)!;
     return ElevatedButton.icon(
       onPressed: () => _navigateToPlaceDetails(context, place),
@@ -218,7 +219,7 @@ class TouristPlacesScreen extends StatelessWidget {
     );
   }
 
-  void _navigateToPlaceDetails(BuildContext context, TouristPlace place) {
+  void _navigateToPlaceDetails(BuildContext context, Place place) {
     NavigationService.navigateTo('/details',
         arguments: PlaceDetailsScreen(place: place));
   }

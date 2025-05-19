@@ -282,16 +282,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get ourMission => 'Notre mission';
 
   @override
-  String get whoWeAreContent => 'La Fondation Artfly est pionnière en innovation et documentation, spécialisée dans la photographie aérienne utilisant la technologie des drones.';
+  String get whoWeAreContent =>
+      'La Fondation Artfly est pionnière en innovation et documentation, spécialisée dans la photographie aérienne utilisant la technologie des drones.';
 
   @override
-  String get whatIs963SYContent => '963SY est une plateforme mobile complète qui rend le tourisme accessible à tous, quelles que soient les barrières physiques ou linguistiques.';
+  String get whatIs963SYContent =>
+      '963SY est une plateforme mobile complète qui rend le tourisme accessible à tous, quelles que soient les barrières physiques ou linguistiques.';
 
   @override
-  String get ourMissionContent => 'Nous visons à promouvoir l\'histoire riche, le patrimoine et les attractions touristiques de la Syrie à travers un contenu, des photos et des vidéos sélectionnés qui mettent en valeur la véritable beauté et l\'importance culturelle du pays.';
+  String get ourMissionContent =>
+      'Nous visons à promouvoir l\'histoire riche, le patrimoine et les attractions touristiques de la Syrie à travers un contenu, des photos et des vidéos sélectionnés qui mettent en valeur la véritable beauté et l\'importance culturelle du pays.';
 
   @override
-  String get searchHint => 'Rechercher des lieux, des monuments ou des activités...';
+  String get searchHint =>
+      'Rechercher des lieux, des monuments ou des activités...';
 
   @override
   String get government => 'Gouvernement';
@@ -309,55 +313,65 @@ class AppLocalizationsFr extends AppLocalizations {
   String get privacyPolicyInfoCollection => 'Informations que nous collectons';
 
   @override
-  String get privacyPolicyInfoCollectionContent => 'Nous collectons les informations que vous nous fournissez directement, notamment lorsque vous créez un compte, utilisez nos services ou communiquez avec nous.';
+  String get privacyPolicyInfoCollectionContent =>
+      'Nous collectons les informations que vous nous fournissez directement, notamment lorsque vous créez un compte, utilisez nos services ou communiquez avec nous.';
 
   @override
-  String get privacyPolicyInfoUsage => 'Comment nous utilisons vos informations';
+  String get privacyPolicyInfoUsage =>
+      'Comment nous utilisons vos informations';
 
   @override
-  String get privacyPolicyInfoUsageContent => 'Nous utilisons les informations que nous collectons pour fournir, maintenir et améliorer nos services, en développer de nouveaux et protéger notre entreprise et nos utilisateurs.';
+  String get privacyPolicyInfoUsageContent =>
+      'Nous utilisons les informations que nous collectons pour fournir, maintenir et améliorer nos services, en développer de nouveaux et protéger notre entreprise et nos utilisateurs.';
 
   @override
   String get privacyPolicyInfoSharing => 'Partage d\'informations';
 
   @override
-  String get privacyPolicyInfoSharingContent => 'Nous ne partageons pas vos informations personnelles avec des entreprises, des organisations ou des individus en dehors de notre entreprise, sauf dans les cas suivants :';
+  String get privacyPolicyInfoSharingContent =>
+      'Nous ne partageons pas vos informations personnelles avec des entreprises, des organisations ou des individus en dehors de notre entreprise, sauf dans les cas suivants :';
 
   @override
   String get privacyPolicyYourRights => 'Vos droits';
 
   @override
-  String get privacyPolicyYourRightsContent => 'Vous avez le droit d\'accéder, de corriger ou de supprimer vos informations personnelles. Vous pouvez également vous opposer à notre utilisation de vos informations.';
+  String get privacyPolicyYourRightsContent =>
+      'Vous avez le droit d\'accéder, de corriger ou de supprimer vos informations personnelles. Vous pouvez également vous opposer à notre utilisation de vos informations.';
 
   @override
   String get privacyPolicySecurity => 'Security';
 
   @override
-  String get privacyPolicySecurityContent => 'The application does not collect any personal information and does not request any permissions to access mobile data or information about it, and does not collect any information about your geographical location.';
+  String get privacyPolicySecurityContent =>
+      'The application does not collect any personal information and does not request any permissions to access mobile data or information about it, and does not collect any information about your geographical location.';
 
   @override
   String get privacyPolicyLinks => 'Links to Other Sites';
 
   @override
-  String get privacyPolicyLinksContent => 'This service may contain links to other sites, and these sites are for our platforms on social media. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.';
+  String get privacyPolicyLinksContent =>
+      'This service may contain links to other sites, and these sites are for our platforms on social media. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.';
 
   @override
   String get privacyPolicyChildren => 'Children\'s Privacy';
 
   @override
-  String get privacyPolicyChildrenContent => 'This service is provided for all ages and genders and does not display any harmful content at all, and the content is managed effectively.';
+  String get privacyPolicyChildrenContent =>
+      'This service is provided for all ages and genders and does not display any harmful content at all, and the content is managed effectively.';
 
   @override
   String get privacyPolicyContact => 'Contact Us';
 
   @override
-  String get privacyPolicyContactContent => 'If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at info@963sy.sy.';
+  String get privacyPolicyContactContent =>
+      'If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at info@963sy.sy.';
 
   @override
   String get privacyPolicyTerms => 'Terms of Use';
 
   @override
-  String get privacyPolicyTermsContent => 'Definition of the application and its nature of operation\n\nThe application does not collect any information about users because the application is for displaying information only and does not contain any feature for logging in and creating an account and entering any type of data\n\nSources that the application uses on the user\'s device\nThe application does not use any sources or resources from the computer, it only needs an internet connection from mobile data or WIFI\n\nSharing personal data if it exists\nThere is no personal information about the user\n\nUnsubscribe\nThere is no subscription feature in the application\n\nUpdating the usage policy and how the user is notified\nIn case of updating the privacy policy, it will be displayed to the user with explicit reference to the changes made, and the privacy policy will be effective so that it allows the user to accept or reject it\n\nAny other necessary information that the application owner deems appropriate\nBy downloading or using the application, these terms will automatically apply to you - therefore, you should make sure to read them carefully before using the application. You are not allowed to copy or modify the application or any part of it or our trademarks in any way. You are not allowed to try to extract the source code of the application, and you should not try to translate the application into other languages or create derivative versions. The application itself and all trademarks, copyrights, database rights, and other intellectual property rights related to it remain owned by the Syrian Ministry of Tourism.\n\nYou are responsible for keeping your phone and access to the application secure. Therefore, we recommend that you do not jailbreak or root your phone, which is the process of removing software restrictions and restrictions imposed by the official operating system of your device. It can make your phone vulnerable to malware/viruses/malicious programs, compromise your phone\'s security features, and could mean that the 963 application won\'t work properly or at all.\n\nYou should be aware that there are certain things that ArtFly will not take responsibility for. Some functions of the application will require the application to have an active internet connection. The connection can be via Wi-Fi or provided by your mobile network provider, but ArtFly cannot take responsibility for the application not working at full functionality if you don\'t have access to Wi-Fi, and you don\'t have any other internet connection.\n\nWith respect to ArtFly\'s responsibility for your use of the application, when using the application, it\'s important to bear in mind that although we endeavor to ensure that it is updated and correct at all times, we do rely on third parties to provide information to us so that we can make it available to you. ArtFly accepts no liability for any loss, direct or indirect, you experience as a result of relying wholly on this functionality of the application.\n\nChanges to These Terms and Conditions\nWe may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Terms and Conditions on this page.\n\nThese terms and conditions are effective as of 2024-09-01';
+  String get privacyPolicyTermsContent =>
+      'Definition of the application and its nature of operation\n\nThe application does not collect any information about users because the application is for displaying information only and does not contain any feature for logging in and creating an account and entering any type of data\n\nSources that the application uses on the user\'s device\nThe application does not use any sources or resources from the computer, it only needs an internet connection from mobile data or WIFI\n\nSharing personal data if it exists\nThere is no personal information about the user\n\nUnsubscribe\nThere is no subscription feature in the application\n\nUpdating the usage policy and how the user is notified\nIn case of updating the privacy policy, it will be displayed to the user with explicit reference to the changes made, and the privacy policy will be effective so that it allows the user to accept or reject it\n\nAny other necessary information that the application owner deems appropriate\nBy downloading or using the application, these terms will automatically apply to you - therefore, you should make sure to read them carefully before using the application. You are not allowed to copy or modify the application or any part of it or our trademarks in any way. You are not allowed to try to extract the source code of the application, and you should not try to translate the application into other languages or create derivative versions. The application itself and all trademarks, copyrights, database rights, and other intellectual property rights related to it remain owned by the Syrian Ministry of Tourism.\n\nYou are responsible for keeping your phone and access to the application secure. Therefore, we recommend that you do not jailbreak or root your phone, which is the process of removing software restrictions and restrictions imposed by the official operating system of your device. It can make your phone vulnerable to malware/viruses/malicious programs, compromise your phone\'s security features, and could mean that the 963 application won\'t work properly or at all.\n\nYou should be aware that there are certain things that ArtFly will not take responsibility for. Some functions of the application will require the application to have an active internet connection. The connection can be via Wi-Fi or provided by your mobile network provider, but ArtFly cannot take responsibility for the application not working at full functionality if you don\'t have access to Wi-Fi, and you don\'t have any other internet connection.\n\nWith respect to ArtFly\'s responsibility for your use of the application, when using the application, it\'s important to bear in mind that although we endeavor to ensure that it is updated and correct at all times, we do rely on third parties to provide information to us so that we can make it available to you. ArtFly accepts no liability for any loss, direct or indirect, you experience as a result of relying wholly on this functionality of the application.\n\nChanges to These Terms and Conditions\nWe may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Terms and Conditions on this page.\n\nThese terms and conditions are effective as of 2024-09-01';
 
   @override
   String get damascus => 'Damas';
@@ -417,11 +431,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get hospitals => 'Hôpitaux';
 
   @override
-  String get aboutUsContent => 'تطبيق 963SY \nمن أهم أعمال مؤسسة artfly... المؤسسة التي كان لها دورًا مهمًا في رحلة الابتكار، والتّصوير، والتّوثيق، والتميز في استخدام الطائرات المسيرة للتصوير الجوي.\nيعتبر التّطبيق 963SY حقيبة معلومات شاملة تجلب السياحة إلى متناول الجميع، بغض النظر عن قدراتهم البدنية أو اللغوية.\nيقدم المعرفة حول سورية بتاريخها وتراثها وأماكنها السياحية، ويسهم في زيادة الوعي حول وجودها وأهميتها.\nيوفر قاعدة بيانات للتعريف بالمقومات والأماكن السياحيّة المحليّة الجميلة، وكذلك الفعاليات والأنشطة كافة التي تشهدها سورية... يعرضها بفيديوهات وصور خاصة تعكس جمال سورية وتبرز التّجارب المشوقة التي يمكن الاستمتاع بها هناك.\nيمكن لمستخدم التطبيق 963SY تصفح الخريطة السياحيّة المتاحة للأماكن والمواقع المختلفة والوصول إليها بسهولة وسرعة، بالإضافة الى المعلومات والنّصوص المتعلقة بكل مكان على حدا.\nتطبيق 963SY  دليل الوعي والاستكشاف والتّراث الروحي الذي يحتضنه هذا البلد الجميل، ويتيح للعالم اكتشاف مقوماتها وزيارتها بضغطة زر. فهو يجمع بين الثّقافة والتّكنولوجيا، ويعطي للسائح تجربة سفر افتراضيّة حقيقية. في عالم ينقصه الوقت والفرص. كما يُقدّم تجربة محيطية كاملة للمواقع السياحية بزاوية رؤية 360 درجة لاستكشاف كل زاوية فيها ومجمل جمال المناظر الطبيعية الخلّابة في سورية.\nيوفير التطبيق 963SY  تجربة متكاملة وشاملة لجميع الفئات المختلفة من المستخدمين، بما في ذلك أولئك الذين يواجهون تحديات في التواصل وفهم المعلومات بسبب إعاقتهم السمعية.\nتطبيق 963SY يعكس رؤية artfly في خدمة المجتمع وتعزيز التّواصل الثّقافي والسّياحي من خلال التّكنولوجيا المتقدمة والابتكار.';
+  String get aboutUsContent =>
+      'تطبيق 963SY \nمن أهم أعمال مؤسسة artfly... المؤسسة التي كان لها دورًا مهمًا في رحلة الابتكار، والتّصوير، والتّوثيق، والتميز في استخدام الطائرات المسيرة للتصوير الجوي.\nيعتبر التّطبيق 963SY حقيبة معلومات شاملة تجلب السياحة إلى متناول الجميع، بغض النظر عن قدراتهم البدنية أو اللغوية.\nيقدم المعرفة حول سورية بتاريخها وتراثها وأماكنها السياحية، ويسهم في زيادة الوعي حول وجودها وأهميتها.\nيوفر قاعدة بيانات للتعريف بالمقومات والأماكن السياحيّة المحليّة الجميلة، وكذلك الفعاليات والأنشطة كافة التي تشهدها سورية... يعرضها بفيديوهات وصور خاصة تعكس جمال سورية وتبرز التّجارب المشوقة التي يمكن الاستمتاع بها هناك.\nيمكن لمستخدم التطبيق 963SY تصفح الخريطة السياحيّة المتاحة للأماكن والمواقع المختلفة والوصول إليها بسهولة وسرعة، بالإضافة الى المعلومات والنّصوص المتعلقة بكل مكان على حدا.\nتطبيق 963SY  دليل الوعي والاستكشاف والتّراث الروحي الذي يحتضنه هذا البلد الجميل، ويتيح للعالم اكتشاف مقوماتها وزيارتها بضغطة زر. فهو يجمع بين الثّقافة والتّكنولوجيا، ويعطي للسائح تجربة سفر افتراضيّة حقيقية. في عالم ينقصه الوقت والفرص. كما يُقدّم تجربة محيطية كاملة للمواقع السياحية بزاوية رؤية 360 درجة لاستكشاف كل زاوية فيها ومجمل جمال المناظر الطبيعية الخلّابة في سورية.\nيوفير التطبيق 963SY  تجربة متكاملة وشاملة لجميع الفئات المختلفة من المستخدمين، بما في ذلك أولئك الذين يواجهون تحديات في التواصل وفهم المعلومات بسبب إعاقتهم السمعية.\nتطبيق 963SY يعكس رؤية artfly في خدمة المجتمع وتعزيز التّواصل الثّقافي والسّياحي من خلال التّكنولوجيا المتقدمة والابتكار.';
 
   @override
   String get aboutUsEnglish => 'About Us';
 
   @override
-  String get aboutUsEnglishContent => '963SY application\nOne of the most important works of the Artfly Foundation... is the organization that played an important role in the journey of innovation, photography, documentation, and excellence in the use of drones for aerial photography.\nThe 963SY application is a comprehensive information package that brings tourism within everyone\'s reach, regardless of their physical or linguistic abilities.\nIt provides knowledge about Syria, its history, heritage, and tourist places, and contributes to increasing awareness about its existence and importance.\nIt provides a database to introduce the beautiful local tourist attractions and places, as well as all the events and activities taking place in Syria... It displays them with special videos and photos that reflect the beauty of Syria and highlight the exciting experiences that can be enjoyed there.\nThe 963SY application user can browse the available tourist map of different places and sites and access them easily and quickly, in addition to information and texts related to each place separately.\nThe 963SY application is a guide to awareness, exploration, and the spiritual heritage that this beautiful country embraces, and allows the world to discover its components and visit them with the click of a button. It combines culture and technology, and gives tourists a real virtual travel experience. In a world that lacks time and opportunities. It also provides a complete surround experience of tourist sites with a 360-degree viewing angle to explore every corner and the entire beauty of Syria\'s stunning landscapes.\nThe 963SY application provides an integrated and comprehensive experience for all different categories of users, including those who face challenges in communicating and understanding information due to their hearing disability.\nThe 963SY application reflects artfly\'s vision of serving the community and enhancing cultural and tourism communication through advanced technology and innovation.';
+  String get aboutUsEnglishContent =>
+      '963SY application\nOne of the most important works of the Artfly Foundation... is the organization that played an important role in the journey of innovation, photography, documentation, and excellence in the use of drones for aerial photography.\nThe 963SY application is a comprehensive information package that brings tourism within everyone\'s reach, regardless of their physical or linguistic abilities.\nIt provides knowledge about Syria, its history, heritage, and tourist places, and contributes to increasing awareness about its existence and importance.\nIt provides a database to introduce the beautiful local tourist attractions and places, as well as all the events and activities taking place in Syria... It displays them with special videos and photos that reflect the beauty of Syria and highlight the exciting experiences that can be enjoyed there.\nThe 963SY application user can browse the available tourist map of different places and sites and access them easily and quickly, in addition to information and texts related to each place separately.\nThe 963SY application is a guide to awareness, exploration, and the spiritual heritage that this beautiful country embraces, and allows the world to discover its components and visit them with the click of a button. It combines culture and technology, and gives tourists a real virtual travel experience. In a world that lacks time and opportunities. It also provides a complete surround experience of tourist sites with a 360-degree viewing angle to explore every corner and the entire beauty of Syria\'s stunning landscapes.\nThe 963SY application provides an integrated and comprehensive experience for all different categories of users, including those who face challenges in communicating and understanding information due to their hearing disability.\nThe 963SY application reflects artfly\'s vision of serving the community and enhancing cultural and tourism communication through advanced technology and innovation.';
 }

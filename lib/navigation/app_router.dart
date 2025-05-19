@@ -15,7 +15,6 @@ import 'package:untitled4/features/services/bloc/services_bloc.dart';
 import 'package:untitled4/features/places/presentation/pages/tourist_places_screen.dart';
 
 import 'package:untitled4/features/about/bloc/about_bloc.dart';
-import 'package:untitled4/features/contact/bloc/contact_bloc.dart';
 import 'package:untitled4/features/virtual_tour/bloc/virtual_tour_bloc.dart';
 import 'package:untitled4/features/home/presentation/pages/syrian_governorates_page.dart';
 

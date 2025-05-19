@@ -5,8 +5,8 @@ import 'package:untitled4/const.dart';
 import 'package:untitled4/core/services/get_it_service.dart';
 import 'package:untitled4/features/home/places_cubit/places_cubit_cubit.dart';
 import 'package:untitled4/features/home/repos/home_repo.dart';
-import 'package:untitled4/models/governorate_m.dart';
 import 'package:untitled4/features/places/presentation/pages/details/place_details_screen.dart';
+import 'package:untitled4/models/governorate_m.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
@@ -70,72 +70,83 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
 
     return BlocBuilder<PlacesBloc, PlacesState>(
       builder: (context, state) {
-        if (state is PlacesLoading) {
-          return const Center(child: CircularProgressIndicator());
+        bool isLoaded = state is PlacesLoaded;
+        bool isLoading = state is PlacesLoading;
+        bool isError = state is PlacesError;
+
+        if (isLoaded) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context
+                .read<PlacesCubitCubit>()
+                .getPlaces(categoryId, state.governorates[0].id);
+          });
         }
 
-        if (state is PlacesError) {
-          return Center(child: Text(state.message));
-        }
-
-        if (state is PlacesLoaded) {
-          context
-              .read<PlacesCubitCubit>()
-              .getPlaces(categoryId, state.governorates[0].id);
-          return DefaultTabController(
-            length: state.governorates.length,
-            child: Scaffold(
-              appBar: AppBar(
-                title: RTLText(
-                  text: l10n.tourismSites,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1,
-                    color: Colors.white,
-                  ),
-                ),
-                backgroundColor: AppColors.primary,
-                elevation: 0,
-                leading: onBack != null
-                    ? IconButton(
-                        icon: Icon(
-                          isRTL ? Icons.arrow_forward : Icons.arrow_back,
-                          color: Colors.white,
-                        ),
-                        onPressed: onBack,
-                      )
-                    : null,
-              ),
-              body: Column(
-                children: [
-                  Container(
-                    height: 70,
-                    alignment:
-                        isRTL ? Alignment.centerRight : Alignment.centerLeft,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    color: Colors.white,
-                    child: _CustomTabBar(governorates: state.governorates),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: AppColors.backgroundWhite,
-                      ),
-                      child: TabBarView(
-                        children: state.governorates
-                            .map((gov) => _buildGovernorateView(gov, context))
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                ],
+        return Scaffold(
+          appBar: AppBar(
+            title: RTLText(
+              text: l10n.tourismSites,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1,
+                color: Colors.white,
               ),
             ),
-          );
-        }
-
-        return const Center(child: Text('Something went wrong'));
+            backgroundColor: AppColors.primary,
+            elevation: 0,
+            leading: onBack != null
+                ? IconButton(
+                    icon: Icon(
+                      isRTL ? Icons.arrow_forward : Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                    onPressed: onBack,
+                  )
+                : null,
+          ),
+          body: isLoading
+              ? const LinearProgressIndicator(
+                  color: AppColors.secondary,
+                )
+              : isError
+                  ? Center(child: Text(state.message))
+                  : isLoaded
+                      ? DefaultTabController(
+                          length: state.governorates.length,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 70,
+                                alignment: isRTL
+                                    ? Alignment.centerRight
+                                    : Alignment.centerLeft,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                color: Colors.white,
+                                child: _CustomTabBar(
+                                    categoryId: categoryId,
+                                    governorates: state.governorates),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.backgroundWhite,
+                                  ),
+                                  child: TabBarView(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    children: state.governorates
+                                        .map((gov) =>
+                                            _buildGovernorateView(gov, context))
+                                        .toList(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const LinearProgressIndicator(), // fallback
+        );
       },
     );
   }
@@ -152,12 +163,10 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
         if (state is PlacesCubitSuccess) {
           log('___Cubit:*******PLACES : ${state.places.toString()}');
           return ListView.builder(
-            
             padding: const EdgeInsets.all(16),
             itemCount: state.places.length,
             itemBuilder: (context, index) {
-              return _buildPlaceCard(
-                      context, governorate, state.places[index] )
+              return _buildPlaceCard(context, governorate, state.places[index])
                   .animate()
                   .fadeIn(duration: 500.ms)
                   .slideX(begin: 0.1, end: 0, duration: 500.ms);
@@ -178,8 +187,8 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // NavigationService.navigateTo('/details',
-        //     arguments: PlaceDetailsScreen(place: place));
+        NavigationService.navigateTo('/details',
+            arguments: PlaceDetailsScreen(place: place));
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -233,8 +242,9 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
 
 class _CustomTabBar extends StatefulWidget {
   final List<Governorate> governorates;
+  final int categoryId;
 
-  const _CustomTabBar({required this.governorates});
+  const _CustomTabBar({required this.governorates, required this.categoryId});
 
   @override
   State<_CustomTabBar> createState() => _CustomTabBarState();
@@ -298,6 +308,10 @@ class _CustomTabBarState extends State<_CustomTabBar> {
             onTap: () {
               if (_controller.index != index) {
                 _controller.animateTo(index);
+                context.read<PlacesCubitCubit>().getPlaces(
+                      widget.categoryId,
+                      widget.governorates[index].id,
+                    );
               }
             },
             child: AnimatedContainer(

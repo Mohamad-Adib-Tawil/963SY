@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled4/features/places/cubit/place_details_cubit.dart';
 import 'package:untitled4/models/governorate_m.dart';
 import 'package:untitled4/const.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:untitled4/models/media.dart';
+import 'package:untitled4/models/place_model.dart';
 
 class PhotosScreen extends StatefulWidget {
-  final TouristPlace place;
+  final Place place;
   static const int photoCount = 5;
 
   const PhotosScreen({super.key, required this.place});
@@ -21,13 +25,26 @@ class _PhotosScreenState extends State<PhotosScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          _buildFeaturedPhoto(),
-          Expanded(
-            child: _buildPhotoGrid(),
-          ),
-        ],
+      body: BlocConsumer<PlaceDetailsCubit, PlaceDetailsState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          if (state is PlaceDetailsLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is PlaceDetailsSuccess) {
+            return Column(
+              children: [
+                _buildFeaturedPhoto(state.data as List<Media>),
+                Expanded(
+                  child: _buildPhotoGrid(state.data as List<Media>),
+                ),
+              ],
+            );
+          }
+          return const Center(child: Text('Something went wrong'));
+        },
       ),
     );
   }
@@ -52,9 +69,9 @@ class _PhotosScreenState extends State<PhotosScreen> {
     );
   }
 
-  Widget _buildFeaturedPhoto() {
+  Widget _buildFeaturedPhoto(List<Media> media) {
     return GestureDetector(
-      onTap: () => _showFullScreenImage(0),
+      onTap: () => _showFullScreenImage(0, media),
       child: Container(
         height: 250,
         margin: const EdgeInsets.all(16),
@@ -70,8 +87,8 @@ class _PhotosScreenState extends State<PhotosScreen> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: Image.asset(
-            widget.place.images[0],
+          child: Image.network(
+            widget.place.photo,
             fit: BoxFit.cover,
           ),
         ),
@@ -79,7 +96,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
     );
   }
 
-  Widget _buildPhotoGrid() {
+  Widget _buildPhotoGrid(List<Media> media) {
     return GridView.builder(
       padding: const EdgeInsets.all(16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -88,10 +105,10 @@ class _PhotosScreenState extends State<PhotosScreen> {
         mainAxisSpacing: 10,
         childAspectRatio: 1,
       ),
-      itemCount: widget.place.images.length,
+      itemCount: media.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () => _showFullScreenImage(index),
+          onTap: () => _showFullScreenImage(index, media),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
@@ -108,8 +125,8 @@ class _PhotosScreenState extends State<PhotosScreen> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    widget.place.images[index],
+                  Image.network(
+                    media[index].medContent!,
                     fit: BoxFit.cover,
                   ),
                   if (index == _selectedIndex)
@@ -131,7 +148,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
     );
   }
 
-  void _showFullScreenImage(int index) {
+  void _showFullScreenImage(int index, List<Media> media) {
     setState(() {
       _selectedIndex = index;
     });
@@ -143,7 +160,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
         child: Stack(
           children: [
             PhotoView(
-              imageProvider: AssetImage(widget.place.images[index]),
+              imageProvider: NetworkImage(media[index].medContent!),
               minScale: PhotoViewComputedScale.contained,
               maxScale: PhotoViewComputedScale.covered * 2,
               backgroundDecoration: const BoxDecoration(

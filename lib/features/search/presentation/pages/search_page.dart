@@ -5,10 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/core/widgets/base_screen.dart';
 import 'package:untitled4/const.dart' as app_const;
 import 'package:untitled4/core/constants/app_colors.dart';
+import 'package:untitled4/features/map/presentation/pages/syria_map_page.dart';
 import 'package:untitled4/features/search/cubit/search_cubit_cubit.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:untitled4/models/place_model.dart';
 
 class SearchPage extends BaseScreen {
   const SearchPage({super.key}) : super(navigationIndex: 1);
@@ -113,42 +115,50 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
                     padding: const EdgeInsets.all(20),
                     child: state is SearchCubitLoding
                         ? const Center(child: CircularProgressIndicator())
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                l10n.findPlaces,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ).animate().fadeIn(delay: 200.ms),
-                              const SizedBox(height: 20),
-                              Expanded(
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.search_off_rounded,
-                                        size: 100,
-                                        color: Colors.grey[400],
-                                      ).animate().scale(delay: 400.ms),
-                                      const SizedBox(height: 16),
-                                      Text(
-                                        l10n.searchResults,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.grey[600],
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ).animate().fadeIn(delay: 600.ms),
-                                    ],
+                        : state is SearchCubitSuccess
+                            ? ListView.builder(
+                                itemCount: state.places.length,
+                                itemBuilder: (context, index) =>
+                                    _buildPlaceCard(
+                                        context, state.places[index]),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    l10n.findPlaces,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ).animate().fadeIn(delay: 200.ms),
+                                  const SizedBox(height: 20),
+                                  Expanded(
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.search_off_rounded,
+                                            size: 100,
+                                            color: Colors.grey[400],
+                                          ).animate().scale(delay: 400.ms),
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            l10n.searchResults,
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey[600],
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ).animate().fadeIn(delay: 600.ms),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
                   ),
                 ),
               ],
@@ -156,6 +166,63 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildPlaceCard(BuildContext context, Place place) {
+    final isRTL = Localizations.localeOf(context).languageCode == 'ar';
+
+    return GestureDetector(
+      onTap: () {
+        // NavigationService.navigateTo('/details',
+        //     arguments: PlaceDetailsScreen(place: place));
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        margin: const EdgeInsets.only(bottom: 16),
+        elevation: 4,
+        shadowColor: AppColors.primary.withOpacity(0.2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+              child: Image.network(
+                place.photo,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RTLText(
+                    text: place.placeName,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textDark,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 18,
+                    color: AppColors.primary,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -33,12 +33,12 @@ class SignLanguageScreen extends StatelessWidget {
       return;
     }
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => YouTubePlayerScreen(videoId: videoId, title: title),
-      ),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (_) => YouTubePlayerScreen(videoId: videoId, title: title),
+    //   ),
+    // );
   }
 
   @override

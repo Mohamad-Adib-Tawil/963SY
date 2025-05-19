@@ -3,11 +3,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled4/core/services/custom_bloc_observer.dart';
 import 'package:untitled4/core/services/get_it_service.dart';
 import 'package:untitled4/features/home/home_cubit/home_cubit.dart';
 import 'package:untitled4/features/home/repos/home_repo.dart';
-
+import 'package:untitled4/features/places/cubit/place_details_cubit.dart';
+import 'package:untitled4/features/places/data/repos/place_details_repo.dart';
 import 'package:untitled4/screens/language_selection_screen.dart';
 import 'package:untitled4/screens/privacy_policy_screen.dart';
 import 'package:untitled4/screens/welcome_screen.dart';
@@ -61,6 +61,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => ContactBloc()
               ..add(const LoadContactInfo())), // Contact Bloc هنا
+        BlocProvider(
+            create: (context) => PlaceDetailsCubit(getIt<PlaceDetailsRepo>())),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
       ],
       child: Consumer<LanguageProvider>(
