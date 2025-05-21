@@ -6,11 +6,13 @@ import 'package:untitled4/core/widgets/base_screen.dart';
 import 'package:untitled4/const.dart' as app_const;
 import 'package:untitled4/core/constants/app_colors.dart';
 import 'package:untitled4/features/map/presentation/pages/syria_map_page.dart';
+import 'package:untitled4/features/places/presentation/pages/details/place_details_screen.dart';
 import 'package:untitled4/features/search/cubit/search_cubit_cubit.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:untitled4/models/place_model.dart';
+import 'package:untitled4/navigation/navigation_service.dart';
 
 class SearchPage extends BaseScreen {
   const SearchPage({super.key}) : super(navigationIndex: 1);
@@ -174,8 +176,8 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
 
     return GestureDetector(
       onTap: () {
-        // NavigationService.navigateTo('/details',
-        //     arguments: PlaceDetailsScreen(place: place));
+        NavigationService.navigateTo('/details',
+            arguments: PlaceDetailsScreen(place: place));
       },
       child: Card(
         shape: RoundedRectangleBorder(

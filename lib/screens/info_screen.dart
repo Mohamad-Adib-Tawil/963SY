@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:untitled4/models/governorate_m.dart';
 import 'package:untitled4/const.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
+import 'package:untitled4/models/media.dart';
+import 'package:untitled4/models/place_model.dart';
 
 class InfoScreen extends StatelessWidget {
-  final TouristPlace place;
+  final Place place;
+  final String info;
 
-  const InfoScreen({super.key, required this.place});
+  const InfoScreen({super.key, required this.place, required this.info});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class InfoScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              place.name,
+              place.placeName,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -66,16 +68,16 @@ class InfoScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'معلومات',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    place.information,
+                    info,
                     style: const TextStyle(
                       fontSize: 16,
                       height: 1.6,
@@ -112,8 +114,8 @@ class InfoScreen extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                place.images[0],
+              child: Image.network(
+                place.photo,
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
@@ -133,8 +135,8 @@ class InfoScreen extends StatelessWidget {
         child: Stack(
           children: [
             Center(
-              child: Image.asset(
-                place.images[0],
+              child: Image.network(
+                place.photo,
                 fit: BoxFit.contain,
               ),
             ),

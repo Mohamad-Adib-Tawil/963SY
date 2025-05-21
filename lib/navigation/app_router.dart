@@ -3,10 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/core/services/get_it_service.dart';
 import 'package:untitled4/features/about/presentation/pages/about_us_page.dart';
 import 'package:untitled4/features/contact/presentation/pages/contact_us_screen.dart';
+import 'package:untitled4/features/home/models/category_model.dart';
 import 'package:untitled4/features/map/presentation/pages/syria_map_page.dart';
 import 'package:untitled4/features/search/cubit/search_cubit_cubit.dart';
 import 'package:untitled4/features/search/presentation/pages/search_page.dart';
 import 'package:untitled4/features/search/repo/search_repo.dart';
+import 'package:untitled4/features/services/cubit/place_service_cubit.dart';
+import 'package:untitled4/features/services/cubit/service_cubit.dart';
+import 'package:untitled4/features/services/model/place_of_service/place_of_service.dart';
+import 'package:untitled4/features/services/repo/servIce_repo.dart';
 import 'package:untitled4/screens/virtual_tour_screen.dart';
 import 'package:untitled4/screens/welcome_screen.dart';
 import 'package:untitled4/features/home/presentation/pages/homepage.dart';
@@ -58,18 +63,23 @@ class AppRouter {
           builder: (_) =>
               const ContactUsScreen(), // فقط استدعاء الشاشة، البلوك معرف مسبقًا
         );
-      case virtualTour:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => VirtualTourBloc(),
-            child: const VirtualTourScreen(),
-          ),
-        );
+
       case services:
+        final a = settings.arguments as Map<String, dynamic>?;
+        final category = a?['category'] as CategoryModel;
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => ServicesBloc()..add(const InitialLoad()),
-            child: const RedesignedServiceScreen(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => ServiceCubit(getIt<ServiceRepo>()),
+              ),
+              BlocProvider(
+                create: (context) => PlaceServiceCubit(getIt<ServiceRepo>()),
+              ),
+            ],
+            child: RedesignedServiceScreen(
+              category: category,
+            ),
           ),
         );
       case governorates:

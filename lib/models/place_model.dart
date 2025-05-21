@@ -1,3 +1,5 @@
+import 'package:untitled4/features/services/model/place_of_service/place_of_service.dart';
+
 class Place {
   final int id;
   final String placeName;
@@ -35,6 +37,21 @@ class Place {
       citiesIdcities: json['cities_idcities'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
+    );
+  }
+
+  factory Place.fromServicePlace(PlaceOfService place){
+    return Place(
+      id: place.id!,
+      placeName: place.placeName!,
+      placeType: place.placeType!,
+      photo: place.photo!,
+      description: place.description!,
+      languagesIdlanguages: place.languagesIdlanguages!,
+      categoriesIdcategories: place.categoriesIdcategories!,
+      citiesIdcities: place.citiesIdcities!,
+      createdAt: place.createdAt.toString(),
+      updatedAt: place.updatedAt.toString(),
     );
   }
 }

@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:untitled4/const.dart' as app_const;
+import 'package:untitled4/features/services/cubit/city_cubit.dart';
+import 'package:untitled4/features/services/cubit/service_cubit.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
 
 import 'package:untitled4/widgets/category.dart';
@@ -161,139 +163,135 @@ class _HomepageState extends BaseScreenState<Homepage> {
                 ),
                 elevation: 0,
               ),
-              body: BlocListener<HomeCubit, HomeCubitState>(
-                listener: (context, state) {
-                  if (state is HomeCubitSuccess) {
-                    log('success');
-                  }
-                },
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 5),
-                      SizedBox(
-                        height: 180,
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                            height: 160.0,
-                            autoPlay: true,
-                            enlargeCenterPage: true,
-                            onPageChanged: (index, reason) {
-                              context
-                                  .read<HomeBloc>()
-                                  .add(HomeSliderChanged(index));
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      height: 180,
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: 160.0,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                          onPageChanged: (index, reason) {
+                            context
+                                .read<HomeBloc>()
+                                .add(HomeSliderChanged(index));
+                          },
+                        ),
+                        items: state.sliderImages.map((imagePath) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.asset(
+                                  imagePath,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                              ).animate().fadeIn(duration: 500.ms);
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:
+                          List.generate(state.sliderImages.length, (index) {
+                        bool isActive = state.currentSliderIndex == index;
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          width: isActive ? 12 : 8,
+                          height: isActive ? 12 : 8,
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isActive
+                                ? app_const.AppColors.secondary
+                                : Colors.grey[300],
+                          ),
+                        );
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: isArabic
+                            ? CrossAxisAlignment.end
+                            : CrossAxisAlignment.start,
+                        children: [
+                          DirectionalText(
+                            text: l10n.tourismSites,
+                            isArabic: isArabic,
+                            style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: app_const.AppColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          DirectionalText(
+                            text: l10n.searchHint,
+                            isArabic: isArabic,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 1,
+                            ),
+                            itemCount: state.categories.length,
+                            itemBuilder: (context, index) {
+                              final category = state.categories[index];
+                              final imagePath =
+                                  categoryImages[category.catName] ??
+                                      'assets/images/default.jpg';
+
+                              return Category_Card(
+                                category: category,
+                                onTap: () {
+                                  log('Category tapped: ${category}');
+                                  final categoryType =
+                                      getTourismType(category.catName, context);
+                                  // context.read<HomeBloc>().add(
+                                  //       HomeCategorySelected(
+                                  //         categoryTitle: category.catName,
+                                  //         categoryType: categoryType,
+                                  //       ),
+                                  //     );
+
+                                  if (category.catType == 2) {
+                                    context
+                                        .read<CityCubit>()
+                                        .getServiceCities(category.id);
+                                    NavigationService.navigateToServices(category: category);
+                                  } else {
+                                    NavigationService.navigateToGovernorates(
+                                      categoryType,
+                                      languageId: state.languageId,
+                                      categoryId: category.id,
+                                    );
+                                  }
+                                },
+                              );
                             },
                           ),
-                          items: state.sliderImages.map((imagePath) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.asset(
-                                    imagePath,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                  ),
-                                ).animate().fadeIn(duration: 500.ms);
-                              },
-                            );
-                          }).toList(),
-                        ),
+                        ],
                       ),
-                      const SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children:
-                            List.generate(state.sliderImages.length, (index) {
-                          bool isActive = state.currentSliderIndex == index;
-                          return AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            width: isActive ? 12 : 8,
-                            height: isActive ? 12 : 8,
-                            margin: const EdgeInsets.symmetric(horizontal: 4),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: isActive
-                                  ? app_const.AppColors.secondary
-                                  : Colors.grey[300],
-                            ),
-                          );
-                        }),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          crossAxisAlignment: isArabic
-                              ? CrossAxisAlignment.end
-                              : CrossAxisAlignment.start,
-                          children: [
-                            DirectionalText(
-                              text: l10n.tourismSites,
-                              isArabic: isArabic,
-                              style: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: app_const.AppColors.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: 3),
-                            DirectionalText(
-                              text: l10n.searchHint,
-                              isArabic: isArabic,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8,
-                                childAspectRatio: 1,
-                              ),
-                              itemCount: state.categories.length,
-                              itemBuilder: (context, index) {
-                                final category = state.categories[index];
-                                final imagePath =
-                                    categoryImages[category.catName] ??
-                                        'assets/images/default.jpg';
-
-                                return Category_Card(
-                                  category: category,
-                                  onTap: () {
-                                    log('Category tapped: ${category}');
-                                    final categoryType = getTourismType(
-                                        category.catName, context);
-                                    // context.read<HomeBloc>().add(
-                                    //       HomeCategorySelected(
-                                    //         categoryTitle: category.catName,
-                                    //         categoryType: categoryType,
-                                    //       ),
-                                    //     );
-
-                                    if (category.catType == 2) {
-                                      NavigationService.navigateToServices();
-                                    } else {
-                                      NavigationService.navigateToGovernorates(
-                                        categoryType,
-                                        languageId: state.languageId,
-                                        categoryId: category.id,
-                                      );
-                                    }
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -1,30 +1,107 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/const.dart';
 import 'package:untitled4/core/services/get_it_service.dart';
 import 'package:untitled4/features/places/cubit/place_details_cubit.dart';
-import 'package:untitled4/features/places/data/repos/place_details_repo.dart';
-import 'package:untitled4/models/governorate_m.dart';
+import 'package:untitled4/models/link.dart';
+
+import 'package:untitled4/models/media.dart';
 import 'package:untitled4/models/place_model.dart';
 import 'package:untitled4/screens/info_screen.dart';
+
 import 'package:untitled4/screens/photos_screen.dart';
+import 'package:untitled4/screens/virtual_tour_screen.dart';
 import 'package:untitled4/screens/youtube_player_screen.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
-import 'package:untitled4/navigation/app_router.dart';
+
 import 'package:untitled4/navigation/navigation_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class PlaceDetailsScreen extends StatelessWidget {
+class PlaceDetailsScreen extends StatefulWidget {
   final Place place;
 
   const PlaceDetailsScreen({super.key, required this.place});
+
+  @override
+  State<PlaceDetailsScreen> createState() => _PlaceDetailsScreenState();
+}
+
+class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
+  late String youtubeLink = '';
+  late String virtualTourLink = '';
+  late String signlanguageLink = '';
+  late List<Media> photo = [];
+  late List<Media> info = [];
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.read<PlaceDetailsCubit>();
+    cubit.getDetails(
+        placeId: widget.place.id,
+        cityId: widget.place.citiesIdcities,
+        categoryId: widget.place.categoriesIdcategories);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
       appBar: _buildAppBar(context),
-      body: _buildBody(context),
+      body: BlocConsumer<PlaceDetailsCubit, PlaceDetailsState>(
+        listener: (context, state) {
+          if (state is PlaceDetailsSuccess) {
+            final media = state.placeDetailsModel.media;
+            final links = state.placeDetailsModel.links;
+            youtubeLink = links
+                    .firstWhere(
+                      (link) => link.linkType == 2 && link.linkHttp != null,orElse: () => Link(linkHttp: ''),
+                    )
+                    .linkHttp ??
+                '';
+            virtualTourLink = links
+                    .firstWhere(
+                      (link) => link.linkType == 3 && link.linkHttp != null,orElse: () => Link(linkHttp: ''),
+                    )
+                    .linkHttp ??
+                '';
+            signlanguageLink = links
+                    .firstWhere(
+                      (link) => link.linkType == 1 && link.linkHttp != null,orElse: () => Link(linkHttp: ''),
+                    )
+                    .linkHttp ??
+                '';
+            photo = media.where((media) => media.medType == 1).toList();
+            info = media.where((media) => media.medType == 2).toList();
+          }
+        },
+        builder: (context, state) {
+          if (state is PlaceDetailsLoading) {
+            return const LinearProgressIndicator(
+              color: AppColors.backgroundLight,
+            );
+          }
+          if (state is PlaceDetailsError) {
+            return Center(child: Text(state.errorMessage));
+          }
+          if (state is PlaceDetailsSuccess) {
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildPlaceImage(),
+                  _buildPlaceInfo(),
+                  const SizedBox(height: 10),
+                  _buildFeatureGrid(context),
+                ],
+              ),
+            );
+          }
+          return const Center(child: Text('Something went wrong'));
+        },
+      ),
     );
   }
 
@@ -39,26 +116,12 @@ class PlaceDetailsScreen extends StatelessWidget {
             Navigator.pop(context);
           }),
       title: RTLText(
-        text: place.placeName,
+        text: widget.place.placeName,
         style: const TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
-      ),
-    );
-  }
-
-  Widget _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildPlaceImage(),
-          _buildPlaceInfo(),
-          const SizedBox(height: 10),
-          _buildFeatureGrid(context),
-        ],
       ),
     );
   }
@@ -70,7 +133,7 @@ class PlaceDetailsScreen extends StatelessWidget {
         bottomRight: Radius.circular(24),
       ),
       child: Image.network(
-        place.photo,
+        widget.place.photo,
         height: 240,
         width: double.infinity,
         fit: BoxFit.cover,
@@ -85,7 +148,7 @@ class PlaceDetailsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           RTLText(
-            text: place.placeName,
+            text: widget.place.placeName,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -94,7 +157,7 @@ class PlaceDetailsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           RTLText(
-            text: place.description,
+            text: widget.place.description,
             style: TextStyle(
               fontSize: 16,
               color: AppColors.textPrimary.withOpacity(0.7),
@@ -125,133 +188,170 @@ class PlaceDetailsScreen extends StatelessWidget {
     );
   }
 
+  Future<String> fetchTextFileContent(String fileUrl) async {
+    try {
+      final response = await Dio().get(
+        fileUrl,
+        options: Options(
+            responseType: ResponseType.plain), // Treat response as plain text
+      );
+
+      log(response.data.toString());
+
+      return response.data.toString();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('some thing went wrong, try again later'),
+      ));
+      return '';
+    }
+  }
+
   List<Widget> _buildFeatureItems(
     BuildContext context,
   ) {
     return [
-      _FeatureItem(
-          imagePath: 'assets/images/info-removebg-preview (1).png',
-          label: 'المعلومات',
-          onTap: () {}),
-      _FeatureItem(
-        imagePath: 'assets/images/photo-removebg-preview (1).png',
-        label: 'الصور',
-        onTap: () {
-          context.read<PlaceDetailsCubit>().getMedia(
-              placeId: place.id,
-              cityId: place.citiesIdcities,
-              categoryId: place.categoriesIdcategories);
-          _navigateToScreen(
+      if (info.isNotEmpty)
+        _FeatureItem(
+            imagePath: 'assets/images/info-removebg-preview (1).png',
+            label: 'المعلومات',
+            onTap: () async {
+              String text = await fetchTextFileContent(info[0].medContent!);
+              if (text.isNotEmpty || text != '') {
+                _navigateToScreen(
+                    context,
+                    InfoScreen(
+                      place: widget.place,
+                      info: text,
+                    ));
+              }
+            }),
+      if (photo.isNotEmpty)
+        _FeatureItem(
+          imagePath: 'assets/images/photo-removebg-preview (1).png',
+          label: 'الصور',
+          onTap: () {
+            _navigateToScreen(
+                context,
+                PhotosScreen(
+                  photos: photo,
+                  place: widget.place,
+                ));
+          },
+        ),
+      if (virtualTourLink.isNotEmpty || virtualTourLink != '')
+        _FeatureItem(
+          imagePath: 'assets/images/virtual-removebg-preview (1).png',
+          label: 'جولة افتراضية',
+          onTap: () => _navigateToScreen(
               context,
-              PhotosScreen(
-                place: place,
-              ));
-        },
-      ),
-      _FeatureItem(
-        imagePath: 'assets/images/virtual-removebg-preview (1).png',
-        label: 'جولة افتراضية',
-        onTap: () => Navigator.pushNamed(context, AppRouter.virtualTour),
-      ),
+              VirtualTourScreen(
+                url: virtualTourLink,
+              )),
+        ),
       _FeatureItem(
         imagePath: 'assets/images/goto-removebg-preview (1).png',
         label: 'توجه للمكان',
         onTap: () async {
-          // final url =
-          //     'https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}';
-          // final uri = Uri.parse(url);
-          // if (await canLaunchUrl(uri)) {
-          //   await launchUrl(uri, mode: LaunchMode.externalApplication);
-          // } else {
-          //   if (context.mounted) {
-          //     ScaffoldMessenger.of(context).showSnackBar(
-          //       const SnackBar(
-          //         content: Text('لا يمكن فتح خرائط جوجل'),
-          //         backgroundColor: Colors.red,
-          //       ),
-          //     );
-          //   }
-          // }
-        },
-      ),
-      _FeatureItem(
-        imagePath: 'assets/images/video-removebg-preview (1).png',
-        label: 'مقاطع الوسائط',
-        onTap: () {
-          context.read<PlaceDetailsCubit>().getLinks(
-                placeId: place.id,
-                cityId: place.citiesIdcities,
-                categoryId: place.categoriesIdcategories,
+          final url =
+              "https://www.google.com/maps/search/?api=1&query=33°30'41.3\"N,36°18'22.6\"E";
+          final uri = Uri.parse(url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          } else {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('لا يمكن فتح خرائط جوجل'),
+                  backgroundColor: Colors.red,
+                ),
               );
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => YouTubePlayerScreen(place: place),
-            ),
-          );
-          // if (place.VideoUrl.isNotEmpty) {
-          // final videoId = _extractVideoId(place.VideoUrl);
-          // if (videoId.isNotEmpty) {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (_) => YouTubePlayerScreen(
-          //         videoId: videoId,
-          //         title: 'مقطع فيديو',
-          //       ),
-          //     ),
-          //   );
-          // } else {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(
-          //       content: Text('الرابط غير صالح'),
-          //       backgroundColor: Colors.red,
-          //     ),
-          //   );
-          // }
-          // } else {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(
-          //       content: Text('لا يوجد فيديو متاح'),
-          //       backgroundColor: Colors.orange,
-          //     ),
-          //   );
+            }
+          }
         },
       ),
-      _FeatureItem(
-        imagePath: 'assets/images/signlanguage-removebg-preview (1).png',
-        label: 'لغة الإشارة',
-        onTap: () {
-          // if (place.signLanguageVideoUrl.isNotEmpty) {
-          //   final videoId = _extractVideoId(place.signLanguageVideoUrl);
-          //   if (videoId.isNotEmpty) {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (_) => YouTubePlayerScreen(
-          //           videoId: videoId,
-          //           title: 'فيديو بلغة الإشارة',
-          //         ),
-          //       ),
-          //     );
-          //   } else {
-          //     ScaffoldMessenger.of(context).showSnackBar(
-          //       const SnackBar(
-          //         content: Text('الرابط غير صالح'),
-          //         backgroundColor: Colors.red,
-          //       ),
-          //     );
-          //   }
-          // } else {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(
-          //       content: Text('لا يوجد فيديو لغة إشارة متاح'),
-          //       backgroundColor: Colors.orange,
-          //     ),
-          //   );
-          // }
-        },
-      ),
+      if (youtubeLink.isNotEmpty || youtubeLink != '')
+        _FeatureItem(
+          imagePath: 'assets/images/video-removebg-preview (1).png',
+          label: 'مقاطع الوسائط',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => YouTubePlayerScreen(
+                  place: widget.place,
+                  youtubeLink: youtubeLink,
+                ),
+              ),
+            );
+            // if (place.VideoUrl.isNotEmpty) {
+            // final videoId = _extractVideoId(place.VideoUrl);
+            // if (videoId.isNotEmpty) {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (_) => YouTubePlayerScreen(
+            //         videoId: videoId,
+            //         title: 'مقطع فيديو',
+            //       ),
+            //     ),
+            //   );
+            // } else {
+            //   ScaffoldMessenger.of(context).showSnackBar(
+            //     const SnackBar(
+            //       content: Text('الرابط غير صالح'),
+            //       backgroundColor: Colors.red,
+            //     ),
+            //   );
+            // }
+            // } else {
+            //   ScaffoldMessenger.of(context).showSnackBar(
+            //     const SnackBar(
+            //       content: Text('لا يوجد فيديو متاح'),
+            //       backgroundColor: Colors.orange,
+            //     ),
+            //   );
+          },
+        ),
+      if (signlanguageLink.isNotEmpty || signlanguageLink != '')
+        _FeatureItem(
+          imagePath: 'assets/images/signlanguage-removebg-preview (1).png',
+          label: 'لغة الإشارة',
+          onTap: () {
+            _navigateToScreen(
+                context,
+                YouTubePlayerScreen(
+                    place: widget.place, youtubeLink: signlanguageLink));
+            // if (place.signLanguageVideoUrl.isNotEmpty) {
+            //   final videoId = _extractVideoId(place.signLanguageVideoUrl);
+            //   if (videoId.isNotEmpty) {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (_) => YouTubePlayerScreen(
+            //           videoId: videoId,
+            //           title: 'فيديو بلغة الإشارة',
+            //         ),
+            //       ),
+            //     );
+            //   } else {
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //       const SnackBar(
+            //         content: Text('الرابط غير صالح'),
+            //         backgroundColor: Colors.red,
+            //       ),
+            //     );
+            //   }
+            // } else {
+            //   ScaffoldMessenger.of(context).showSnackBar(
+            //     const SnackBar(
+            //       content: Text('لا يوجد فيديو لغة إشارة متاح'),
+            //       backgroundColor: Colors.orange,
+            //     ),
+            //   );
+            // }
+          },
+        ),
     ];
   }
 

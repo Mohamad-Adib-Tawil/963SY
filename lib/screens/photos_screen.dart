@@ -9,9 +9,10 @@ import 'package:untitled4/models/place_model.dart';
 
 class PhotosScreen extends StatefulWidget {
   final Place place;
+  final List<Media> photos;
   static const int photoCount = 5;
 
-  const PhotosScreen({super.key, required this.place});
+  const PhotosScreen({super.key, required this.place, required this.photos});
 
   @override
   State<PhotosScreen> createState() => _PhotosScreenState();
@@ -23,30 +24,16 @@ class _PhotosScreenState extends State<PhotosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundWhite,
-      appBar: _buildAppBar(),
-      body: BlocConsumer<PlaceDetailsCubit, PlaceDetailsState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          if (state is PlaceDetailsLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is PlaceDetailsSuccess) {
-            return Column(
-              children: [
-                _buildFeaturedPhoto(state.data as List<Media>),
-                Expanded(
-                  child: _buildPhotoGrid(state.data as List<Media>),
-                ),
-              ],
-            );
-          }
-          return const Center(child: Text('Something went wrong'));
-        },
-      ),
-    );
+        backgroundColor: AppColors.backgroundWhite,
+        appBar: _buildAppBar(),
+        body: Column(
+          children: [
+            _buildFeaturedPhoto(widget.photos),
+            Expanded(
+              child: _buildPhotoGrid(widget.photos),
+            ),
+          ],
+        ));
   }
 
   PreferredSizeWidget _buildAppBar() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled4/features/home/models/category_model.dart';
 import 'package:untitled4/navigation/app_router.dart';
 
 class NavigationService {
@@ -81,8 +82,8 @@ class NavigationService {
     return navigateTo(AppRouter.virtualTour);
   }
 
-  static Future<dynamic> navigateToServices() {
-    return navigateTo(AppRouter.services);
+  static Future<dynamic> navigateToServices({required CategoryModel category}) {
+    return navigateTo(AppRouter.services, arguments: {'category': category});
   }
 
   static Future<dynamic> navigateToGovernorates(String tourismType,

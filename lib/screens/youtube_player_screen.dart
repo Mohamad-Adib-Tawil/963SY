@@ -10,10 +10,11 @@ import 'package:untitled4/core/widgets/rtl_text.dart';
 
 class YouTubePlayerScreen extends StatefulWidget {
   final Place place;
-
+  final String youtubeLink;
   const YouTubePlayerScreen({
     super.key,
     required this.place,
+    required this.youtubeLink,
   });
 
   @override
@@ -22,94 +23,96 @@ class YouTubePlayerScreen extends StatefulWidget {
 
 class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
   late final WebViewController _controller;
-  String? videoUrl;
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
+    String videoId = extractYouTubeVideoId(widget.youtubeLink);
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(Colors.black)
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (String url) {
-            setState(() {});
+            setState(() {
+              isLoading = true;
+            });
           },
           onPageFinished: (String url) {
-            setState(() {});
+            setState(() {
+              isLoading = false;
+            });
           },
         ),
+      )
+      ..loadRequest(
+        Uri.parse(
+          'https://www.youtube.com/embed/$videoId',
+        ),
       );
-  }
-
-  void _loadVideo(String url) {
-    setState(() {
-      videoUrl = url;
-    });
-    _controller.loadRequest(Uri.parse(url));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
         backgroundColor: Colors.black,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: RTLText(
-          text: widget.place.placeName,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: RTLText(
+            text: widget.place.placeName,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
           ),
         ),
-      ),
-      body: BlocConsumer<PlaceDetailsCubit, PlaceDetailsState>(
-        listener: (context, state) {
-          if (state is PlaceDetailsSuccess) {
-            // افترض أن الفيديو ID جاي من الداتا هيك:
-            final links = state.data as List<Link>;
-            final youtubeLink = links.firstWhere(
-              (link) => link.linkType == 2 && link.linkHttp != null,
-              orElse: () => Link(linkHttp: null, linkType: 0),
-            );
-            if (youtubeLink.linkHttp != null) {
-              final embedUrl = convertToEmbedUrl(youtubeLink.linkHttp!);
-              log('Link : ${youtubeLink.linkHttp}');
-              _loadVideo(embedUrl);
-            }
-          }
-        },
-        builder: (context, state) {
-          if (state is PlaceDetailsLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is PlaceDetailsSuccess) {
-            return Stack(
-              children: [
-                Center(
-                  child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: WebViewWidget(controller: _controller),
-                  ),
+        body: Stack(
+          children: [
+            Center(
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: WebViewWidget(controller: _controller),
+              ),
+            ),
+            if (isLoading)
+              const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
                 ),
-              ],
-            );
-          }
-          return const Center(child: Text('Something went wrong'));
-        },
-      ),
-    );
+              ),
+          ],
+        ));
   }
 
-  String convertToEmbedUrl(String url) {
-    final uri = Uri.parse(url);
-    if (uri.host.contains('youtube.com') && uri.queryParameters['v'] != null) {
-      final videoId = uri.queryParameters['v']!;
-      return 'https://www.youtube.com/embed/$videoId';
-    }
-    return url;
+  String extractYouTubeVideoId(String url) {
+    try {
+      Uri uri = Uri.parse(url);
+      if (uri.host.contains('youtu.be')) {
+        return uri.pathSegments.first;
+      }
+      if ((uri.host.contains('youtube.com') ||
+              uri.host.contains('m.youtube.com')) &&
+          uri.path == '/watch') {
+        return uri.queryParameters['v'] ?? '';
+      }
+      if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'shorts') {
+        return uri.pathSegments[1];
+      }
+      if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'embed') {
+        return uri.pathSegments[1];
+      }
+      if (uri.queryParameters.containsKey('u')) {
+        final embeddedUri =
+            Uri.parse(Uri.decodeFull(uri.queryParameters['u']!));
+        return extractYouTubeVideoId(embeddedUri.toString());
+      }
+    } catch (e) {}
+
+    return '';
   }
 }

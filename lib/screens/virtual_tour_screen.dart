@@ -3,7 +3,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:untitled4/core/constants/app_colors.dart';
 
 class VirtualTourScreen extends StatefulWidget {
-  const VirtualTourScreen({super.key});
+  const VirtualTourScreen({super.key, required this.url});
+  final String url;
 
   @override
   State<VirtualTourScreen> createState() => _VirtualTourScreenState();
@@ -33,7 +34,7 @@ class _VirtualTourScreenState extends State<VirtualTourScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://yarama127.github.io/omayaad_mosque/'));
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   @override

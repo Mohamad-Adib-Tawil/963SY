@@ -1,36 +1,39 @@
 import 'dart:convert';
 
-class City {
-  int? id;
-  String? cityName;
-  int? cityType;
-  String? photo;
+class Service {
+  int? idservices;
+  String? serName;
+  int? serType;
+  String? serPhoto;
   String? description;
   int? languagesIdlanguages;
   int? categoriesIdcategories;
+  int? citiesIdcities;
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  City({
-    this.id,
-    this.cityName,
-    this.cityType,
-    this.photo,
+  Service({
+    this.idservices,
+    this.serName,
+    this.serType,
+    this.serPhoto,
     this.description,
     this.languagesIdlanguages,
     this.categoriesIdcategories,
+    this.citiesIdcities,
     this.createdAt,
     this.updatedAt,
   });
 
-  factory City.fromMap(Map<String, dynamic> data) => City(
-        id: data['id'] as int?,
-        cityName: data['city_name'] as String?,
-        cityType: data['city_type'] as int?,
-        photo: data['photo'] as String?,
+  factory Service.fromMap(Map<String, dynamic> data) => Service(
+        idservices: data['idservices'] as int?,
+        serName: data['ser_name'] as String?,
+        serType: data['ser_type'] as int?,
+        serPhoto: data['ser_photo'] as String?,
         description: data['description'] as String?,
         languagesIdlanguages: data['languages_idlanguages'] as int?,
         categoriesIdcategories: data['categories_idcategories'] as int?,
+        citiesIdcities: data['cities_idcities'] as int?,
         createdAt: data['created_at'] == null
             ? null
             : DateTime.parse(data['created_at'] as String),
@@ -40,26 +43,27 @@ class City {
       );
 
   Map<String, dynamic> toMap() => {
-        'id': id,
-        'city_name': cityName,
-        'city_type': cityType,
-        'photo': photo,
+        'idservices': idservices,
+        'ser_name': serName,
+        'ser_type': serType,
+        'ser_photo': serPhoto,
         'description': description,
         'languages_idlanguages': languagesIdlanguages,
         'categories_idcategories': categoriesIdcategories,
+        'cities_idcities': citiesIdcities,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [City].
-  factory City.fromJson(String data) {
-    return City.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [Service].
+  factory Service.fromJson(String data) {
+    return Service.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [City] to a JSON string.
+  /// Converts [Service] to a JSON string.
   String toJson() => json.encode(toMap());
 }

@@ -12,9 +12,9 @@ final class PlaceDetailsInitial extends PlaceDetailsState {}
 final class PlaceDetailsLoading extends PlaceDetailsState {}
 
 final class PlaceDetailsSuccess extends PlaceDetailsState {
-  final dynamic data;
+  final PlaceDetailsModel placeDetailsModel;
 
-  const PlaceDetailsSuccess({required this.data});
+  const PlaceDetailsSuccess({required this.placeDetailsModel});
 }
 
 final class PlaceDetailsError extends PlaceDetailsState {
