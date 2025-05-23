@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled4/core/constants/app_colors.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
+import 'package:untitled4/features/home/cubit/language_cubit.dart';
+import 'package:untitled4/features/home/models/language_model.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
-import 'package:provider/provider.dart';
+
 import 'package:untitled4/providers/language_provider.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
-import 'package:untitled4/core/network/api_client.dart';
-import 'package:untitled4/models/language_model.dart';
-import 'package:untitled4/core/network/api_endpoints.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
   const LanguageSelectionScreen({super.key});
@@ -19,32 +19,31 @@ class LanguageSelectionScreen extends StatefulWidget {
 }
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
-  List<Language> languages = [];
-  bool isLoading = true;
+  // List<Language> languages = [];
 
   @override
   void initState() {
+    context.read<LanguageCubit>().getLanguages();
     super.initState();
-    _fetchLanguages();
   }
 
-  Future<void> _fetchLanguages() async {
-    try {
-      final response = await ApiClient.instance.get(ApiEndpoints.languages);
-      if (response.statusCode == 200) {
-        final List<dynamic> data = response.data['data'];
-        setState(() {
-          languages = data.map((json) => Language.fromJson(json)).toList();
-          isLoading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      // Handle error appropriately
-    }
-  }
+  // Future<void> _fetchLanguages() async {
+  //   try {
+  //     final response = await ApiClient.instance.get(ApiEndpoints.languages);
+  //     if (response.statusCode == 200) {
+  //       final List<dynamic> data = response.data['data'];
+  //       setState(() {
+  //         languages = data.map((json) => Language.fromJson(json)).toList();
+  //         isLoading = false;
+  //       });
+  //     }
+  //   } catch (e) {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     // Handle error appropriately
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +58,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
             children: [
               _buildHeader(l10n),
               const SizedBox(height: 40),
-              if (isLoading)
-                const CircularProgressIndicator()
-              else
-                _buildLanguageOptions(context),
+              _buildLanguageOptions(context),
             ],
           ),
         ),
@@ -99,33 +95,44 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   }
 
   Widget _buildLanguageOptions(BuildContext context) {
-    return Column(
-      children: languages
-          .map((language) => Column(
-                children: [
-                  _LanguageOption(
-                    language: language.name,
-                    onTap: () => _selectLanguage(context, language.code),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ))
-          .toList(),
+    return BlocBuilder<LanguageCubit, LanguageState>(
+      builder: (context, state) {
+        if (state is LanguageFailuer) {
+          return Center(child: Text(state.errorMessage));
+        }
+        if (state is LanguageSucces) {
+          return Column(
+            children: state.languages
+                .map((language) => Column(
+                      children: [
+                        _LanguageOption(
+                          language: language.name!,
+                          onTap: () => _selectLanguage(context, language),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ))
+                .toList(),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 
   Future<void> _selectLanguage(
-      BuildContext context, String languageCode) async {
+      BuildContext context, LanguageModel language) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selected_language', languageCode);
+    await prefs.setString('selected_language', language.code!);
 
-    // Store language ID based on the selected language
-    final languageId =
-        languageCode == 'ar' ? 3 : 2; // 3 for Arabic, 2 for English
-    await prefs.setInt('selected_language_id', languageId);
+    // Store language ID based on the selected language // 3 for Arabic, 2 for English
+    await prefs.setInt('selected_language_id', language.id!);
 
     if (context.mounted) {
-      await context.read<LanguageProvider>().changeLanguage(languageCode);
+      await context.read<LanguageProvider>().changeLanguage(language.code!);
       NavigationService.navigateTo('/privacy');
     }
   }

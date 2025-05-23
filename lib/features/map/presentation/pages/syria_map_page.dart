@@ -10,11 +10,15 @@ class Governorate {
   final String name;
   final double latitude;
   final double longitude;
+  final String imagePath;
+  final String description;
 
   const Governorate({
     required this.name,
     required this.latitude,
     required this.longitude,
+    required this.imagePath,
+    required this.description,
   });
 }
 
@@ -27,27 +31,110 @@ class SyriaMapPage extends BaseScreen {
 
 class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
   static const List<Governorate> governorates = [
-    Governorate(name: "دمشق", latitude: 33.5138, longitude: 36.2765),
-    Governorate(name: "ريف دمشق", latitude: 33.5167, longitude: 36.4),
-    Governorate(name: "حلب", latitude: 36.2021, longitude: 37.1343),
-    Governorate(name: "حمص", latitude: 34.7333, longitude: 36.7167),
-    Governorate(name: "حماة", latitude: 35.1333, longitude: 36.75),
-    Governorate(name: "اللاذقية", latitude: 35.5167, longitude: 35.7833),
-    Governorate(name: "طرطوس", latitude: 34.8833, longitude: 35.8833),
-    Governorate(name: "إدلب", latitude: 35.9333, longitude: 36.6333),
-    Governorate(name: "درعا", latitude: 32.6189, longitude: 36.1021),
-    Governorate(name: "السويداء", latitude: 32.7, longitude: 36.5667),
-    Governorate(name: "دير الزور", latitude: 35.3333, longitude: 40.15),
-    Governorate(name: "الحسكة", latitude: 36.4833, longitude: 40.75),
-    Governorate(name: "الرقة", latitude: 35.95, longitude: 39.0167),
-    Governorate(name: "القنيطرة", latitude: 33.1256, longitude: 35.8236),
+    Governorate(
+      name: "دمشق",
+      latitude: 33.5138,
+      longitude: 36.2765,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'العاصمة السورية، وتعد مركزاً ثقافياً وتاريخياً مهماً.',
+    ),
+    Governorate(
+      name: "ريف دمشق",
+      latitude: 33.5167,
+      longitude: 36.4,
+      imagePath: 'assets/images/site2.jpg',
+      description:
+          'تحيط بالعاصمة دمشق، وتضم العديد من المناطق الجبلية والزراعية.',
+    ),
+    Governorate(
+      name: "حلب",
+      latitude: 36.2021,
+      longitude: 37.1343,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'ثاني أكبر مدينة في سوريا، مشهورة بقلعتها وأسواقها القديمة.',
+    ),
+    Governorate(
+      name: "حمص",
+      latitude: 34.7333,
+      longitude: 36.7167,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'مدينة عريقة تقع في وسط سوريا، وتعد مركزاً صناعياً هاماً.',
+    ),
+    Governorate(
+      name: "حماة",
+      latitude: 35.1333,
+      longitude: 36.75,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'معروفة بنواعيرها على نهر العاصي وتاريخها العريق.',
+    ),
+    Governorate(
+      name: "اللاذقية",
+      latitude: 35.5167,
+      longitude: 35.7833,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'مدينة ساحلية مهمة على البحر الأبيض المتوسط.',
+    ),
+    Governorate(
+      name: "طرطوس",
+      latitude: 34.8833,
+      longitude: 35.8833,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'مدينة ساحلية هادئة ذات طابع سياحي وزراعي.',
+    ),
+    Governorate(
+      name: "إدلب",
+      latitude: 35.9333,
+      longitude: 36.6333,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'تقع في شمال غرب سوريا وتتميز بطبيعتها الزراعية.',
+    ),
+    Governorate(
+      name: "درعا",
+      latitude: 32.6189,
+      longitude: 36.1021,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'تقع جنوب سوريا، مشهورة بسهولها وموقعها الحدودي.',
+    ),
+    Governorate(
+      name: "السويداء",
+      latitude: 32.7,
+      longitude: 36.5667,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'مدينة جبلية مشهورة بالعنب والنبيذ وتاريخها الديني.',
+    ),
+    Governorate(
+      name: "دير الزور",
+      latitude: 35.3333,
+      longitude: 40.15,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'تقع على نهر الفرات، وتعد مركزاً زراعياً ونفطياً مهماً.',
+    ),
+    Governorate(
+      name: "الحسكة",
+      latitude: 36.4833,
+      longitude: 40.75,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'شمال شرق سوريا، غنية بالزراعة والثقافات المتنوعة.',
+    ),
+    Governorate(
+      name: "الرقة",
+      latitude: 35.95,
+      longitude: 39.0167,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'تقع على نهر الفرات، وكانت عاصمة للدولة العباسية سابقاً.',
+    ),
+    Governorate(
+      name: "القنيطرة",
+      latitude: 33.1256,
+      longitude: 35.8236,
+      imagePath: 'assets/images/site2.jpg',
+      description: 'تقع في الجولان السوري، وتعرضت لدمار كبير بسبب الاحتلال.',
+    ),
   ];
 
   @override
   Widget buildBody(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
-
     return Scaffold(
       appBar: _buildAppBar(context, l10n),
       body: _buildMap(),
@@ -101,12 +188,15 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
       width: 120,
       height: 60,
       point: LatLng(governorate.latitude, governorate.longitude),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.location_on, color: Colors.red, size: 30),
-          _buildGovernorateLabel(governorate.name),
-        ],
+      child: GestureDetector(
+        onTap: () => _showGovernorateDetails(governorate),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.location_on, color: Colors.red, size: 30),
+            _buildGovernorateLabel(governorate.name),
+          ],
+        ),
       ),
     );
   }
@@ -121,6 +211,44 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
       child: RTLText(
         text: name,
         style: const TextStyle(fontSize: 12),
+      ),
+    );
+  }
+
+  void _showGovernorateDetails(Governorate governorate) {
+    showDialog(
+      context: context,
+      builder: (_) => SizedBox(
+        height: 200,
+        width: 200,
+        child: AlertDialog(
+          contentPadding: const EdgeInsets.all(10),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                governorate.imagePath,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                governorate.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                governorate.description,
+                textAlign: TextAlign.justify,
+                style: const TextStyle(fontSize: 14),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -16,11 +16,9 @@ class DeviceInfo {
   });
 
   Map<String, dynamic> toJson() => {
-        'device_id': deviceId,
-        'name': name,
-        'os': os,
-        'version': version,
-        'model': model,
-        'manufacturer': manufacturer,
+        'device_name': name,
+        'platform': os,
+        'device_token': deviceId,
+        'app_version': version,
       };
 }

@@ -33,7 +33,7 @@ dependencies:
   convex_bottom_bar: ^3.2.0
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
-  # device_info_plus: ^9.0.3
+  device_info_plus: ^11.4.0
   dio: ^5.4.1
   equatable: ^2.0.5
   flutter:

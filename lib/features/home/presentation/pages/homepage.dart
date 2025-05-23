@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:untitled4/const.dart' as app_const;
+import 'package:untitled4/features/home/cubit/language_cubit.dart';
+import 'package:untitled4/features/home/cubit/slider_cubit.dart';
+import 'package:untitled4/features/places/presentation/pages/details/place_details_screen.dart';
 import 'package:untitled4/features/services/cubit/city_cubit.dart';
-import 'package:untitled4/features/services/cubit/service_cubit.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
 
 import 'package:untitled4/widgets/category.dart';
@@ -15,8 +17,6 @@ import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/home/bloc/home_bloc.dart';
-
-import '../../home_cubit/home_cubit.dart';
 
 class DirectionalText extends StatelessWidget {
   final String text;
@@ -120,44 +120,39 @@ class _HomepageState extends BaseScreenState<Homepage> {
                         color: Colors.white,
                       ),
                     ),
-                    PopupMenuButton<String>(
-                      icon: const Icon(Icons.language, color: Colors.white),
-                      onSelected: (value) async {
-                        final languageId = value == 'ar'
-                            ? 1
-                            : value == 'en'
-                                ? 2
-                                : 3;
-                        context
-                            .read<HomeBloc>()
-                            .add(HomeLanguageChanged(languageId));
-                        await context
-                            .read<LanguageProvider>()
-                            .changeLanguage(value);
+                    BlocBuilder<LanguageCubit, LanguageState>(
+                      builder: (context, state) {
+                        if (state is LanguageSucces &&
+                            state.languages.isNotEmpty) {
+                          return PopupMenuButton<String>(
+                              icon: const Icon(Icons.language,
+                                  color: Colors.white),
+                              onSelected: (value) async {
+                                final languageId = state.languages
+                                    .firstWhere((e) => e.code == value)
+                                    .id!;
+                                context
+                                    .read<HomeBloc>()
+                                    .add(HomeLanguageChanged(languageId));
+                                await context
+                                    .read<LanguageProvider>()
+                                    .changeLanguage(value);
+                              },
+                              itemBuilder: (context) {
+                                return state.languages.map((language) {
+                                  return PopupMenuItem(
+                                    value: language.code,
+                                    child: RTLText(
+                                      text: language.name!,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  );
+                                }).toList() as List<PopupMenuEntry<String>>;
+                              });
+                        } else {
+                          return const Text('no langaues');
+                        }
                       },
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          value: 'ar',
-                          child: RTLText(
-                            text: l10n.arabic,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        PopupMenuItem(
-                          value: 'en',
-                          child: Text(
-                            l10n.english,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        PopupMenuItem(
-                          value: 'fr',
-                          child: Text(
-                            l10n.french,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -169,31 +164,50 @@ class _HomepageState extends BaseScreenState<Homepage> {
                     const SizedBox(height: 5),
                     SizedBox(
                       height: 180,
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                          height: 160.0,
-                          autoPlay: true,
-                          enlargeCenterPage: true,
-                          onPageChanged: (index, reason) {
-                            context
-                                .read<HomeBloc>()
-                                .add(HomeSliderChanged(index));
-                          },
-                        ),
-                        items: state.sliderImages.map((imagePath) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Image.asset(
-                                  imagePath,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                ),
-                              ).animate().fadeIn(duration: 500.ms);
-                            },
-                          );
-                        }).toList(),
+                      child: BlocBuilder<SliderCubit, SliderState>(
+                        builder: (context, sliderState) {
+                          if (sliderState is SliderSuccess) {
+                            return CarouselSlider(
+                              options: CarouselOptions(
+                                height: 160.0,
+                                autoPlay: true,
+                                enlargeCenterPage: true,
+                                onPageChanged: (index, reason) {
+                                  context
+                                      .read<HomeBloc>()
+                                      .add(HomeSliderChanged(index));
+                                },
+                              ),
+                              items: sliderState.sliderItems.map((imagePath) {
+                                return Builder(
+                                  builder: (BuildContext context) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        NavigationService.navigateTo('/details',
+                                            arguments: PlaceDetailsScreen(
+                                                place: imagePath));
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Image.network(
+                                          imagePath.photo,
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                        ),
+                                      ).animate().fadeIn(duration: 500.ms),
+                                    );
+                                  },
+                                );
+                              }).toList(),
+                            );
+                          } else if (sliderState is SliderFailuer) {
+                            return Center(
+                                child: Text(sliderState.errorMessage));
+                          } else {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                        },
                       ),
                     ),
                     const SizedBox(height: 5),
@@ -276,7 +290,8 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                     context
                                         .read<CityCubit>()
                                         .getServiceCities(category.id);
-                                    NavigationService.navigateToServices(category: category);
+                                    NavigationService.navigateToServices(
+                                        category: category);
                                   } else {
                                     NavigationService.navigateToGovernorates(
                                       categoryType,

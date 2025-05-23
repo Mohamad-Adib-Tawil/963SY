@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/services/model/place_of_service/place_of_service.dart';
@@ -18,6 +17,24 @@ class PlaceServiceCubit extends Cubit<PlaceServiceState> {
     emit(PlaceServiceLoading());
     final placeOfService = await serviceRepo.getPlaceOfService(
         serviceId: serviceId, cityId: cityId, categoryId: categoryId);
+    placeOfService.fold(
+        (failuer) =>
+            emit(PlaceServiceFailuer(errorMessage: failuer.errorMessage)),
+        (placeOfService) =>
+            emit(PlaceServiceSuccess(placeOfServices: placeOfService)));
+  }
+
+  Future<void> getPlaceOfServiceByStar(
+      {required int serviceId,
+      required int cityId,
+      required categoryId,
+      required int starId}) async {
+    emit(PlaceServiceLoading());
+    final placeOfService = await serviceRepo.getPlaceOfServiceByStar(
+        serviceId: serviceId,
+        cityId: cityId,
+        categoryId: categoryId,
+        starId: starId);
     placeOfService.fold(
         (failuer) =>
             emit(PlaceServiceFailuer(errorMessage: failuer.errorMessage)),

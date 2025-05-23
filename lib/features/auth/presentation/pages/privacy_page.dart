@@ -1,13 +1,84 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled4/core/constants/app_colors.dart';
+import 'package:untitled4/core/services/device_service.dart';
 import 'package:untitled4/features/home/presentation/pages/homepage.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
+import 'package:untitled4/models/device_info.dart';
+import 'package:uuid/uuid.dart';
 
 class PrivacyPage extends StatelessWidget {
   final VoidCallback onAccept;
-  const PrivacyPage({super.key, required this.onAccept});
+  PrivacyPage({super.key, required this.onAccept});
+
+  final _deviceService = DeviceService();
+  final _uuid = Uuid();
+
+  Future<void> _registerDevice() async {
+    final deviceInfoPlugin = DeviceInfoPlugin();
+    String deviceId =
+        await _getDeviceId(); // Implement platform-specific ID retrieval
+
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+      var deviceInfo = DeviceInfo(
+        deviceId: deviceId,
+        name: androidInfo.model,
+        os: 'Android',
+        version: androidInfo.version.release,
+        model: androidInfo.model,
+        manufacturer: androidInfo.manufacturer,
+      );
+      await DeviceService.registerDevice(deviceInfo);
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
+      var deviceInfo = DeviceInfo(
+        deviceId: deviceId,
+        name: iosInfo.name,
+        os: 'iOS',
+        version: iosInfo.systemVersion,
+        model: iosInfo.model,
+        manufacturer: 'Apple',
+      );
+      await DeviceService.registerDevice(deviceInfo);
+    }
+  }
+
+  Future<String> _getDeviceId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final deviceInfo = DeviceInfoPlugin();
+
+    String? deviceId;
+
+    try {
+      if (Platform.isAndroid) {
+        final androidInfo = await deviceInfo.androidInfo;
+        deviceId = androidInfo.id; // May vary across devices/OS versions
+      } else if (Platform.isIOS) {
+        final iosInfo = await deviceInfo.iosInfo;
+        deviceId = iosInfo.identifierForVendor; // Unique per vendor
+      }
+    } catch (e) {
+      // Log or handle platform exception
+      log('Error getting native device ID: $e');
+    }
+
+    // If deviceId is null or unreliable, fallback to stored/generated UUID
+    if (deviceId == null || deviceId.isEmpty) {
+      deviceId = prefs.getString('device_id');
+      if (deviceId == null) {
+        deviceId = _uuid.v4();
+        await prefs.setString('device_id', deviceId);
+      }
+    }
+
+    return deviceId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,8 +251,18 @@ class PrivacyPage extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               onAccept();
+              try {
+                await _registerDevice();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Device registered successfully')),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error: $e')),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,

@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/const.dart';
-import 'package:untitled4/core/services/get_it_service.dart';
 import 'package:untitled4/features/places/cubit/place_details_cubit.dart';
+import 'package:untitled4/features/places/data/models/coordinates.dart';
 import 'package:untitled4/models/link.dart';
 
 import 'package:untitled4/models/media.dart';
@@ -35,6 +35,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
   late String signlanguageLink = '';
   late List<Media> photo = [];
   late List<Media> info = [];
+  late Coordinates way = Coordinates(horizontal: '0.0', vertical: '0.0');
   @override
   void initState() {
     super.initState();
@@ -55,24 +56,31 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
           if (state is PlaceDetailsSuccess) {
             final media = state.placeDetailsModel.media;
             final links = state.placeDetailsModel.links;
-            youtubeLink = links
-                    .firstWhere(
-                      (link) => link.linkType == 2 && link.linkHttp != null,orElse: () => Link(linkHttp: ''),
-                    )
-                    .linkHttp ??
-                '';
-            virtualTourLink = links
-                    .firstWhere(
-                      (link) => link.linkType == 3 && link.linkHttp != null,orElse: () => Link(linkHttp: ''),
-                    )
-                    .linkHttp ??
-                '';
-            signlanguageLink = links
-                    .firstWhere(
-                      (link) => link.linkType == 1 && link.linkHttp != null,orElse: () => Link(linkHttp: ''),
-                    )
-                    .linkHttp ??
-                '';
+            way = state.placeDetailsModel.coordinates;
+            if (links.isNotEmpty) {
+              youtubeLink = links
+                      .firstWhere(
+                        (link) => link.linkType == 2 && link.linkHttp != null,
+                        orElse: () => Link(linkHttp: ''),
+                      )
+                      .linkHttp ??
+                  '';
+              virtualTourLink = links
+                      .firstWhere(
+                        (link) => link.linkType == 3 && link.linkHttp != null,
+                        orElse: () => Link(linkHttp: ''),
+                      )
+                      .linkHttp ??
+                  '';
+              signlanguageLink = links
+                      .firstWhere(
+                        (link) => link.linkType == 1 && link.linkHttp != null,
+                        orElse: () => Link(linkHttp: ''),
+                      )
+                      .linkHttp ??
+                  '';
+            }
+
             photo = media.where((media) => media.medType == 1).toList();
             info = media.where((media) => media.medType == 2).toList();
           }
@@ -249,27 +257,28 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
                 url: virtualTourLink,
               )),
         ),
-      _FeatureItem(
-        imagePath: 'assets/images/goto-removebg-preview (1).png',
-        label: 'توجه للمكان',
-        onTap: () async {
-          final url =
-              "https://www.google.com/maps/search/?api=1&query=33°30'41.3\"N,36°18'22.6\"E";
-          final uri = Uri.parse(url);
-          if (await canLaunchUrl(uri)) {
-            await launchUrl(uri, mode: LaunchMode.externalApplication);
-          } else {
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('لا يمكن فتح خرائط جوجل'),
-                  backgroundColor: Colors.red,
-                ),
-              );
+      if (way.horizontal != '0' || way.vertical != '0')
+        _FeatureItem(
+          imagePath: 'assets/images/goto-removebg-preview (1).png',
+          label: 'توجه للمكان',
+          onTap: () async {
+            String url =
+                "https://www.google.com/maps/search/?api=1&query=${way.vertical},${way.horizontal}";
+            final uri = Uri.parse(url);
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri, mode: LaunchMode.externalApplication);
+            } else {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('لا يمكن فتح خرائط جوجل'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
             }
-          }
-        },
-      ),
+          },
+        ),
       if (youtubeLink.isNotEmpty || youtubeLink != '')
         _FeatureItem(
           imagePath: 'assets/images/video-removebg-preview (1).png',
@@ -357,18 +366,6 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
 
   void _navigateToScreen(BuildContext context, Widget screen) {
     NavigationService.navigateTo('/details', arguments: screen);
-  }
-
-  String _extractVideoId(String url) {
-    url = url.split('?')[0];
-    if (url.contains('youtu.be/')) {
-      return url.split('youtu.be/')[1];
-    } else if (url.contains('youtube.com/shorts/')) {
-      return url.split('shorts/')[1];
-    } else if (url.contains('youtube.com/watch?v=')) {
-      return url.split('watch?v=')[1];
-    }
-    return '';
   }
 }
 

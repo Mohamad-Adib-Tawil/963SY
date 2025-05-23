@@ -40,7 +40,7 @@ class Place {
     );
   }
 
-  factory Place.fromServicePlace(PlaceOfService place){
+  factory Place.fromServicePlace(PlaceOfService place) {
     return Place(
       id: place.id!,
       placeName: place.placeName!,

@@ -3,7 +3,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled4/core/services/custom_bloc_observer.dart';
 import 'package:untitled4/core/services/get_it_service.dart';
+import 'package:untitled4/features/home/cubit/language_cubit.dart';
+import 'package:untitled4/features/home/cubit/slider_cubit.dart';
 import 'package:untitled4/features/home/home_cubit/home_cubit.dart';
 import 'package:untitled4/features/home/repos/home_repo.dart';
 import 'package:untitled4/features/places/cubit/place_details_cubit.dart';
@@ -43,7 +46,7 @@ void main() async {
       initialRoute = '/welcome';
     }
   }
-  // Bloc.observer = CustomBlocObserver();
+  Bloc.observer = CustomBlocObserver();
   setupGetIt();
   runApp(MyApp(initialRoute: initialRoute));
 }
@@ -66,6 +69,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => PlaceDetailsCubit(getIt<PlaceDetailsRepo>())),
         BlocProvider(create: (context) => CityCubit(getIt<ServiceRepo>())),
+        BlocProvider(
+            create: (context) =>
+                LanguageCubit(getIt<HomeRepo>())..getLanguages()),
+        BlocProvider(
+            create: (context) =>
+                SliderCubit(getIt<HomeRepo>())..getSliderImages()),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
       ],
       child: Consumer<LanguageProvider>(
@@ -91,7 +100,7 @@ class MyApp extends StatelessWidget {
             onGenerateRoute: AppRouter.generateRoute,
             routes: {
               '/language': (context) => const LanguageSelectionScreen(),
-              '/privacy': (context) => const PrivacyPolicyScreen(),
+              '/privacy': (context) => PrivacyPolicyScreen(),
               '/welcome': (context) => const WelcomeScreen(),
               '/home': (context) => const Homepage(),
             },

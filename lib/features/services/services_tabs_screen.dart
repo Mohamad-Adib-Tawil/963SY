@@ -8,10 +8,10 @@ import 'package:untitled4/features/places/presentation/pages/details/place_detai
 import 'package:untitled4/features/services/cubit/city_cubit.dart';
 import 'package:untitled4/features/services/cubit/place_service_cubit.dart';
 import 'package:untitled4/features/services/cubit/service_cubit.dart';
+import 'package:untitled4/features/services/cubit/star_cubit.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled4/features/services/bloc/services_bloc.dart';
 import 'package:untitled4/models/place_model.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
 
@@ -25,6 +25,7 @@ class RedesignedServiceScreen extends StatefulWidget {
 }
 
 class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
+  late bool showStar = false;
   late int cityId;
   late int serviceId;
   final Map<String, String> categoryIcons = {
@@ -103,7 +104,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                     ],
                   ),
                   const SizedBox(height: 15),
-
+              
                   // Filter Card
                   Card(
                     shape: RoundedRectangleBorder(
@@ -127,7 +128,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                   .single
                                   .id!;
                               log(cityId.toString());
-
+              
                               setState(() {
                                 context.read<ServiceCubit>().getCityServices(
                                     cityId: cityId,
@@ -159,7 +160,14 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                             (service) => service.serName == val)
                                         .single
                                         .id!;
-                                    log(serviceId.toString());
+                                    showStar = serviceState.services
+                                                .where((service) =>
+                                                    service.serName == val)
+                                                .single
+                                                .serType ==
+                                            1
+                                        ? true
+                                        : false;
                                     setState(() {
                                       context
                                           .read<PlaceServiceCubit>()
@@ -167,6 +175,10 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                               serviceId: serviceId,
                                               cityId: cityId,
                                               categoryId: widget.category.id);
+                                      context.read<StarCubit>().getStars(
+                                          serviceId: serviceId,
+                                          cityId: cityId,
+                                          categoryId: widget.category.id);
                                     });
                                   },
                                   hint: l10n.selectCategory,
@@ -186,7 +198,9 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                   ).animate().fadeIn(delay: 400.ms, duration: 500.ms),
                   const SizedBox(height: 15),
                   BlocConsumer<PlaceServiceCubit, PlaceServiceState>(
-                    listener: (context, placeState) {},
+                    listener: (context, placeState) {
+                      if (placeState is PlaceServiceSuccess) {}
+                    },
                     builder: (context, placeState) {
                       if (placeState is PlaceServiceLoading) {
                         return const Center(child: CircularProgressIndicator());
@@ -214,76 +228,153 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                     ],
                                   ),
                                 )
-                              : ListView.builder(
-                                  itemCount: placeState.placeOfServices.length,
-                                  itemBuilder: (context, index) {
-                                    final item =
-                                        placeState.placeOfServices[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        NavigationService.navigateTo('/details',
-                                            arguments: PlaceDetailsScreen(
-                                                place: Place.fromServicePlace(item)));
-                                      },
-                                      child: Card(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 16),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        elevation: 2,
-                                        child: ListTile(
-                                          contentPadding:
-                                              const EdgeInsets.all(16),
-                                          leading: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.primary
-                                                  .withOpacity(0.1),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                            child: const Center(
-                                              child: Text(
-                                                '🔷',
-                                                style: TextStyle(
-                                                    fontSize: 24),
+                              : Column(
+                                  children: [
+                                    showStar
+                                        ? BlocBuilder<StarCubit, StarState>(
+                                            builder: (context, starState) {
+                                              if (starState is StarsSuccess) {
+                                                return DropdownButton(
+                                                  value:
+                                                      starState.stars.first.id,
+                                                  items: starState.stars
+                                                      .map((e) =>
+                                                          DropdownMenuItem(
+                                                            value: e.id,
+                                                            child: Row(
+                                                              children: [
+                                                                const Icon(
+                                                                    Icons.star),
+                                                                Text(e.number
+                                                                    .toString()),
+                                                              ],
+                                                            ),
+                                                          ))
+                                                      .toList(),
+                                                  onChanged: (value) {
+                                                    context
+                                                        .read<
+                                                            PlaceServiceCubit>()
+                                                        .getPlaceOfServiceByStar(
+                                                            serviceId:
+                                                                serviceId,
+                                                            cityId: cityId,
+                                                            categoryId: widget
+                                                                .category.id,
+                                                            starId: value!);
+                                                  },
+                                                );
+                                              } else if (starState
+                                                  is StarFailuer) {
+                                                return Text(
+                                                    starState.errorMessage);
+                                              } else {
+                                                return const Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              }
+                                            },
+                                          )
+                                        : SizedBox(),
+                                    const SizedBox(height: 10),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            placeState.placeOfServices.length,
+                                        itemBuilder: (context, index) {
+                                          final item =
+                                              placeState.placeOfServices[index];
+                                          return GestureDetector(
+                                            onTap: () {
+                                              NavigationService.navigateTo(
+                                                  '/details',
+                                                  arguments: PlaceDetailsScreen(
+                                                      place:
+                                                          Place.fromServicePlace(
+                                                              item)));
+                                            },
+                                            child: Card(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 16),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
                                               ),
-                                            ),
-                                          ),
-                                          title: RTLText(
-                                            text: item.placeName!,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                          subtitle: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 4),
-                                            child: RTLText(
-                                              text: item.description!,
-                                              style: TextStyle(
-                                                color: Colors.grey[600],
-                                                fontSize: 14,
+                                              elevation: 2,
+                                              child: ListTile(
+                                                contentPadding:
+                                                    const EdgeInsets.all(16),
+                                                leading: Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.primary
+                                                        .withOpacity(0.1),
+                                                    borderRadius:
+                                                        BorderRadius.circular(12),
+                                                  ),
+                                                  child: const Center(
+                                                    child: Text(
+                                                      '🔷',
+                                                      style:
+                                                          TextStyle(fontSize: 24),
+                                                    ),
+                                                  ),
+                                                ),
+                                                title: RTLText(
+                                                  text: item.placeName!,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                subtitle: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      top: 4),
+                                                  child: RTLText(
+                                                    text: item.description!,
+                                                    style: TextStyle(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                      ).animate().fadeIn(
-                                            delay: Duration(
-                                                milliseconds:
-                                                    600 + (index * 100)),
-                                            duration: 500.ms,
-                                          ),
-                                    );
-                                  },
+                                            ).animate().fadeIn(
+                                                  delay: Duration(
+                                                      milliseconds:
+                                                          600 + (index * 100)),
+                                                  duration: 500.ms,
+                                                ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         );
                       }
-                      return const Text('some thing went wrong');
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.search_off_rounded,
+                              size: 80,
+                              color: Colors.grey[400],
+                            ),
+                            const SizedBox(height: 10),
+                            RTLText(
+                              text: l10n.noResults,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     },
                   ),
                 ],
