@@ -95,6 +95,10 @@ class MyApp extends StatelessWidget {
               Locale('en'),
               Locale('ar'),
               Locale('fr'),
+              Locale('es'),
+              Locale('tr'),
+              Locale('zh'),
+              Locale('it')
             ],
             initialRoute: initialRoute,
             onGenerateRoute: AppRouter.generateRoute,

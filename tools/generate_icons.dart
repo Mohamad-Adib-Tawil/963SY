@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:image/image.dart' as img;
-import 'package:path/path.dart' as path;
 
 void main() async {
   final sourceImage = File('assets/icons/photo_2025-05-06_18-35-23.jpg');

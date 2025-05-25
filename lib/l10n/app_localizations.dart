@@ -7,7 +7,11 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_ar.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_it.dart';
+import 'app_localizations_tr.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,9 +96,13 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('ar'),
     Locale('en'),
-    Locale('fr')
+    Locale('ar'),
+    Locale('fr'),
+    Locale('es'),
+    Locale('tr'),
+    Locale('zh'),
+    Locale('it')
   ];
 
   /// No description provided for @appTitle.
@@ -239,7 +247,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Language selected: @language'**
-  String get languageSelected;
+  String languageSelected(Object language);
 
   /// No description provided for @aboutUsTitle.
   ///
@@ -930,6 +938,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'963SY application\nOne of the most important works of the Artfly Foundation... is the organization that played an important role in the journey of innovation, photography, documentation, and excellence in the use of drones for aerial photography.\nThe 963SY application is a comprehensive information package that brings tourism within everyone\'s reach, regardless of their physical or linguistic abilities.\nIt provides knowledge about Syria, its history, heritage, and tourist places, and contributes to increasing awareness about its existence and importance.\nIt provides a database to introduce the beautiful local tourist attractions and places, as well as all the events and activities taking place in Syria... It displays them with special videos and photos that reflect the beauty of Syria and highlight the exciting experiences that can be enjoyed there.\nThe 963SY application user can browse the available tourist map of different places and sites and access them easily and quickly, in addition to information and texts related to each place separately.\nThe 963SY application is a guide to awareness, exploration, and the spiritual heritage that this beautiful country embraces, and allows the world to discover its components and visit them with the click of a button. It combines culture and technology, and gives tourists a real virtual travel experience. In a world that lacks time and opportunities. It also provides a complete surround experience of tourist sites with a 360-degree viewing angle to explore every corner and the entire beauty of Syria\'s stunning landscapes.\nThe 963SY application provides an integrated and comprehensive experience for all different categories of users, including those who face challenges in communicating and understanding information due to their hearing disability.\nThe 963SY application reflects artfly\'s vision of serving the community and enhancing cultural and tourism communication through advanced technology and innovation.'**
   String get aboutUsEnglishContent;
+
+  /// No description provided for @information.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get information;
+
+  /// No description provided for @virtualTour.
+  ///
+  /// In en, this message translates to:
+  /// **'Virtual Tour'**
+  String get virtualTour;
+
+  /// No description provided for @goToPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Place'**
+  String get goToPlace;
+
+  /// No description provided for @mediaClips.
+  ///
+  /// In en, this message translates to:
+  /// **'Media Clips'**
+  String get mediaClips;
+
+  /// No description provided for @signLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Language'**
+  String get signLanguage;
+
+  /// No description provided for @cannotOpenGoogleMaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot open Google Maps'**
+  String get cannotOpenGoogleMaps;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @informationCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Information Collection'**
+  String get informationCollection;
+
+  /// No description provided for @informationCollectionContent.
+  ///
+  /// In en, this message translates to:
+  /// **'We collect necessary information, including location data and preferences, to provide our services. We ensure the protection of your personal data and do not share it with third parties.'**
+  String get informationCollectionContent;
+
+  /// No description provided for @dataUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Usage'**
+  String get dataUsage;
+
+  /// No description provided for @dataUsageContent.
+  ///
+  /// In en, this message translates to:
+  /// **'We use data to improve user experience and provide personalized content. You can control your privacy settings at any time.'**
+  String get dataUsageContent;
+
+  /// No description provided for @security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get security;
+
+  /// No description provided for @securityContent.
+  ///
+  /// In en, this message translates to:
+  /// **'We use the latest security technologies to protect your data. All sensitive information is encrypted.'**
+  String get securityContent;
+
+  /// No description provided for @userRights.
+  ///
+  /// In en, this message translates to:
+  /// **'User Rights'**
+  String get userRights;
+
+  /// No description provided for @userRightsContent.
+  ///
+  /// In en, this message translates to:
+  /// **'You have the right to access, modify, or delete your data. You can also request to export your data.'**
+  String get userRightsContent;
+
+  /// No description provided for @deviceRegisteredSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Device registered successfully'**
+  String get deviceRegisteredSuccess;
+
+  /// No description provided for @deviceRegistrationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String deviceRegistrationError(Object error);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -941,7 +1051,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['ar', 'en', 'fr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'en', 'es', 'fr', 'it', 'tr', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -954,7 +1064,11 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar': return AppLocalizationsAr();
     case 'en': return AppLocalizationsEn();
+    case 'es': return AppLocalizationsEs();
     case 'fr': return AppLocalizationsFr();
+    case 'it': return AppLocalizationsIt();
+    case 'tr': return AppLocalizationsTr();
+    case 'zh': return AppLocalizationsZh();
   }
 
   throw FlutterError(

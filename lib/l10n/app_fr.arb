@@ -124,5 +124,15 @@
   "hotels": "Hôtels",
   "tourServices": "Services Touristiques",
   "publicServices": "Services Publics",
-  "hospitals": "Hôpitaux"
+  "hospitals": "Hôpitaux",
+  "informationCollection": "Collecte d'Informations",
+  "informationCollectionContent": "Nous collectons les informations nécessaires, y compris les données de localisation et les préférences, pour fournir nos services. Nous assurons la protection de vos données personnelles et ne les partageons pas avec des tiers.",
+  "dataUsage": "Utilisation des Données",
+  "dataUsageContent": "Nous utilisons les données pour améliorer l'expérience utilisateur et fournir du contenu personnalisé. Vous pouvez contrôler vos paramètres de confidentialité à tout moment.",
+  "security": "Sécurité",
+  "securityContent": "Nous utilisons les dernières technologies de sécurité pour protéger vos données. Toutes les informations sensibles sont cryptées.",
+  "userRights": "Droits des Utilisateurs",
+  "userRightsContent": "Vous avez le droit d'accéder, de modifier ou de supprimer vos données. Vous pouvez également demander l'exportation de vos données.",
+  "deviceRegisteredSuccess": "Appareil enregistré avec succès",
+  "deviceRegistrationError": "Erreur : {error}"
 } 

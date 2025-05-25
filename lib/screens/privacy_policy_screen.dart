@@ -16,7 +16,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   PrivacyPolicyScreen({super.key});
 
   final _deviceService = DeviceService();
-  final _uuid = Uuid();
+  final _uuid = const Uuid();
 
   Future<void> _registerDevice() async {
     final deviceInfoPlugin = DeviceInfoPlugin();

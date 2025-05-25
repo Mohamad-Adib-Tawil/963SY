@@ -39,7 +39,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // Emit loading state with default slider images
       emit(HomeLoaded(
         sliderImages: defaultSliderImages,
-        categories: [],
+        categories: const [],
         languageId: languageId,
       ));
 

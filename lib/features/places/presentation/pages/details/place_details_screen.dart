@@ -7,6 +7,7 @@ import 'package:untitled4/const.dart';
 import 'package:untitled4/features/places/cubit/place_details_cubit.dart';
 import 'package:untitled4/features/places/data/models/coordinates.dart';
 import 'package:untitled4/models/link.dart';
+import 'package:untitled4/l10n/app_localizations.dart';
 
 import 'package:untitled4/models/media.dart';
 import 'package:untitled4/models/place_model.dart';
@@ -48,6 +49,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
       appBar: _buildAppBar(context),
@@ -107,7 +109,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
               ),
             );
           }
-          return const Center(child: Text('Something went wrong'));
+          return Center(child: Text(l10n.somethingWentWrong));
         },
       ),
     );
@@ -218,11 +220,12 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
   List<Widget> _buildFeatureItems(
     BuildContext context,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return [
       if (info.isNotEmpty)
         _FeatureItem(
             imagePath: 'assets/images/info-removebg-preview (1).png',
-            label: 'المعلومات',
+            label: l10n.information,
             onTap: () async {
               String text = await fetchTextFileContent(info[0].medContent!);
               if (text.isNotEmpty || text != '') {
@@ -237,7 +240,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
       if (photo.isNotEmpty)
         _FeatureItem(
           imagePath: 'assets/images/photo-removebg-preview (1).png',
-          label: 'الصور',
+          label: l10n.photos,
           onTap: () {
             _navigateToScreen(
                 context,
@@ -250,7 +253,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
       if (virtualTourLink.isNotEmpty || virtualTourLink != '')
         _FeatureItem(
           imagePath: 'assets/images/virtual-removebg-preview (1).png',
-          label: 'جولة افتراضية',
+          label: l10n.virtualTour,
           onTap: () => _navigateToScreen(
               context,
               VirtualTourScreen(
@@ -260,7 +263,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
       if (way.horizontal != '0' || way.vertical != '0')
         _FeatureItem(
           imagePath: 'assets/images/goto-removebg-preview (1).png',
-          label: 'توجه للمكان',
+          label: l10n.goToPlace,
           onTap: () async {
             String url =
                 "https://www.google.com/maps/search/?api=1&query=${way.vertical},${way.horizontal}";
@@ -270,8 +273,8 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
             } else {
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('لا يمكن فتح خرائط جوجل'),
+                  SnackBar(
+                    content: Text(l10n.cannotOpenGoogleMaps),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -282,7 +285,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
       if (youtubeLink.isNotEmpty || youtubeLink != '')
         _FeatureItem(
           imagePath: 'assets/images/video-removebg-preview (1).png',
-          label: 'مقاطع الوسائط',
+          label: l10n.mediaClips,
           onTap: () {
             Navigator.push(
               context,
@@ -293,72 +296,17 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
                 ),
               ),
             );
-            // if (place.VideoUrl.isNotEmpty) {
-            // final videoId = _extractVideoId(place.VideoUrl);
-            // if (videoId.isNotEmpty) {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (_) => YouTubePlayerScreen(
-            //         videoId: videoId,
-            //         title: 'مقطع فيديو',
-            //       ),
-            //     ),
-            //   );
-            // } else {
-            //   ScaffoldMessenger.of(context).showSnackBar(
-            //     const SnackBar(
-            //       content: Text('الرابط غير صالح'),
-            //       backgroundColor: Colors.red,
-            //     ),
-            //   );
-            // }
-            // } else {
-            //   ScaffoldMessenger.of(context).showSnackBar(
-            //     const SnackBar(
-            //       content: Text('لا يوجد فيديو متاح'),
-            //       backgroundColor: Colors.orange,
-            //     ),
-            //   );
           },
         ),
       if (signlanguageLink.isNotEmpty || signlanguageLink != '')
         _FeatureItem(
           imagePath: 'assets/images/signlanguage-removebg-preview (1).png',
-          label: 'لغة الإشارة',
+          label: l10n.signLanguage,
           onTap: () {
             _navigateToScreen(
                 context,
                 YouTubePlayerScreen(
                     place: widget.place, youtubeLink: signlanguageLink));
-            // if (place.signLanguageVideoUrl.isNotEmpty) {
-            //   final videoId = _extractVideoId(place.signLanguageVideoUrl);
-            //   if (videoId.isNotEmpty) {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (_) => YouTubePlayerScreen(
-            //           videoId: videoId,
-            //           title: 'فيديو بلغة الإشارة',
-            //         ),
-            //       ),
-            //     );
-            //   } else {
-            //     ScaffoldMessenger.of(context).showSnackBar(
-            //       const SnackBar(
-            //         content: Text('الرابط غير صالح'),
-            //         backgroundColor: Colors.red,
-            //       ),
-            //     );
-            //   }
-            // } else {
-            //   ScaffoldMessenger.of(context).showSnackBar(
-            //     const SnackBar(
-            //       content: Text('لا يوجد فيديو لغة إشارة متاح'),
-            //       backgroundColor: Colors.orange,
-            //     ),
-            //   );
-            // }
           },
         ),
     ];

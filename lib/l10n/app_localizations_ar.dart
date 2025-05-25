@@ -76,7 +76,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get french => 'الفرنسية';
 
   @override
-  String get languageSelected => 'اللغة المختارة: @language';
+  String languageSelected(Object language) {
+    return 'اللغة المختارة: @language';
+  }
 
   @override
   String get aboutUsTitle => 'من نحن';
@@ -422,4 +424,57 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get aboutUsEnglishContent => '963SY application\nOne of the most important works of the Artfly Foundation... is the organization that played an important role in the journey of innovation, photography, documentation, and excellence in the use of drones for aerial photography.\nThe 963SY application is a comprehensive information package that brings tourism within everyone\'s reach, regardless of their physical or linguistic abilities.\nIt provides knowledge about Syria, its history, heritage, and tourist places, and contributes to increasing awareness about its existence and importance.\nIt provides a database to introduce the beautiful local tourist attractions and places, as well as all the events and activities taking place in Syria... It displays them with special videos and photos that reflect the beauty of Syria and highlight the exciting experiences that can be enjoyed there.\nThe 963SY application user can browse the available tourist map of different places and sites and access them easily and quickly, in addition to information and texts related to each place separately.\nThe 963SY application is a guide to awareness, exploration, and the spiritual heritage that this beautiful country embraces, and allows the world to discover its components and visit them with the click of a button. It combines culture and technology, and gives tourists a real virtual travel experience. In a world that lacks time and opportunities. It also provides a complete surround experience of tourist sites with a 360-degree viewing angle to explore every corner and the entire beauty of Syria\'s stunning landscapes.\nThe 963SY application provides an integrated and comprehensive experience for all different categories of users, including those who face challenges in communicating and understanding information due to their hearing disability.\nThe 963SY application reflects artfly\'s vision of serving the community and enhancing cultural and tourism communication through advanced technology and innovation.';
+
+  @override
+  String get information => 'المعلومات';
+
+  @override
+  String get virtualTour => 'جولة افتراضية';
+
+  @override
+  String get goToPlace => 'توجه للمكان';
+
+  @override
+  String get mediaClips => 'مقاطع الوسائط';
+
+  @override
+  String get signLanguage => 'لغة الإشارة';
+
+  @override
+  String get cannotOpenGoogleMaps => 'لا يمكن فتح خرائط جوجل';
+
+  @override
+  String get somethingWentWrong => 'حدث خطأ ما';
+
+  @override
+  String get informationCollection => 'جمع المعلومات';
+
+  @override
+  String get informationCollectionContent => 'نقوم بجمع المعلومات اللازمة، بما في ذلك بيانات الموقع والتفضيلات، لتقديم خدماتنا. نحن نضمن حماية بياناتك الشخصية ولا نشاركها مع أطراف ثالثة.';
+
+  @override
+  String get dataUsage => 'استخدام البيانات';
+
+  @override
+  String get dataUsageContent => 'نستخدم البيانات لتحسين تجربة المستخدم وتقديم محتوى مخصص. يمكنك التحكم في إعدادات الخصوصية في أي وقت.';
+
+  @override
+  String get security => 'الأمان';
+
+  @override
+  String get securityContent => 'نستخدم أحدث تقنيات الأمان لحماية بياناتك. يتم تشفير جميع المعلومات الحساسة.';
+
+  @override
+  String get userRights => 'حقوق المستخدم';
+
+  @override
+  String get userRightsContent => 'لديك الحق في الوصول إلى بياناتك أو تعديلها أو حذفها. يمكنك أيضًا طلب تصدير بياناتك.';
+
+  @override
+  String get deviceRegisteredSuccess => 'تم تسجيل الجهاز بنجاح';
+
+  @override
+  String deviceRegistrationError(Object error) {
+    return 'خطأ: $error';
+  }
 }

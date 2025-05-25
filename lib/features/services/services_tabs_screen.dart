@@ -104,7 +104,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                     ],
                   ),
                   const SizedBox(height: 15),
-              
+
                   // Filter Card
                   Card(
                     shape: RoundedRectangleBorder(
@@ -128,7 +128,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                   .single
                                   .id!;
                               log(cityId.toString());
-              
+
                               setState(() {
                                 context.read<ServiceCubit>().getCityServices(
                                     cityId: cityId,
@@ -234,35 +234,68 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                         ? BlocBuilder<StarCubit, StarState>(
                                             builder: (context, starState) {
                                               if (starState is StarsSuccess) {
-                                                return DropdownButton(
-                                                  value:
-                                                      starState.stars.first.id,
-                                                  items: starState.stars
-                                                      .map((e) =>
-                                                          DropdownMenuItem(
-                                                            value: e.id,
-                                                            child: Row(
-                                                              children: [
-                                                                const Icon(
-                                                                    Icons.star),
-                                                                Text(e.number
-                                                                    .toString()),
-                                                              ],
-                                                            ),
-                                                          ))
-                                                      .toList(),
-                                                  onChanged: (value) {
-                                                    context
-                                                        .read<
-                                                            PlaceServiceCubit>()
-                                                        .getPlaceOfServiceByStar(
-                                                            serviceId:
-                                                                serviceId,
-                                                            cityId: cityId,
-                                                            categoryId: widget
-                                                                .category.id,
-                                                            starId: value!);
-                                                  },
+                                                return Card(
+                                                  elevation: 3,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                  ),
+                                                  margin: const EdgeInsets.only(
+                                                      bottom: 12),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 8),
+                                                    child:
+                                                        DropdownButtonFormField<
+                                                            int>(
+                                                      value: starState
+                                                          .stars.first.id,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        labelText: "selectStar",
+                                                        prefixIcon: const Icon(
+                                                            Icons.star,
+                                                            color:
+                                                                Colors.amber),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          borderSide:
+                                                              BorderSide.none,
+                                                        ),
+                                                        filled: true,
+                                                        fillColor:
+                                                            Colors.grey[100],
+                                                      ),
+                                                      items: starState.stars
+                                                          .map((e) =>
+                                                              DropdownMenuItem<
+                                                                  int>(
+                                                                value: e.id,
+                                                                child: Text(
+                                                                    '${e.number} ★'),
+                                                              ))
+                                                          .toList(),
+                                                      onChanged: (value) {
+                                                        context
+                                                            .read<
+                                                                PlaceServiceCubit>()
+                                                            .getPlaceOfServiceByStar(
+                                                              serviceId:
+                                                                  serviceId,
+                                                              cityId: cityId,
+                                                              categoryId: widget
+                                                                  .category.id,
+                                                              starId: value!,
+                                                            );
+                                                      },
+                                                    ),
+                                                  ),
                                                 );
                                               } else if (starState
                                                   is StarFailuer) {
@@ -275,7 +308,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                               }
                                             },
                                           )
-                                        : SizedBox(),
+                                        : const SizedBox(),
                                     const SizedBox(height: 10),
                                     Expanded(
                                       child: ListView.builder(
@@ -290,8 +323,8 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                               NavigationService.navigateTo(
                                                   '/details',
                                                   arguments: PlaceDetailsScreen(
-                                                      place:
-                                                          Place.fromServicePlace(
+                                                      place: Place
+                                                          .fromServicePlace(
                                                               item)));
                                             },
                                             child: Card(
@@ -312,13 +345,14 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                                     color: AppColors.primary
                                                         .withOpacity(0.1),
                                                     borderRadius:
-                                                        BorderRadius.circular(12),
+                                                        BorderRadius.circular(
+                                                            12),
                                                   ),
                                                   child: const Center(
                                                     child: Text(
                                                       '🔷',
-                                                      style:
-                                                          TextStyle(fontSize: 24),
+                                                      style: TextStyle(
+                                                          fontSize: 24),
                                                     ),
                                                   ),
                                                 ),
@@ -330,8 +364,9 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                                   ),
                                                 ),
                                                 subtitle: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 4),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 4),
                                                   child: RTLText(
                                                     text: item.description!,
                                                     style: TextStyle(

@@ -1,9 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled4/features/places/cubit/place_details_cubit.dart';
-import 'package:untitled4/models/link.dart';
 import 'package:untitled4/models/place_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
@@ -11,6 +6,7 @@ import 'package:untitled4/core/widgets/rtl_text.dart';
 class YouTubePlayerScreen extends StatefulWidget {
   final Place place;
   final String youtubeLink;
+
   const YouTubePlayerScreen({
     super.key,
     required this.place,
@@ -56,37 +52,35 @@ class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
         backgroundColor: Colors.black,
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
-          ),
-          title: RTLText(
-            text: widget.place.placeName,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: RTLText(
+          text: widget.place.placeName,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
           ),
         ),
-        body: Stack(
-          children: [
-            Center(
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: WebViewWidget(controller: _controller),
+      ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: WebViewWidget(controller: _controller),
+          ),
+          if (isLoading)
+            const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
               ),
             ),
-            if (isLoading)
-              const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              ),
-          ],
-        ));
+        ],
+      ),
+    );
   }
 
   String extractYouTubeVideoId(String url) {

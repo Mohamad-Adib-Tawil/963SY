@@ -208,7 +208,7 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
                 children: [
                   RTLText(
                     text: place.placeName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textDark,

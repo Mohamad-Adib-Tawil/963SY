@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:untitled4/features/places/data/models/governorates_data.dart';
 
 part 'screens_event.dart';
 part 'screens_state.dart';

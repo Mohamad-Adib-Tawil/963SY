@@ -115,6 +115,8 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
                       height: 1.6,
                     ),
                     textAlign: TextAlign.justify,
+                    maxLines: null,
+                    overflow: TextOverflow.visible,
                   )
                 : Text(
                     content,
@@ -124,6 +126,8 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
                       height: 1.6,
                     ),
                     textAlign: TextAlign.justify,
+                    maxLines: null,
+                    overflow: TextOverflow.visible,
                   ),
           ],
         ),

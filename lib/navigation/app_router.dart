@@ -11,17 +11,13 @@ import 'package:untitled4/features/search/repo/search_repo.dart';
 import 'package:untitled4/features/services/cubit/place_service_cubit.dart';
 import 'package:untitled4/features/services/cubit/service_cubit.dart';
 import 'package:untitled4/features/services/cubit/star_cubit.dart';
-import 'package:untitled4/features/services/model/place_of_service/place_of_service.dart';
 import 'package:untitled4/features/services/repo/servIce_repo.dart';
-import 'package:untitled4/screens/virtual_tour_screen.dart';
 import 'package:untitled4/screens/welcome_screen.dart';
 import 'package:untitled4/features/home/presentation/pages/homepage.dart';
 import 'package:untitled4/features/services/services_tabs_screen.dart';
-import 'package:untitled4/features/services/bloc/services_bloc.dart';
 import 'package:untitled4/features/places/presentation/pages/tourist_places_screen.dart';
 
 import 'package:untitled4/features/about/bloc/about_bloc.dart';
-import 'package:untitled4/features/virtual_tour/bloc/virtual_tour_bloc.dart';
 import 'package:untitled4/features/home/presentation/pages/syrian_governorates_page.dart';
 
 class AppRouter {

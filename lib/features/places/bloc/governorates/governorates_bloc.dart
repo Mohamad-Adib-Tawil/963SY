@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/models/governorate_m.dart';
-import 'package:untitled4/features/places/data/models/governorates_data.dart';
 
 // Events
 abstract class GovernoratesEvent {}

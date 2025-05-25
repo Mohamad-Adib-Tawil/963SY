@@ -17,7 +17,12 @@ abstract class BaseScreenState<T extends BaseScreen> extends State<T> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: buildBody(context),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: buildBody(context),
+        ),
+      ),
       bottomNavigationBar: AppBottomNavigation(
         currentIndex: widget.navigationIndex,
       ),

@@ -155,8 +155,8 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
       selectedGovernorate: 'damascus',
       selectedCategory: 'restaurants',
       services: governorateData['damascus']?['restaurants'] ?? [],
-      governorates: ['damascus', 'aleppo', 'homs', 'latakia'],
-      categories: [
+      governorates: const ['damascus', 'aleppo', 'homs', 'latakia'],
+      categories: const [
         'restaurants',
         'cafes',
         'hotels',

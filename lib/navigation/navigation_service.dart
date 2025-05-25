@@ -6,7 +6,6 @@ class NavigationService {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
-  // الانتقال بطريقة مكدّسة (غير مفضلة للمستخدم العادي)
   static Future<dynamic> navigateTo(String routeName, {Object? arguments}) {
     if (navigatorKey.currentState == null) {
       return Future.error('Navigator not initialized');
@@ -15,7 +14,6 @@ class NavigationService {
         .pushNamed(routeName, arguments: arguments);
   }
 
-  // استبدال الصفحة الحالية بصفحة جديدة
   static Future<dynamic> navigateToWithReplacement(String routeName,
       {Object? arguments}) {
     if (navigatorKey.currentState == null) {
@@ -61,43 +59,42 @@ class NavigationService {
     return navigateToAndRemoveUntil(AppRouter.welcome);
   }
 
-  // الصفحة الرئيسية ← مع تنظيف المكدس
+
   static Future<dynamic> navigateToHome() {
     return navigateToAndRemoveUntil(AppRouter.home);
   }
 
-  // البحث ← استبدال
+ 
   static Future<dynamic> navigateToSearch() {
     return navigateToWithReplacement(AppRouter.search);
   }
 
-  // الخريطة ← استبدال
+  
   static Future<dynamic> navigateToMap() {
     return navigateToWithReplacement(AppRouter.map);
   }
 
-  // من نحن ← استبدال
   static Future<dynamic> navigateToAbout() {
     return navigateToWithReplacement(AppRouter.about);
   }
 
-  // اتصل بنا ← استبدال
+
   static Future<dynamic> navigateToContact() {
     return navigateToWithReplacement(AppRouter.contact);
   }
 
-  // جولة افتراضية ← استبدال
+  
   static Future<dynamic> navigateToVirtualTour() {
     return navigateToWithReplacement(AppRouter.virtualTour);
   }
 
-  // الخدمات حسب الفئة ← استبدال
+
   static Future<dynamic> navigateToServices({required CategoryModel category}) {
     return navigateToWithReplacement(AppRouter.services,
         arguments: {'category': category});
   }
 
-  // المحافظات حسب نوع السياحة ← استبدال
+  
   static Future<dynamic> navigateToGovernorates(String tourismType,
       {required int languageId, required int categoryId}) {
     return navigateToWithReplacement(AppRouter.governorates, arguments: {

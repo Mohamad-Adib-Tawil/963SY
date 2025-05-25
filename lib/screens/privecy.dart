@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled4/main.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
 import '../const.dart';
 

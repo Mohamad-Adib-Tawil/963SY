@@ -76,7 +76,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get french => 'Français';
 
   @override
-  String get languageSelected => 'Langue sélectionnée: @language';
+  String languageSelected(Object language) {
+    return 'Langue sélectionnée: @language';
+  }
 
   @override
   String get aboutUsTitle => 'Qui sommes-nous';
@@ -422,4 +424,57 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get aboutUsEnglishContent => '963SY application\nOne of the most important works of the Artfly Foundation... is the organization that played an important role in the journey of innovation, photography, documentation, and excellence in the use of drones for aerial photography.\nThe 963SY application is a comprehensive information package that brings tourism within everyone\'s reach, regardless of their physical or linguistic abilities.\nIt provides knowledge about Syria, its history, heritage, and tourist places, and contributes to increasing awareness about its existence and importance.\nIt provides a database to introduce the beautiful local tourist attractions and places, as well as all the events and activities taking place in Syria... It displays them with special videos and photos that reflect the beauty of Syria and highlight the exciting experiences that can be enjoyed there.\nThe 963SY application user can browse the available tourist map of different places and sites and access them easily and quickly, in addition to information and texts related to each place separately.\nThe 963SY application is a guide to awareness, exploration, and the spiritual heritage that this beautiful country embraces, and allows the world to discover its components and visit them with the click of a button. It combines culture and technology, and gives tourists a real virtual travel experience. In a world that lacks time and opportunities. It also provides a complete surround experience of tourist sites with a 360-degree viewing angle to explore every corner and the entire beauty of Syria\'s stunning landscapes.\nThe 963SY application provides an integrated and comprehensive experience for all different categories of users, including those who face challenges in communicating and understanding information due to their hearing disability.\nThe 963SY application reflects artfly\'s vision of serving the community and enhancing cultural and tourism communication through advanced technology and innovation.';
+
+  @override
+  String get information => 'Information';
+
+  @override
+  String get virtualTour => 'Virtual Tour';
+
+  @override
+  String get goToPlace => 'Go to Place';
+
+  @override
+  String get mediaClips => 'Media Clips';
+
+  @override
+  String get signLanguage => 'Sign Language';
+
+  @override
+  String get cannotOpenGoogleMaps => 'Cannot open Google Maps';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get informationCollection => 'Collecte d\'Informations';
+
+  @override
+  String get informationCollectionContent => 'Nous collectons les informations nécessaires, y compris les données de localisation et les préférences, pour fournir nos services. Nous assurons la protection de vos données personnelles et ne les partageons pas avec des tiers.';
+
+  @override
+  String get dataUsage => 'Utilisation des Données';
+
+  @override
+  String get dataUsageContent => 'Nous utilisons les données pour améliorer l\'expérience utilisateur et fournir du contenu personnalisé. Vous pouvez contrôler vos paramètres de confidentialité à tout moment.';
+
+  @override
+  String get security => 'Sécurité';
+
+  @override
+  String get securityContent => 'Nous utilisons les dernières technologies de sécurité pour protéger vos données. Toutes les informations sensibles sont cryptées.';
+
+  @override
+  String get userRights => 'Droits des Utilisateurs';
+
+  @override
+  String get userRightsContent => 'Vous avez le droit d\'accéder, de modifier ou de supprimer vos données. Vous pouvez également demander l\'exportation de vos données.';
+
+  @override
+  String get deviceRegisteredSuccess => 'Appareil enregistré avec succès';
+
+  @override
+  String deviceRegistrationError(Object error) {
+    return 'Erreur : $error';
+  }
 }

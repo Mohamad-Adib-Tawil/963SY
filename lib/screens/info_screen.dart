@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled4/const.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
-import 'package:untitled4/models/media.dart';
 import 'package:untitled4/models/place_model.dart';
 
 class InfoScreen extends StatelessWidget {

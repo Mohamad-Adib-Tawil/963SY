@@ -1,10 +1,8 @@
-import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/places/data/models/place_details_model.dart';
 import 'package:untitled4/features/places/data/repos/place_details_repo.dart';
-import 'package:untitled4/models/media.dart';
 
 part 'place_details_state.dart';
 

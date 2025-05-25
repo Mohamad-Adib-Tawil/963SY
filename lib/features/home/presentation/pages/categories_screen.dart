@@ -37,7 +37,7 @@ class CategoriesScreen extends StatelessWidget {
                     category: category,
                     onTap: () {
                       // Handle category tap
-                      log('Category tapped: ${category}');
+                      log('Category tapped: $category');
                     },
                   );
                 },

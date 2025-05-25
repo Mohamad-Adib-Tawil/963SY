@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/core/widgets/base_screen.dart';
 import 'package:untitled4/const.dart' as app_const;
 import 'package:untitled4/l10n/app_localizations.dart';
+
 import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:untitled4/features/contact/bloc/contact_bloc.dart';
@@ -85,7 +86,7 @@ class _ContactUsScreenState extends BaseScreenState<ContactUsScreen> {
                     isArabic: isArabic,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'الرجاء إدخال الاسم';
+                        return l10n.name;
                       }
                       return null;
                     },
@@ -98,9 +99,9 @@ class _ContactUsScreenState extends BaseScreenState<ContactUsScreen> {
                     isArabic: isArabic,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'الرجاء إدخال البريد الإلكتروني';
+                        return l10n.email;
                       } else if (!_isValidEmail(value.trim())) {
-                        return 'البريد الإلكتروني غير صالح';
+                        return l10n.email;
                       }
                       return null;
                     },
@@ -113,7 +114,7 @@ class _ContactUsScreenState extends BaseScreenState<ContactUsScreen> {
                     isArabic: isArabic,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'الرجاء إدخال الموضوع';
+                        return l10n.subject;
                       }
                       return null;
                     },
@@ -127,7 +128,7 @@ class _ContactUsScreenState extends BaseScreenState<ContactUsScreen> {
                     isArabic: isArabic,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'الرجاء إدخال الرسالة';
+                        return l10n.message;
                       }
                       return null;
                     },

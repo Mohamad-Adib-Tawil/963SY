@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled4/features/places/cubit/place_details_cubit.dart';
-import 'package:untitled4/models/governorate_m.dart';
 import 'package:untitled4/const.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:untitled4/models/media.dart';

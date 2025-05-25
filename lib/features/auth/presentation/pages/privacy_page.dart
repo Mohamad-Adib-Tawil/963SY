@@ -17,7 +17,7 @@ class PrivacyPage extends StatelessWidget {
   PrivacyPage({super.key, required this.onAccept});
 
   final _deviceService = DeviceService();
-  final _uuid = Uuid();
+  final _uuid = const Uuid();
 
   Future<void> _registerDevice() async {
     final deviceInfoPlugin = DeviceInfoPlugin();
@@ -172,31 +172,23 @@ class PrivacyPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildPrivacySection(
-            title: isArabic ? 'جمع المعلومات' : 'Information Collection',
-            content: isArabic
-                ? 'نقوم بجمع المعلومات الضرورية لتقديم خدماتنا، بما في ذلك معلومات الموقع والتفضيلات. نحن نضمن حماية بياناتك الشخصية وعدم مشاركتها مع أطراف ثالثة.'
-                : 'We collect necessary information to provide our services, including location data and preferences. We ensure the protection of your personal data and do not share it with third parties.',
+            title: l10n.informationCollection,
+            content: l10n.informationCollectionContent,
           ),
           const SizedBox(height: 20),
           _buildPrivacySection(
-            title: isArabic ? 'استخدام البيانات' : 'Data Usage',
-            content: isArabic
-                ? 'نستخدم البيانات لتحسين تجربة المستخدم وتقديم محتوى مخصص. يمكنك التحكم في إعدادات الخصوصية في أي وقت.'
-                : 'We use data to improve user experience and provide personalized content. You can control privacy settings at any time.',
+            title: l10n.dataUsage,
+            content: l10n.dataUsageContent,
           ),
           const SizedBox(height: 20),
           _buildPrivacySection(
-            title: isArabic ? 'الأمان' : 'Security',
-            content: isArabic
-                ? 'نحن نستخدم أحدث تقنيات الأمان لحماية بياناتك. يتم تشفير جميع المعلومات الحساسة.'
-                : 'We use the latest security technologies to protect your data. All sensitive information is encrypted.',
+            title: l10n.security,
+            content: l10n.securityContent,
           ),
           const SizedBox(height: 20),
           _buildPrivacySection(
-            title: isArabic ? 'حقوق المستخدم' : 'User Rights',
-            content: isArabic
-                ? 'لديك الحق في الوصول إلى بياناتك وتعديلها أو حذفها في أي وقت. يمكنك أيضًا طلب تصدير بياناتك.'
-                : 'You have the right to access, modify, or delete your data at any time. You can also request to export your data.',
+            title: l10n.userRights,
+            content: l10n.userRightsContent,
           ),
         ],
       ),
@@ -256,13 +248,19 @@ class PrivacyPage extends StatelessWidget {
               try {
                 await _registerDevice();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Device registered successfully')),
+                  SnackBar(
+                      content: Text(AppLocalizations.of(context)!
+                          .deviceRegisteredSuccess)),
                 );
               } catch (e) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error: $e')),
+                  SnackBar(content: Text('Error: ${e.toString()}')),
                 );
               }
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const Homepage()),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
@@ -277,17 +275,6 @@ class PrivacyPage extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Future<void> _handleAcceptPrivacy(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('accepted_privacy', true);
-    if (context.mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const Homepage()),
-      );
-    }
   }
 
   void _handleDecline(BuildContext context) {

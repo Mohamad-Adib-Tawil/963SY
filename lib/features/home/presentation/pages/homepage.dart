@@ -112,7 +112,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DirectionalText(
-                      text: isArabic ? 'السياحة في سوريا' : 'Syria Tourism',
+                      text: l10n.appTitle,
                       isArabic: isArabic,
                       style: const TextStyle(
                         fontSize: 20,
@@ -150,7 +150,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                 }).toList() as List<PopupMenuEntry<String>>;
                               });
                         } else {
-                          return const Text('no langaues');
+                          return Text(l10n.error);
                         }
                       },
                     ),
@@ -276,7 +276,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                               return Category_Card(
                                 category: category,
                                 onTap: () {
-                                  log('Category tapped: ${category}');
+                                  log('Category tapped: $category');
                                   final categoryType =
                                       getTourismType(category.catName, context);
                                   // context.read<HomeBloc>().add(

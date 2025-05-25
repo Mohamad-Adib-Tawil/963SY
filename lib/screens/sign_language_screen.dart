@@ -71,9 +71,9 @@ class SignLanguageScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.primary.withOpacity(0.3)),
             ),
-            child: Row(
+            child: const Row(
               mainAxisSize: MainAxisSize.min,
-              children: const [
+              children: [
                 Icon(Icons.play_circle_outline,
                     color: AppColors.primary, size: 24),
                 SizedBox(width: 8),
