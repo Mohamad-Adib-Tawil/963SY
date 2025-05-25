@@ -12,7 +12,6 @@ import 'package:untitled4/features/about/bloc/about_bloc.dart';
 class Place {
   final String name;
   final String description;
-  // Add other fields as needed
 
   Place({required this.name, required this.description});
 }
@@ -25,7 +24,7 @@ class AboutUsPage extends BaseScreen {
 }
 
 class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
-  List<Place> allPlaces = []; // Fill this with your places data
+  List<Place> allPlaces = [];
   List<Place> filteredPlaces = [];
 
   @override
@@ -51,8 +50,8 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
     return Container(
       height: 250,
       width: double.infinity,
-      decoration: BoxDecoration(
-        image: const DecorationImage(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
           image: AssetImage('assets/images/963.png'),
           fit: BoxFit.cover,
         ),
@@ -67,7 +66,6 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
     required int index,
   }) {
     final isArabic = Localizations.localeOf(context).languageCode == 'ar';
-    final l10n = AppLocalizations.of(context)!;
 
     return Card(
       color: AppColors.backgroundWhite,
@@ -169,43 +167,23 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
         );
   }
 
-  void _launchURL(String url) async {
+  Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
 
-    // Try to launch the app-specific URL first
-    String appUrl = url;
-    if (url.contains('facebook.com')) {
-      appUrl = 'fb://profile/12J86eBRuZK';
-    } else if (url.contains('instagram.com')) {
-      appUrl = 'instagram://user?username=963sy.app';
-    } else if (url.contains('youtube.com')) {
-      appUrl = 'youtube://channel/@963syapp';
-    }
-
-    try {
-      // Try to launch the app
-      final Uri appUri = Uri.parse(appUrl);
-      if (await url_launcher.canLaunchUrl(appUri)) {
-        await url_launcher.launchUrl(appUri);
-        return;
+    if (!await url_launcher.launchUrl(uri,
+        mode: url_launcher.LaunchMode.externalApplication)) {
+      // إذا فشل، أظهر رسالة
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('لا يمكن فتح الرابط')),
+        );
       }
-    } catch (e) {
-      // If app launch fails, continue to web URL
-    }
-
-    // If app launch fails or app is not installed, launch web URL
-    if (await url_launcher.canLaunchUrl(uri)) {
-      await url_launcher.launchUrl(
-        uri,
-        mode: url_launcher.LaunchMode.externalApplication,
-      );
     }
   }
 
   @override
   Widget buildBody(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
     return BlocBuilder<AboutBloc, AboutState>(
       builder: (context, state) {
@@ -236,9 +214,6 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
             ),
           );
         }
-
-        final content = state is AboutContentLoaded ? state.content : null;
-        final appInfo = state is AppInfoLoaded ? state.appInfo : null;
 
         return SingleChildScrollView(
           child: Column(

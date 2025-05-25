@@ -28,19 +28,29 @@ class AppBottomNavigation extends StatelessWidget {
         onTap: (int index) {
           switch (index) {
             case 0:
-              NavigationService.navigateTo(AppRouter.about);
+              if (currentIndex != 0) {
+                NavigationService.navigateToWithReplacement(AppRouter.about);
+              }
               break;
             case 1:
-              NavigationService.navigateTo(AppRouter.search);
+              if (currentIndex != 1) {
+                NavigationService.navigateToWithReplacement(AppRouter.search);
+              }
               break;
             case 2:
-              NavigationService.navigateTo(AppRouter.home);
+              if (currentIndex != 2) {
+                NavigationService.navigateToAndRemoveUntil(AppRouter.home);
+              }
               break;
             case 3:
-              NavigationService.navigateTo(AppRouter.map);
+              if (currentIndex != 3) {
+                NavigationService.navigateToWithReplacement(AppRouter.map);
+              }
               break;
             case 4:
-              NavigationService.navigateTo(AppRouter.contact);
+              if (currentIndex != 4) {
+                NavigationService.navigateToWithReplacement(AppRouter.contact);
+              }
               break;
           }
         },

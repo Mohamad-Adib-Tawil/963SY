@@ -6,6 +6,7 @@ class NavigationService {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
+  // الانتقال بطريقة مكدّسة (غير مفضلة للمستخدم العادي)
   static Future<dynamic> navigateTo(String routeName, {Object? arguments}) {
     if (navigatorKey.currentState == null) {
       return Future.error('Navigator not initialized');
@@ -14,6 +15,7 @@ class NavigationService {
         .pushNamed(routeName, arguments: arguments);
   }
 
+  // استبدال الصفحة الحالية بصفحة جديدة
   static Future<dynamic> navigateToWithReplacement(String routeName,
       {Object? arguments}) {
     if (navigatorKey.currentState == null) {
@@ -23,6 +25,7 @@ class NavigationService {
         .pushReplacementNamed(routeName, arguments: arguments);
   }
 
+  // إزالة جميع الصفحات السابقة والانتقال
   static Future<dynamic> navigateToAndRemoveUntil(String routeName,
       {Object? arguments}) {
     if (navigatorKey.currentState == null) {
@@ -35,10 +38,9 @@ class NavigationService {
     );
   }
 
+  // الرجوع للوراء
   static void goBack() {
-    if (navigatorKey.currentState == null) {
-      return;
-    }
+    if (navigatorKey.currentState == null) return;
     if (navigatorKey.currentState!.canPop()) {
       navigatorKey.currentState!.pop();
     } else {
@@ -46,49 +48,59 @@ class NavigationService {
     }
   }
 
+  // الرجوع مع نتيجة
   static void goBackWithResult(Object result) {
-    if (navigatorKey.currentState == null) {
-      return;
-    }
-    return navigatorKey.currentState!.pop(result);
+    if (navigatorKey.currentState == null) return;
+    navigatorKey.currentState!.pop(result);
   }
 
-  // Navigation methods for specific routes
+  // ========== واجهات خاصة معدلة ========== //
+
+  // الصفحة الترحيبية
   static Future<dynamic> navigateToWelcome() {
     return navigateToAndRemoveUntil(AppRouter.welcome);
   }
 
+  // الصفحة الرئيسية ← مع تنظيف المكدس
   static Future<dynamic> navigateToHome() {
     return navigateToAndRemoveUntil(AppRouter.home);
   }
 
+  // البحث ← استبدال
   static Future<dynamic> navigateToSearch() {
-    return navigateTo(AppRouter.search);
+    return navigateToWithReplacement(AppRouter.search);
   }
 
+  // الخريطة ← استبدال
   static Future<dynamic> navigateToMap() {
-    return navigateTo(AppRouter.map);
+    return navigateToWithReplacement(AppRouter.map);
   }
 
+  // من نحن ← استبدال
   static Future<dynamic> navigateToAbout() {
-    return navigateTo(AppRouter.about);
+    return navigateToWithReplacement(AppRouter.about);
   }
 
+  // اتصل بنا ← استبدال
   static Future<dynamic> navigateToContact() {
-    return navigateTo(AppRouter.contact);
+    return navigateToWithReplacement(AppRouter.contact);
   }
 
+  // جولة افتراضية ← استبدال
   static Future<dynamic> navigateToVirtualTour() {
-    return navigateTo(AppRouter.virtualTour);
+    return navigateToWithReplacement(AppRouter.virtualTour);
   }
 
+  // الخدمات حسب الفئة ← استبدال
   static Future<dynamic> navigateToServices({required CategoryModel category}) {
-    return navigateTo(AppRouter.services, arguments: {'category': category});
+    return navigateToWithReplacement(AppRouter.services,
+        arguments: {'category': category});
   }
 
+  // المحافظات حسب نوع السياحة ← استبدال
   static Future<dynamic> navigateToGovernorates(String tourismType,
       {required int languageId, required int categoryId}) {
-    return navigateTo(AppRouter.governorates, arguments: {
+    return navigateToWithReplacement(AppRouter.governorates, arguments: {
       'tourismType': tourismType,
       'languageId': languageId,
       'categoryId': categoryId,
