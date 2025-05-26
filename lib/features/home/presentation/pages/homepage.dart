@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:untitled4/const.dart' as app_const;
+import 'package:untitled4/core/constants/language_id.dart';
 import 'package:untitled4/features/home/cubit/language_cubit.dart';
 import 'package:untitled4/features/home/cubit/slider_cubit.dart';
 import 'package:untitled4/features/places/presentation/pages/details/place_details_screen.dart';
@@ -90,6 +91,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
         }
 
         if (state is HomeLoaded) {
+
           return Directionality(
             textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
             child: Scaffold(

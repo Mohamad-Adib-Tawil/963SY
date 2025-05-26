@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:untitled4/core/constants/language_id.dart';
 import 'package:untitled4/core/network/api_client.dart';
 import 'package:untitled4/features/home/models/category_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,7 +58,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             data.map((json) => CategoryModel.fromJson(json)).toList();
 
         developer.log('Categories count: ${categories.length}');
-
+        firstCategoty = categories.first;
         emit(HomeLoaded(
           sliderImages: defaultSliderImages,
           categories: categories,

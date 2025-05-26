@@ -3,11 +3,11 @@ import 'dart:io' show Platform;
 class ApiEndpoints {
   static String get baseUrl {
     if (Platform.isAndroid) {
-      return 'https://963sy.net/api/user'; // Android emulator
+      return 'https://963sy.net/back/api/user'; // Android emulator
     } else if (Platform.isIOS) {
-      return 'http://127.0.0.1:8000/api/user'; // iOS simulator
+      return 'https://963sy.net/back/api/user'; // iOS simulator
     } else {
-      return 'http://127.0.0.1:8000/api/user'; // Other platforms
+      return 'https://963sy.net/back/api/user'; // Other platforms
     }
   }
 

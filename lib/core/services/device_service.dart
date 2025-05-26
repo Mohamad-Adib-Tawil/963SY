@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:untitled4/models/device_info.dart';
 
 class DeviceService {
-  static const String _baseUrl = 'https://963sy.net/api/user';
+  static const String _baseUrl = 'https://963sy.net/back/api/user';
 
   static Future<void> registerDevice(DeviceInfo deviceInfo) async {
     final url = Uri.parse('$_baseUrl/device/store');

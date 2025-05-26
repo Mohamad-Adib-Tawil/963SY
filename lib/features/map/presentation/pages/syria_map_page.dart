@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:untitled4/const.dart';
 import 'package:untitled4/core/widgets/base_screen.dart';
+import 'package:untitled4/features/places/data/models/city_model.dart';
+import 'package:untitled4/features/services/cubit/city_cubit.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
 
 class Governorate {
-  final String name;
+  late String? name;
   final double latitude;
   final double longitude;
+  late String? image;
+  late String? description;
 
-  final String description;
-
-  const Governorate({
-    required this.name,
+  Governorate({
+    this.name,
     required this.latitude,
     required this.longitude,
-    required this.description,
+    this.description,
+    this.image,
   });
 }
 
@@ -29,19 +33,16 @@ class SyriaMapPage extends BaseScreen {
 }
 
 class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
-  static const List<Governorate> governorates = [
+  late List<Governorate> governorates = [
     Governorate(
       name: "دمشق",
       latitude: 33.5138,
       longitude: 36.2765,
-      description: 'العاصمة السورية، وتعد مركزاً ثقافياً وتاريخياً مهماً.',
     ),
     Governorate(
-      name: "ريف دمشق",
+      name: 'ريف دمشق',
       latitude: 33.5167,
       longitude: 36.4,
-      description:
-          'تحيط بالعاصمة دمشق، وتضم العديد من المناطق الجبلية والزراعية.',
     ),
     Governorate(
       name: "حلب",
@@ -143,15 +144,125 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
   }
 
   Widget _buildMap() {
-    return FlutterMap(
-      options: const MapOptions(
-        initialCenter: LatLng(35.0, 38.5),
-        initialZoom: 6.0,
-      ),
-      children: [
-        _buildTileLayer(),
-        _buildMarkerLayer(),
-      ],
+    return BlocConsumer<CityCubit, CityState>(
+      listener: (context, state) {
+        if (state is CitySuccess) {
+          var damascus = state.cities.where((e) => e.cityType == 1).first;
+          var aleppo = state.cities.where((e) => e.cityType == 2).first;
+          var homs = state.cities.where((e) => e.cityType == 3).first;
+          var hama = state.cities.where((e) => e.cityType == 4).first;
+          var tartous = state.cities.where((e) => e.cityType == 5).first;
+          var lattakia = state.cities.where((e) => e.cityType == 6).first;
+          var assoidaa = state.cities.where((e) => e.cityType == 7).first;
+          var daraa = state.cities.where((e) => e.cityType == 8).first;
+          var qunitra = state.cities.where((e) => e.cityType == 9).first;
+          var raqqa = state.cities.where((e) => e.cityType == 10).first;
+          var deirEzzor = state.cities.where((e) => e.cityType == 11).first;
+          var alHasakah = state.cities.where((e) => e.cityType == 12).first;
+          var idlib = state.cities.where((e) => e.cityType == 13).first;
+          var rifDemashk = state.cities.where((e) => e.cityType == 14).first;
+          governorates = [
+            Governorate(
+              name: damascus.cityName!,
+              latitude: 33.5138,
+              longitude: 36.2765,
+              description: damascus.description!,
+              image: damascus.photo!,
+            ),
+            Governorate(
+              name: rifDemashk.cityName!,
+              latitude: 33.5167,
+              longitude: 36.4,
+              description: rifDemashk.description!,
+              image: rifDemashk.photo!,
+            ),
+            Governorate(
+                name: aleppo.cityName,
+                latitude: 36.2021,
+                longitude: 37.1343,
+                description: aleppo.description!,
+                image: aleppo.photo!),
+            Governorate(
+                name: homs.cityName!,
+                latitude: 34.7333,
+                longitude: 36.7167,
+                description: homs.description!,
+                image: homs.photo!),
+            Governorate(
+                name: hama.cityName!,
+                latitude: 35.1333,
+                longitude: 36.75,
+                description: hama.description!,
+                image: hama.photo!),
+            Governorate(
+                name: lattakia.cityName!,
+                latitude: 35.5167,
+                longitude: 35.7833,
+                description: lattakia.description!,
+                image: lattakia.photo!),
+            Governorate(
+                name: tartous.cityName!,
+                latitude: 34.8833,
+                longitude: 35.8833,
+                description: tartous.description!,
+                image: tartous.photo!),
+            Governorate(
+                name: idlib.cityName!,
+                latitude: 35.9333,
+                longitude: 36.6333,
+                description: idlib.description!,
+                image: idlib.photo!),
+            Governorate(
+                name: daraa.cityName!,
+                latitude: 32.6189,
+                longitude: 36.1021,
+                description: daraa.description!,
+                image: daraa.photo!),
+            Governorate(
+                name: assoidaa.cityName!,
+                latitude: 32.7,
+                longitude: 36.5667,
+                description: assoidaa.description!,
+                image: assoidaa.photo!),
+            Governorate(
+                name: deirEzzor.cityName!,
+                latitude: 35.3333,
+                longitude: 40.15,
+                description: deirEzzor.description!,
+                image: deirEzzor.photo!),
+            Governorate(
+                name: alHasakah.cityName!,
+                latitude: 36.4833,
+                longitude: 40.75,
+                description: alHasakah.description!,
+                image: alHasakah.photo!),
+            Governorate(
+                name: raqqa.cityName!,
+                latitude: 35.95,
+                longitude: 39.0167,
+                description: raqqa.description!,
+                image: raqqa.photo!),
+            Governorate(
+                name: qunitra.cityName!,
+                latitude: 33.1256,
+                longitude: 35.8236,
+                description: qunitra.description!,
+                image: qunitra.photo!),
+          ];
+        }
+      },
+      builder: (context, state) {
+        return FlutterMap(
+          options: const MapOptions(
+            initialCenter: LatLng(35.0, 38.5),
+            initialZoom: 6.0,
+          ),
+          children: [
+            _buildTileLayer(),
+            _buildMarkerLayer(),
+          ],
+        );
+      },
     );
   }
 
@@ -179,7 +290,7 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(Icons.location_on, color: Colors.red, size: 30),
-            _buildGovernorateLabel(governorate.name),
+            _buildGovernorateLabel(governorate.name!),
           ],
         ),
       ),
@@ -206,18 +317,27 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
       builder: (_) => AlertDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Container(
+              height: 200,
+              width: 300,
+              child: Image.network(
+                governorate.image!,
+                fit: BoxFit.cover,
+              ),
+            ),
             Text(
-              governorate.name,
+              governorate.name!,
               style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              governorate.description,
+              governorate.description!,
               textAlign: TextAlign.justify,
               style: const TextStyle(fontSize: 14),
             ),

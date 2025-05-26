@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled4/core/constants/language_id.dart';
 import 'package:untitled4/core/services/get_it_service.dart';
 import 'package:untitled4/features/about/presentation/pages/about_us_page.dart';
 import 'package:untitled4/features/contact/presentation/pages/contact_us_screen.dart';
@@ -8,6 +9,7 @@ import 'package:untitled4/features/map/presentation/pages/syria_map_page.dart';
 import 'package:untitled4/features/search/cubit/search_cubit_cubit.dart';
 import 'package:untitled4/features/search/presentation/pages/search_page.dart';
 import 'package:untitled4/features/search/repo/search_repo.dart';
+import 'package:untitled4/features/services/cubit/city_cubit.dart';
 import 'package:untitled4/features/services/cubit/place_service_cubit.dart';
 import 'package:untitled4/features/services/cubit/service_cubit.dart';
 import 'package:untitled4/features/services/cubit/star_cubit.dart';
@@ -47,7 +49,11 @@ class AppRouter {
           ),
         );
       case map:
-        return MaterialPageRoute(builder: (_) => const SyriaMapPage());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => CityCubit(getIt<ServiceRepo>())..getServiceCities(firstCategoty.id),
+                  child: const SyriaMapPage(),
+                ));
       case about:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(

@@ -17,7 +17,7 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
       emit(ContactLoading());
 
       final response = await ApiClient.instance.post(
-        'https://963sy.net/api/user/contact-admin',
+        'https://963sy.net/back/api/user/contact-admin',
         data: {
           'name': event.name,
           'email': event.email,
