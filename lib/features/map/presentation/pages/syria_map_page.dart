@@ -4,7 +4,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:untitled4/const.dart';
 import 'package:untitled4/core/widgets/base_screen.dart';
-import 'package:untitled4/features/places/data/models/city_model.dart';
 import 'package:untitled4/features/services/cubit/city_cubit.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';

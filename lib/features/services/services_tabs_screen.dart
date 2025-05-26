@@ -25,17 +25,13 @@ class RedesignedServiceScreen extends StatefulWidget {
 }
 
 class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
+
+  final ScrollController _scrollController = ScrollController();
+
   late bool showStar = false;
   late int cityId;
   late int serviceId;
-  final Map<String, String> categoryIcons = {
-    'Restaurants': '🍽️',
-    'Cafes': '☕',
-    'Hotels': '🏨',
-    'Tour Services': '🚌',
-    'Public Services': '🏛️',
-    'Hospitals': '🏥',
-  };
+  
 
   @override
   Widget build(BuildContext context) {
@@ -339,22 +335,19 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                                 contentPadding:
                                                     const EdgeInsets.all(16),
                                                 leading: Container(
-                                                  width: 50,
-                                                  height: 50,
+                                                  width: 130,
+                                                  height: 90,
                                                   decoration: BoxDecoration(
-                                                    color: AppColors.primary
-                                                        .withOpacity(0.1),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
-                                                  ),
-                                                  child: const Center(
-                                                    child: Text(
-                                                      '🔷',
-                                                      style: TextStyle(
-                                                          fontSize: 24),
-                                                    ),
-                                                  ),
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                            item.photo!),
+                                                        fit: BoxFit.cover,
+                                                      )),
                                                 ),
                                                 title: RTLText(
                                                   text: item.placeName!,
