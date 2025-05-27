@@ -66,11 +66,11 @@ class HomeRepo {
     }
   }
 
-  Future<Either<Failuer, List<Place>>> getSliderImages() async {
+  Future<Either<Failuer, List<Place>>> getSliderImages(int categoryId) async {
     int lang = await getLanguageId();
     try {
       var response = await apiService.get(
-          endPoints: '/place1/places/category/1/language/$lang');
+          endPoints: '/place1/places/category/$categoryId/language/$lang');
       List<dynamic> data = response['data'];
       final slider = data.map((json) => Place.fromJson(json)).toList();
       return Right(slider);

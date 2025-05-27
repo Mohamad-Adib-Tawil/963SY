@@ -10,9 +10,9 @@ class SliderCubit extends Cubit<SliderState> {
 
   final HomeRepo homeRepo;
 
-  Future<void> getSliderImages() async {
+  Future<void> getSliderImages(int categoryId) async {
     emit(SliderLoading());
-    final sliderItems = await homeRepo.getSliderImages();
+    final sliderItems = await homeRepo.getSliderImages(categoryId);
     sliderItems.fold(
         (failuer) => emit(SliderFailuer(errorMessage: failuer.errorMessage)),
         (items) => emit(SliderSuccess(sliderItems: items)));
