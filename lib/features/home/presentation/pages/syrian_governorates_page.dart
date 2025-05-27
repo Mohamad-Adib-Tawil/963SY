@@ -134,7 +134,7 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
                                     color: AppColors.backgroundWhite,
                                   ),
                                   child: TabBarView(
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics: NeverScrollableScrollPhysics(),
                                     children: state.governorates
                                         .map((gov) =>
                                             _buildGovernorateView(gov, context))
@@ -145,7 +145,7 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
                             ],
                           ),
                         )
-                      : Center(child: Text(l10n.error)), // fallback
+                      : const LinearProgressIndicator(), // fallback
         );
       },
     );
@@ -175,7 +175,7 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
         } else if (state is PlacesCubitFailuer) {
           return Center(child: Text(state.errorMessage));
         } else {
-          return Center(child: Text(l10n.somethingWentWrong));
+          return const Center(child: Text('Something went wrong'));
         }
       },
     );

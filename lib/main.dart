@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
                 LanguageCubit(getIt<HomeRepo>())..getLanguages()),
         BlocProvider(
             create: (context) =>
-                SliderCubit(getIt<HomeRepo>())..getSliderImages()),
+                SliderCubit(getIt<HomeRepo>())),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
       ],
       child: Consumer<LanguageProvider>(
