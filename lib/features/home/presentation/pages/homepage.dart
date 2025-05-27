@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:untitled4/const.dart' as app_const;
-import 'package:untitled4/core/constants/language_id.dart';
+import 'package:untitled4/core/constants/app_colors.dart';
 import 'package:untitled4/features/home/cubit/language_cubit.dart';
 import 'package:untitled4/features/home/cubit/slider_cubit.dart';
 import 'package:untitled4/features/places/presentation/pages/details/place_details_screen.dart';
@@ -82,16 +82,11 @@ class _HomepageState extends BaseScreenState<Homepage> {
 
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is HomeLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
         if (state is HomeError) {
           return Center(child: Text(state.message));
         }
 
         if (state is HomeLoaded) {
-
           return Directionality(
             textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
             child: Scaffold(
@@ -151,8 +146,15 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                   );
                                 }).toList() as List<PopupMenuEntry<String>>;
                               });
-                        } else {
+                        } else if (state is LanguageFailuer) {
                           return Text(l10n.error);
+                        } else {
+                          return const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                color: AppColors.backgroundLight,
+                              ));
                         }
                       },
                     ),
@@ -168,7 +170,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                       height: 180,
                       child: BlocBuilder<SliderCubit, SliderState>(
                         builder: (context, sliderState) {
-                          if (sliderState is SliderSuccess) {
+                          if (sliderState is SliderSuccess && sliderState.sliderItems.isNotEmpty) {
                             return CarouselSlider(
                               options: CarouselOptions(
                                 height: 160.0,
@@ -202,7 +204,10 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                 );
                               }).toList(),
                             );
-                          } else if (sliderState is SliderFailuer) {
+                          }else if (sliderState is SliderSuccess && sliderState.sliderItems.isEmpty) {
+                            return Center(child: Text(l10n.error ));
+                          }
+                          else if (sliderState is SliderFailuer) {
                             return Center(
                                 child: Text(sliderState.errorMessage));
                           } else {
@@ -315,7 +320,9 @@ class _HomepageState extends BaseScreenState<Homepage> {
           );
         }
 
-        return const Center(child: Text('Something went wrong'));
+       else{
+        return const Center(child: CircularProgressIndicator());
+       }
       },
     );
   }
