@@ -261,7 +261,7 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
                         _buildSocialMediaButton(
                           icon: FontAwesomeIcons.globe,
                           color: Colors.green,
-                          url: 'https://963sy.net/',
+                          url: 'https://963sy.net',
                           index: 0,
                         ),
                         _buildSocialMediaButton(
