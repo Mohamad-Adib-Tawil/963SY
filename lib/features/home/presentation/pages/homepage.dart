@@ -140,6 +140,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                   await context
                                       .read<LanguageProvider>()
                                       .changeLanguage(value);
+                                  context.read<HomeCubit>().getCategories();
                                 },
                                 itemBuilder: (context) {
                                   return state.languages.map((language) {
