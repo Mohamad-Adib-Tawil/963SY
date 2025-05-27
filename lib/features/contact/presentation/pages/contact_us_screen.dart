@@ -46,139 +46,153 @@ class _ContactUsScreenState extends BaseScreenState<ContactUsScreen> {
       },
       child: Directionality(
         textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
-        child: Scaffold(
-          backgroundColor: app_const.AppColors.backgroundLight,
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: app_const.AppColors.primary,
-            elevation: 0,
-            leading: const BackButton(color: Colors.white),
-            title: isArabic
-                ? RTLText(
-                    text: l10n.contactUs,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                    ),
-                  )
-                : Text(
-                    l10n.contactUs,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                    ),
-                  ),
-          ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  _buildTextField(
-                    label: l10n.name,
-                    icon: Icons.person,
-                    controller: _nameController,
-                    isArabic: isArabic,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return l10n.name;
-                      }
-                      return null;
-                    },
-                  ).animate().fadeIn(duration: 500.ms),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                    label: l10n.email,
-                    icon: Icons.email,
-                    controller: _emailController,
-                    isArabic: isArabic,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return l10n.email;
-                      } else if (!_isValidEmail(value.trim())) {
-                        return l10n.email;
-                      }
-                      return null;
-                    },
-                  ).animate().fadeIn(delay: 200.ms, duration: 500.ms),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                    label: l10n.subject,
-                    icon: Icons.subject,
-                    controller: _subjectController,
-                    isArabic: isArabic,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return l10n.subject;
-                      }
-                      return null;
-                    },
-                  ).animate().fadeIn(delay: 400.ms, duration: 500.ms),
-                  const SizedBox(height: 20),
-                  _buildTextField(
-                    label: l10n.message,
-                    icon: Icons.message,
-                    maxLines: 5,
-                    controller: _messageController,
-                    isArabic: isArabic,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return l10n.message;
-                      }
-                      return null;
-                    },
-                  ).animate().fadeIn(delay: 600.ms, duration: 500.ms),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          context.read<ContactBloc>().add(
-                                SubmitContactForm(
-                                  name: _nameController.text.trim(),
-                                  email: _emailController.text.trim(),
-                                  subject: _subjectController.text.trim(),
-                                  message: _messageController.text.trim(),
-                                ),
-                              );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: app_const.AppColors.secondary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        elevation: 5,
-                        shadowColor:
-                            app_const.AppColors.secondary.withOpacity(0.5),
+        child: WillPopScope(
+          onWillPop: () async {
+            Navigator.pushReplacementNamed(context, '/home');
+            return false;
+          },
+          child: Scaffold(
+            backgroundColor: app_const.AppColors.backgroundLight,
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: app_const.AppColors.primary,
+              elevation: 0,
+              leading: IconButton(
+                icon: Icon(
+                  isArabic ? Icons.arrow_forward : Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/home');
+                },
+              ),
+              title: isArabic
+                  ? RTLText(
+                      text: l10n.contactUs,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
                       ),
-                      child: isArabic
-                          ? RTLText(
-                              text: l10n.submitInformation,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: app_const.AppColors.backgroundWhite,
-                              ),
-                            )
-                          : Text(
-                              l10n.submitInformation,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: app_const.AppColors.backgroundWhite,
-                              ),
-                            ),
+                    )
+                  : Text(
+                      l10n.contactUs,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
                     ),
-                  ).animate().fadeIn(delay: 800.ms, duration: 500.ms),
-                ],
+            ),
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    _buildTextField(
+                      label: l10n.name,
+                      icon: Icons.person,
+                      controller: _nameController,
+                      isArabic: isArabic,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return l10n.name;
+                        }
+                        return null;
+                      },
+                    ).animate().fadeIn(duration: 500.ms),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      label: l10n.email,
+                      icon: Icons.email,
+                      controller: _emailController,
+                      isArabic: isArabic,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return l10n.email;
+                        } else if (!_isValidEmail(value.trim())) {
+                          return l10n.email;
+                        }
+                        return null;
+                      },
+                    ).animate().fadeIn(delay: 200.ms, duration: 500.ms),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      label: l10n.subject,
+                      icon: Icons.subject,
+                      controller: _subjectController,
+                      isArabic: isArabic,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return l10n.subject;
+                        }
+                        return null;
+                      },
+                    ).animate().fadeIn(delay: 400.ms, duration: 500.ms),
+                    const SizedBox(height: 20),
+                    _buildTextField(
+                      label: l10n.message,
+                      icon: Icons.message,
+                      maxLines: 5,
+                      controller: _messageController,
+                      isArabic: isArabic,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return l10n.message;
+                        }
+                        return null;
+                      },
+                    ).animate().fadeIn(delay: 600.ms, duration: 500.ms),
+                    const SizedBox(height: 30),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            context.read<ContactBloc>().add(
+                                  SubmitContactForm(
+                                    name: _nameController.text.trim(),
+                                    email: _emailController.text.trim(),
+                                    subject: _subjectController.text.trim(),
+                                    message: _messageController.text.trim(),
+                                  ),
+                                );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: app_const.AppColors.secondary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 5,
+                          shadowColor:
+                              app_const.AppColors.secondary.withOpacity(0.5),
+                        ),
+                        child: isArabic
+                            ? RTLText(
+                                text: l10n.submitInformation,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: app_const.AppColors.backgroundWhite,
+                                ),
+                              )
+                            : Text(
+                                l10n.submitInformation,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: app_const.AppColors.backgroundWhite,
+                                ),
+                              ),
+                      ),
+                    ).animate().fadeIn(delay: 800.ms, duration: 500.ms),
+                  ],
+                ),
               ),
             ),
           ),
