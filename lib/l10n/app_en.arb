@@ -154,5 +154,6 @@
   "userRights": "User Rights",
   "userRightsContent": "You have the right to access, modify, or delete your data. You can also request to export your data.",
   "deviceRegisteredSuccess": "Device registered successfully",
-  "deviceRegistrationError": "Error: {error}"
+  "deviceRegistrationError": "Error: {error}",
+  "chooseService": "Choose a service"
 }

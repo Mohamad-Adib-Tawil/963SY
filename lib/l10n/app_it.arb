@@ -152,5 +152,6 @@
   "userRights": "Diritti Utente",
   "userRightsContent": "Hai il diritto di accedere, modificare o eliminare i tuoi dati. Puoi anche richiedere l'esportazione dei tuoi dati.",
   "deviceRegisteredSuccess": "Dispositivo registrato con successo",
-  "deviceRegistrationError": "Errore: {error}"
+  "deviceRegistrationError": "Errore: {error}",
+  "chooseService": "Scegli un servizio"
 } 

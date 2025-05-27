@@ -477,4 +477,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String deviceRegistrationError(Object error) {
     return 'Errore: $error';
   }
+
+  @override
+  String get chooseService => 'Scegli un servizio';
 }

@@ -477,4 +477,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String deviceRegistrationError(Object error) {
     return '错误：$error';
   }
+
+  @override
+  String get chooseService => 'Choose a service';
 }

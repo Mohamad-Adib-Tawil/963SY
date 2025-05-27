@@ -477,4 +477,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String deviceRegistrationError(Object error) {
     return 'خطأ: $error';
   }
+
+  @override
+  String get chooseService => 'اختر خدمة';
 }

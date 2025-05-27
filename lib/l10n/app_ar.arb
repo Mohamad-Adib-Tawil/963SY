@@ -154,5 +154,6 @@
   "userRights": "حقوق المستخدم",
   "userRightsContent": "لديك الحق في الوصول إلى بياناتك أو تعديلها أو حذفها. يمكنك أيضًا طلب تصدير بياناتك.",
   "deviceRegisteredSuccess": "تم تسجيل الجهاز بنجاح",
-  "deviceRegistrationError": "خطأ: {error}"
+  "deviceRegistrationError": "خطأ: {error}",
+  "chooseService": "اختر خدمة"
 } 

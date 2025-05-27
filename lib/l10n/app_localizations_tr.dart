@@ -477,4 +477,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String deviceRegistrationError(Object error) {
     return 'Hata: $error';
   }
+
+  @override
+  String get chooseService => 'Choose a service';
 }

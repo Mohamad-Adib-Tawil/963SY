@@ -7,6 +7,7 @@ import 'package:untitled4/core/widgets/base_screen.dart';
 import 'package:untitled4/features/services/cubit/city_cubit.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
+import 'package:collection/collection.dart';
 
 class Governorate {
   late String? name;
@@ -146,107 +147,136 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
     return BlocConsumer<CityCubit, CityState>(
       listener: (context, state) {
         if (state is CitySuccess) {
-          var damascus = state.cities.where((e) => e.cityType == 1).first;
-          var aleppo = state.cities.where((e) => e.cityType == 2).first;
-          var homs = state.cities.where((e) => e.cityType == 3).first;
-          var hama = state.cities.where((e) => e.cityType == 4).first;
-          var tartous = state.cities.where((e) => e.cityType == 5).first;
-          var lattakia = state.cities.where((e) => e.cityType == 6).first;
-          var assoidaa = state.cities.where((e) => e.cityType == 7).first;
-          var daraa = state.cities.where((e) => e.cityType == 8).first;
-          var qunitra = state.cities.where((e) => e.cityType == 9).first;
-          var raqqa = state.cities.where((e) => e.cityType == 10).first;
-          var deirEzzor = state.cities.where((e) => e.cityType == 11).first;
-          var alHasakah = state.cities.where((e) => e.cityType == 12).first;
-          var idlib = state.cities.where((e) => e.cityType == 13).first;
-          var rifDemashk = state.cities.where((e) => e.cityType == 14).first;
+          var damascus = state.cities.firstWhereOrNull((e) => e.cityType == 1);
+          var aleppo = state.cities.firstWhereOrNull((e) => e.cityType == 2);
+          var homs = state.cities.firstWhereOrNull((e) => e.cityType == 3);
+          var hama = state.cities.firstWhereOrNull((e) => e.cityType == 4);
+          var tartous = state.cities.firstWhereOrNull((e) => e.cityType == 5);
+          var lattakia = state.cities.firstWhereOrNull((e) => e.cityType == 6);
+          var assoidaa = state.cities.firstWhereOrNull((e) => e.cityType == 7);
+          var daraa = state.cities.firstWhereOrNull((e) => e.cityType == 8);
+          var qunitra = state.cities.firstWhereOrNull((e) => e.cityType == 9);
+          var raqqa = state.cities.firstWhereOrNull((e) => e.cityType == 10);
+          var deirEzzor =
+              state.cities.firstWhereOrNull((e) => e.cityType == 11);
+          var alHasakah =
+              state.cities.firstWhereOrNull((e) => e.cityType == 12);
+          var idlib = state.cities.firstWhereOrNull((e) => e.cityType == 13);
+          var rifDemashk =
+              state.cities.firstWhereOrNull((e) => e.cityType == 14);
           governorates = [
-            Governorate(
-              name: damascus.cityName!,
-              latitude: 33.5138,
-              longitude: 36.2765,
-              description: damascus.description!,
-              image: damascus.photo!,
-            ),
-            Governorate(
-              name: rifDemashk.cityName!,
-              latitude: 33.5167,
-              longitude: 36.4,
-              description: rifDemashk.description!,
-              image: rifDemashk.photo!,
-            ),
-            Governorate(
-                name: aleppo.cityName,
+            if (damascus != null)
+              Governorate(
+                name: damascus.cityName!,
+                latitude: 33.5138,
+                longitude: 36.2765,
+                description: damascus.description!,
+                image: damascus.photo!,
+              ),
+            if (rifDemashk != null)
+              Governorate(
+                name: rifDemashk.cityName!,
+                latitude: 33.5167,
+                longitude: 36.4,
+                description: rifDemashk.description!,
+                image: rifDemashk.photo!,
+              ),
+            if (aleppo != null)
+              Governorate(
+                name: aleppo.cityName!,
                 latitude: 36.2021,
                 longitude: 37.1343,
                 description: aleppo.description!,
-                image: aleppo.photo!),
-            Governorate(
+                image: aleppo.photo!,
+              ),
+            if (homs != null)
+              Governorate(
                 name: homs.cityName!,
                 latitude: 34.7333,
                 longitude: 36.7167,
                 description: homs.description!,
-                image: homs.photo!),
-            Governorate(
+                image: homs.photo!,
+              ),
+            if (hama != null)
+              Governorate(
                 name: hama.cityName!,
                 latitude: 35.1333,
                 longitude: 36.75,
                 description: hama.description!,
-                image: hama.photo!),
-            Governorate(
+                image: hama.photo!,
+              ),
+            if (lattakia != null)
+              Governorate(
                 name: lattakia.cityName!,
                 latitude: 35.5167,
                 longitude: 35.7833,
                 description: lattakia.description!,
-                image: lattakia.photo!),
-            Governorate(
+                image: lattakia.photo!,
+              ),
+            if (tartous != null)
+              Governorate(
                 name: tartous.cityName!,
                 latitude: 34.8833,
                 longitude: 35.8833,
                 description: tartous.description!,
-                image: tartous.photo!),
-            Governorate(
+                image: tartous.photo!,
+              ),
+            if (idlib != null)
+              Governorate(
                 name: idlib.cityName!,
                 latitude: 35.9333,
                 longitude: 36.6333,
                 description: idlib.description!,
-                image: idlib.photo!),
-            Governorate(
+                image: idlib.photo!,
+              ),
+            if (daraa != null)
+              Governorate(
                 name: daraa.cityName!,
                 latitude: 32.6189,
                 longitude: 36.1021,
                 description: daraa.description!,
-                image: daraa.photo!),
-            Governorate(
+                image: daraa.photo!,
+              ),
+            if (assoidaa != null)
+              Governorate(
                 name: assoidaa.cityName!,
                 latitude: 32.7,
                 longitude: 36.5667,
                 description: assoidaa.description!,
-                image: assoidaa.photo!),
-            Governorate(
+                image: assoidaa.photo!,
+              ),
+            if (deirEzzor != null)
+              Governorate(
                 name: deirEzzor.cityName!,
                 latitude: 35.3333,
                 longitude: 40.15,
                 description: deirEzzor.description!,
-                image: deirEzzor.photo!),
-            Governorate(
+                image: deirEzzor.photo!,
+              ),
+            if (alHasakah != null)
+              Governorate(
                 name: alHasakah.cityName!,
                 latitude: 36.4833,
                 longitude: 40.75,
                 description: alHasakah.description!,
-                image: alHasakah.photo!),
-            Governorate(
+                image: alHasakah.photo!,
+              ),
+            if (raqqa != null)
+              Governorate(
                 name: raqqa.cityName!,
                 latitude: 35.95,
                 longitude: 39.0167,
                 description: raqqa.description!,
-                image: raqqa.photo!),
-            Governorate(
+                image: raqqa.photo!,
+              ),
+            if (qunitra != null)
+              Governorate(
                 name: qunitra.cityName!,
                 latitude: 33.1256,
                 longitude: 35.8236,
                 description: qunitra.description!,
-                image: qunitra.photo!),
+                image: qunitra.photo!,
+              ),
           ];
         }
       },
@@ -289,7 +319,7 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(Icons.location_on, color: Colors.red, size: 30),
-            _buildGovernorateLabel(governorate.name!),
+            _buildGovernorateLabel(governorate.name ?? ''),
           ],
         ),
       ),
@@ -321,13 +351,15 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
             Container(
               height: 200,
               width: 300,
-              child: Image.network(
-                governorate.image!,
-                fit: BoxFit.cover,
-              ),
+              child: governorate.image != null && governorate.image!.isNotEmpty
+                  ? Image.network(
+                      governorate.image!,
+                      fit: BoxFit.cover,
+                    )
+                  : const SizedBox.shrink(),
             ),
             Text(
-              governorate.name!,
+              governorate.name ?? '',
               style: const TextStyle(
                 overflow: TextOverflow.ellipsis,
                 fontWeight: FontWeight.bold,
@@ -336,7 +368,7 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              governorate.description!,
+              governorate.description ?? '',
               textAlign: TextAlign.justify,
               style: const TextStyle(fontSize: 14),
             ),
