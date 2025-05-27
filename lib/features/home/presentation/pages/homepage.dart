@@ -288,7 +288,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                 final category = state.categories[index];
                                 
                                 return Visibility(
-                                  visible: category.catType >= 3,
+                                  visible: category.catType < 3,
                                   child: Category_Card(
                                     category: category,
                                     onTap: () {
