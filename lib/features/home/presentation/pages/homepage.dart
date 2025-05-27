@@ -82,6 +82,9 @@ class _HomepageState extends BaseScreenState<Homepage> {
 
         if (state is HomeLoaded) {
           log(state.categories.length.toString());
+          final visibleCategories = state.categories
+              .where((category) => category.catType < 3)
+              .toList();
           return Directionality(
             textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
             child: BlocListener<HomeCubit, HomeCubitState>(
@@ -283,40 +286,37 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                 mainAxisSpacing: 8,
                                 childAspectRatio: 1,
                               ),
-                              itemCount: state.categories.length,
+                              itemCount: visibleCategories.length,
                               itemBuilder: (context, index) {
-                                final category = state.categories[index];
-                                
-                                return Visibility(
-                                  visible: category.catType < 3,
-                                  child: Category_Card(
-                                    category: category,
-                                    onTap: () {
-                                      log('Category tapped: $category');
-                                      final categoryType = getTourismType(
-                                          category.catName, context);
-                                      // context.read<HomeBloc>().add(
-                                      //       HomeCategorySelected(
-                                      //         categoryTitle: category.catName,
-                                      //         categoryType: categoryType,
-                                      //       ),
-                                      //     );
-                                  
-                                      if (category.catType == 2) {
-                                        context
-                                            .read<CityCubit>()
-                                            .getServiceCities(category.id);
-                                        NavigationService.navigateToServices(
-                                            category: category);
-                                      } else {
-                                        NavigationService.navigateToGovernorates(
-                                          categoryType,
-                                          languageId: state.languageId,
-                                          categoryId: category.id,
-                                        );
-                                      }
-                                    },
-                                  ),
+                                final category = visibleCategories[index];
+
+                                return Category_Card(
+                                  category: category,
+                                  onTap: () {
+                                    log('Category tapped: $category');
+                                    final categoryType = getTourismType(
+                                        category.catName, context);
+                                    // context.read<HomeBloc>().add(
+                                    //       HomeCategorySelected(
+                                    //         categoryTitle: category.catName,
+                                    //         categoryType: categoryType,
+                                    //       ),
+                                    //     );
+
+                                    if (category.catType == 2) {
+                                      context
+                                          .read<CityCubit>()
+                                          .getServiceCities(category.id);
+                                      NavigationService.navigateToServices(
+                                          category: category);
+                                    } else {
+                                      NavigationService.navigateToGovernorates(
+                                        categoryType,
+                                        languageId: state.languageId,
+                                        categoryId: category.id,
+                                      );
+                                    }
+                                  },
                                 );
                               },
                             ),
