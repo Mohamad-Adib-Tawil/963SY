@@ -41,6 +41,15 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
             appBar: AppBar(
               backgroundColor: app_const.AppColors.primary,
               elevation: 0,
+              leading: IconButton(
+                icon: Icon(
+                  isArabic ? Icons.arrow_forward : Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/home');
+                },
+              ),
               title: isArabic
                   ? RTLText(
                       text: l10n.search,

@@ -121,16 +121,33 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
   @override
   Widget buildBody(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: _buildAppBar(context, l10n),
-      body: _buildMap(),
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushReplacementNamed(context, '/home');
+        return false;
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(context, l10n),
+        body: _buildMap(),
+      ),
     );
   }
 
   PreferredSizeWidget _buildAppBar(
       BuildContext context, AppLocalizations l10n) {
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
     return AppBar(
       centerTitle: true,
+      leading: IconButton(
+        icon: Icon(
+          isArabic ? Icons.arrow_forward : Icons.arrow_back,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/home');
+        },
+      ),
       title: RTLText(
         text: l10n.map,
         style: const TextStyle(color: Colors.white),
