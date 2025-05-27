@@ -52,24 +52,18 @@ class NavigationService {
     navigatorKey.currentState!.pop(result);
   }
 
-  // ========== واجهات خاصة معدلة ========== //
-
-  // الصفحة الترحيبية
   static Future<dynamic> navigateToWelcome() {
     return navigateToAndRemoveUntil(AppRouter.welcome);
   }
-
 
   static Future<dynamic> navigateToHome() {
     return navigateToAndRemoveUntil(AppRouter.home);
   }
 
- 
   static Future<dynamic> navigateToSearch() {
     return navigateToWithReplacement(AppRouter.search);
   }
 
-  
   static Future<dynamic> navigateToMap() {
     return navigateToWithReplacement(AppRouter.map);
   }
@@ -78,23 +72,19 @@ class NavigationService {
     return navigateToWithReplacement(AppRouter.about);
   }
 
-
   static Future<dynamic> navigateToContact() {
     return navigateToWithReplacement(AppRouter.contact);
   }
 
-  
   static Future<dynamic> navigateToVirtualTour() {
     return navigateToWithReplacement(AppRouter.virtualTour);
   }
-
 
   static Future<dynamic> navigateToServices({required CategoryModel category}) {
     return navigateToWithReplacement(AppRouter.services,
         arguments: {'category': category});
   }
 
-  
   static Future<dynamic> navigateToGovernorates(String tourismType,
       {required int languageId, required int categoryId}) {
     return navigateToWithReplacement(AppRouter.governorates, arguments: {

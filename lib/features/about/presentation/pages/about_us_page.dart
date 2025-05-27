@@ -259,24 +259,30 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         _buildSocialMediaButton(
+                          icon: FontAwesomeIcons.globe,
+                          color: Colors.green,
+                          url: 'https://963sy.net',
+                          index: 0,
+                        ),
+                        _buildSocialMediaButton(
                           icon: FontAwesomeIcons.facebook,
                           color: Colors.blue,
                           url: 'https://www.facebook.com/share/12J86eBRuZK/',
-                          index: 0,
+                          index: 1,
                         ),
                         _buildSocialMediaButton(
                           icon: FontAwesomeIcons.instagram,
                           color: Colors.purple,
                           url:
                               'https://www.instagram.com/963sy.app?igsh=eWV3bTkzZW14cjA=',
-                          index: 1,
+                          index: 2,
                         ),
                         _buildSocialMediaButton(
                           icon: FontAwesomeIcons.youtube,
                           color: Colors.red,
                           url:
                               'https://youtube.com/@963syapp?si=KpjVYAYEwy8oekRR',
-                          index: 2,
+                          index: 3,
                         ),
                       ],
                     ),

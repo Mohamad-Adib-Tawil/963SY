@@ -39,8 +39,10 @@ class SyrianGovernoratesTabs extends StatelessWidget {
       child: BlocProvider(
         create: (context) => PlacesCubitCubit(getIt<HomeRepo>()),
         child: _SyrianGovernoratesTabsContent(
-          onBack:
-              onBack ?? () => Navigator.pushReplacementNamed(context, '/home'),
+          onBack: onBack ??
+              () {
+                Navigator.pushReplacementNamed(context, '/home');
+              },
           tourismType: tourismType,
           languageId: languageId,
           categoryId: categoryId,
@@ -95,15 +97,15 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
             ),
             backgroundColor: AppColors.primary,
             elevation: 0,
-            leading: onBack != null
-                ? IconButton(
-                    icon: Icon(
-                      isRTL ? Icons.arrow_forward : Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                    onPressed: onBack,
-                  )
-                : null,
+            leading: IconButton(
+              icon: Icon(
+                isRTL ? Icons.arrow_forward : Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/home');
+              },
+            ),
           ),
           body: isLoading
               ? const LinearProgressIndicator(
@@ -134,7 +136,8 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
                                     color: AppColors.backgroundWhite,
                                   ),
                                   child: TabBarView(
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     children: state.governorates
                                         .map((gov) =>
                                             _buildGovernorateView(gov, context))

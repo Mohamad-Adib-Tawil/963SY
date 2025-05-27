@@ -1040,6 +1040,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error: {error}'**
   String deviceRegistrationError(Object error);
+
+  /// No description provided for @chooseService.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a service'**
+  String get chooseService;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
