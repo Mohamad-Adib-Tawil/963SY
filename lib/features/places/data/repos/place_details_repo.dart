@@ -52,9 +52,10 @@ class PlaceDetailsRepo {
       //get the way and store it in coordinates
       var responseWay = await apiService.get(
           endPoints:
-              '/way1/ways/place/1/city/$cityId/category/$categoryId/language/$lang');
+              '/way1/ways/place/$placeId/city/$cityId/category/$categoryId/language/$lang');
       dynamic dataWay =
           responseWay['data'].isEmpty ? {} : responseWay['data'][0];
+      log('-----RESPONSE OF WAY:${dataWay.toString()} Langage:$lang');
       Coordinates coordinates;
       if (dataWay.isEmpty) {
         coordinates = Coordinates(vertical: '0', horizontal: '0');
