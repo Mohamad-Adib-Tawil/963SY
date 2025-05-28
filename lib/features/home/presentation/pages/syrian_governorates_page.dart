@@ -117,7 +117,7 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
             ),
             body: isLoading
                 ? const LinearProgressIndicator(
-                    color: AppColors.secondary,
+                    color: Colors.white,
                   )
                 : isError
                     ? Center(child: Text(state.message))
