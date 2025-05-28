@@ -96,13 +96,6 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
                           color: AppColors.primary,
                           size: 24,
                         ),
-                        suffixIcon: IconButton(
-                          icon: const Icon(
-                            Icons.filter_list,
-                            color: AppColors.primary,
-                          ),
-                          onPressed: () {},
-                        ),
                         filled: true,
                         fillColor: Colors.white,
                         contentPadding: const EdgeInsets.symmetric(
