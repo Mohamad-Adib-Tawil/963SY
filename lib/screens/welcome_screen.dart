@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:untitled4/navigation/app_router.dart';
+import 'package:untitled4/l10n/app_localizations.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -62,6 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -94,9 +96,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              child: const Text(
-                'Skip',
-                style: TextStyle(
+              child: Text(
+                l10n.skip,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                 ),

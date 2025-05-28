@@ -133,7 +133,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
 
     if (context.mounted) {
       await context.read<LanguageProvider>().changeLanguage(language.code!);
-      NavigationService.navigateTo('/privacy');
+      NavigationService.navigateToAndRemoveUntil('/privacy');
     }
   }
 }
