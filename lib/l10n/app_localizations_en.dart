@@ -480,4 +480,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chooseService => 'Choose a service';
+
+  @override
+  String get placeInfo => 'Information';
+
+  @override
+  String get placeDescription => 'Description';
 }

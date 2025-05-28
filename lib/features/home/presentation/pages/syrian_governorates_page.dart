@@ -14,12 +14,9 @@ import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/places/bloc/places_bloc.dart';
 import 'package:untitled4/models/place_model.dart';
-import 'package:untitled4/navigation/navigation_service.dart';
-<<<<<<< Updated upstream
-import 'package:untitled4/widgets/common/shimmer_effect/places_shimmer.dart';
-=======
 import 'package:untitled4/navigation/app_router.dart';
->>>>>>> Stashed changes
+import 'package:untitled4/navigation/navigation_service.dart';
+import 'package:untitled4/widgets/common/shimmer_effect/places_shimmer.dart';
 
 class SyrianGovernoratesTabs extends StatelessWidget {
   final VoidCallback? onBack;
@@ -76,87 +73,93 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final isRTL = Localizations.localeOf(context).languageCode == 'ar';
 
-    return BlocBuilder<PlacesBloc, PlacesState>(
-      builder: (context, state) {
-        bool isLoaded = state is PlacesLoaded;
-        bool isLoading = state is PlacesLoading;
-        bool isError = state is PlacesError;
+    return WillPopScope(
+      onWillPop: () async {
+        NavigationService.navigateToAndRemoveUntil(AppRouter.home);
+        return false;
+      },
+      child: BlocBuilder<PlacesBloc, PlacesState>(
+        builder: (context, state) {
+          bool isLoaded = state is PlacesLoaded;
+          bool isLoading = state is PlacesLoading;
+          bool isError = state is PlacesError;
 
-        if (isLoaded) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            context
-                .read<PlacesCubitCubit>()
-                .getPlaces(categoryId, state.governorates[0].id);
-          });
-        }
+          if (isLoaded) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context
+                  .read<PlacesCubitCubit>()
+                  .getPlaces(categoryId, state.governorates[0].id);
+            });
+          }
 
-        return Scaffold(
-          appBar: AppBar(
-            title: RTLText(
-              text: l10n.tourismSites,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1,
-                color: Colors.white,
+          return Scaffold(
+            appBar: AppBar(
+              title: RTLText(
+                text: l10n.tourismSites,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                  color: Colors.white,
+                ),
+              ),
+              backgroundColor: AppColors.primary,
+              elevation: 0,
+              leading: IconButton(
+                icon: Icon(
+                  isRTL ? Icons.arrow_forward : Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  NavigationService.navigateToAndRemoveUntil(AppRouter.home);
+                },
               ),
             ),
-            backgroundColor: AppColors.primary,
-            elevation: 0,
-            leading: IconButton(
-              icon: Icon(
-                isRTL ? Icons.arrow_forward : Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                NavigationService.navigateToAndRemoveUntil(AppRouter.home);
-              },
-            ),
-          ),
-          body: isLoading
-              ? const LinearProgressIndicator(
-                  color: AppColors.secondary,
-                )
-              : isError
-                  ? Center(child: Text(state.message))
-                  : isLoaded
-                      ? DefaultTabController(
-                          length: state.governorates.length,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 70,
-                                alignment: isRTL
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                color: Colors.white,
-                                child: _CustomTabBar(
-                                    categoryId: categoryId,
-                                    governorates: state.governorates),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.backgroundWhite,
-                                  ),
-                                  child: TabBarView(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    children: state.governorates
-                                        .map((gov) =>
-                                            _buildGovernorateView(gov, context))
-                                        .toList(),
+            body: isLoading
+                ? const LinearProgressIndicator(
+                    color: AppColors.secondary,
+                  )
+                : isError
+                    ? Center(child: Text(state.message))
+                    : isLoaded
+                        ? DefaultTabController(
+                            length: state.governorates.length,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 70,
+                                  alignment: isRTL
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  color: Colors.white,
+                                  child: _CustomTabBar(
+                                      categoryId: categoryId,
+                                      governorates: state.governorates),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: AppColors.backgroundWhite,
+                                    ),
+                                    child: TabBarView(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      children: state.governorates
+                                          .map((gov) => _buildGovernorateView(
+                                              gov, context))
+                                          .toList(),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : const LinearProgressIndicator(), // fallback
-        );
-      },
+                              ],
+                            ),
+                          )
+                        : const LinearProgressIndicator(), // fallback
+          );
+        },
+      ),
     );
   }
 

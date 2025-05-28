@@ -259,75 +259,80 @@ class _HomepageState extends BaseScreenState<Homepage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          crossAxisAlignment: isArabic
-                              ? CrossAxisAlignment.end
-                              : CrossAxisAlignment.start,
-                          children: [
-                            DirectionalText(
-                              text: l10n.tourismSites,
-                              isArabic: isArabic,
-                              style: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: app_const.AppColors.textPrimary,
+                        child: Directionality(
+                          textDirection:
+                              isArabic ? TextDirection.rtl : TextDirection.ltr,
+                          child: Column(
+                            crossAxisAlignment: isArabic
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.start,
+                            children: [
+                              DirectionalText(
+                                text: l10n.tourismSites,
+                                isArabic: isArabic,
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: app_const.AppColors.textPrimary,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 3),
-                            DirectionalText(
-                              text: l10n.searchHint,
-                              isArabic: isArabic,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[600],
+                              const SizedBox(height: 3),
+                              DirectionalText(
+                                text: l10n.searchHint,
+                                isArabic: isArabic,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[600],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8,
-                                childAspectRatio: 1,
-                              ),
-                              itemCount: visibleCategories.length,
-                              itemBuilder: (context, index) {
-                                final category = visibleCategories[index];
+                              const SizedBox(height: 10),
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 8,
+                                  mainAxisSpacing: 8,
+                                  childAspectRatio: 1,
+                                ),
+                                itemCount: visibleCategories.length,
+                                itemBuilder: (context, index) {
+                                  final category = visibleCategories[index];
 
-                                return Category_Card(
-                                  category: category,
-                                  onTap: () {
-                                    log('Category tapped: $category');
-                                    final categoryType = getTourismType(
-                                        category.catName, context);
-                                    // context.read<HomeBloc>().add(
-                                    //       HomeCategorySelected(
-                                    //         categoryTitle: category.catName,
-                                    //         categoryType: categoryType,
-                                    //       ),
-                                    //     );
+                                  return Category_Card(
+                                    category: category,
+                                    onTap: () {
+                                      log('Category tapped: $category');
+                                      final categoryType = getTourismType(
+                                          category.catName, context);
+                                      // context.read<HomeBloc>().add(
+                                      //       HomeCategorySelected(
+                                      //         categoryTitle: category.catName,
+                                      //         categoryType: categoryType,
+                                      //       ),
+                                      //     );
 
-                                    if (category.catType == 2) {
-                                      context
-                                          .read<CityCubit>()
-                                          .getServiceCities(category.id);
-                                      NavigationService.navigateToServices(
-                                          category: category);
-                                    } else {
-                                      NavigationService.navigateToGovernorates(
-                                        categoryType,
-                                        languageId: state.languageId,
-                                        categoryId: category.id,
-                                      );
-                                    }
-                                  },
-                                );
-                              },
-                            ),
-                          ],
+                                      if (category.catType == 2) {
+                                        context
+                                            .read<CityCubit>()
+                                            .getServiceCities(category.id);
+                                        NavigationService.navigateToServices(
+                                            category: category);
+                                      } else {
+                                        NavigationService
+                                            .navigateToGovernorates(
+                                          categoryType,
+                                          languageId: state.languageId,
+                                          categoryId: category.id,
+                                        );
+                                      }
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

@@ -1046,6 +1046,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose a service'**
   String get chooseService;
+
+  /// No description provided for @placeInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get placeInfo;
+
+  /// No description provided for @placeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get placeDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

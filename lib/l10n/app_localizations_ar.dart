@@ -480,4 +480,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get chooseService => 'اختر خدمة';
+
+  @override
+  String get placeInfo => 'معلومات';
+
+  @override
+  String get placeDescription => 'الوصف';
 }

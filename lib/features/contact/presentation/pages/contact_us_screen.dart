@@ -8,6 +8,7 @@ import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:untitled4/features/contact/bloc/contact_bloc.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
+import 'package:untitled4/navigation/app_router.dart';
 
 class ContactUsScreen extends BaseScreen {
   const ContactUsScreen({super.key}) : super(navigationIndex: 4);
@@ -49,8 +50,8 @@ class _ContactUsScreenState extends BaseScreenState<ContactUsScreen> {
         textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
         child: WillPopScope(
           onWillPop: () async {
-            Navigator.of(context).pop();
-            return true;
+            NavigationService.navigateToAndRemoveUntil(AppRouter.home);
+            return false;
           },
           child: Scaffold(
             backgroundColor: app_const.AppColors.backgroundLight,
@@ -64,7 +65,7 @@ class _ContactUsScreenState extends BaseScreenState<ContactUsScreen> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  NavigationService.navigateToAndRemoveUntil(AppRouter.home);
                 },
               ),
               title: isArabic

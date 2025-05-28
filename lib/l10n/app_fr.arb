@@ -135,5 +135,13 @@
   "userRightsContent": "Vous avez le droit d'accéder, de modifier ou de supprimer vos données. Vous pouvez également demander l'exportation de vos données.",
   "deviceRegisteredSuccess": "Appareil enregistré avec succès",
   "deviceRegistrationError": "Erreur : {error}",
-  "chooseService": "Choisissez un service"
+  "chooseService": "Choisissez un service",
+  "virtualTour": "Visite Virtuelle",
+  "goToPlace": "Aller à l'endroit",
+  "mediaClips": "Clips Médias",
+  "signLanguage": "Langue des Signes",
+  "cannotOpenGoogleMaps": "Impossible d'ouvrir Google Maps",
+  "somethingWentWrong": "Une erreur s'est produite",
+  "placeInfo": "Informations",
+  "placeDescription": "Description"
 } 

@@ -12,9 +12,14 @@ class InfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: _buildAppBar(context, l10n),
-      body: _buildBody(context, l10n),
+    return Directionality(
+      textDirection: Localizations.localeOf(context).languageCode == 'ar'
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: Scaffold(
+        appBar: _buildAppBar(context, l10n),
+        body: _buildBody(context, l10n),
+      ),
     );
   }
 
@@ -67,9 +72,9 @@ class InfoScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'معلومات',
-                    style: TextStyle(
+                  Text(
+                    l10n.placeInfo,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),

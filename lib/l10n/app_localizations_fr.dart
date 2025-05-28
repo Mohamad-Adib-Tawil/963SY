@@ -429,22 +429,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String get information => 'Information';
 
   @override
-  String get virtualTour => 'Virtual Tour';
+  String get virtualTour => 'Visite Virtuelle';
 
   @override
-  String get goToPlace => 'Go to Place';
+  String get goToPlace => 'Aller à l\'endroit';
 
   @override
-  String get mediaClips => 'Media Clips';
+  String get mediaClips => 'Clips Médias';
 
   @override
-  String get signLanguage => 'Sign Language';
+  String get signLanguage => 'Langue des Signes';
 
   @override
-  String get cannotOpenGoogleMaps => 'Cannot open Google Maps';
+  String get cannotOpenGoogleMaps => 'Impossible d\'ouvrir Google Maps';
 
   @override
-  String get somethingWentWrong => 'Something went wrong';
+  String get somethingWentWrong => 'Une erreur s\'est produite';
 
   @override
   String get informationCollection => 'Collecte d\'Informations';
@@ -480,4 +480,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chooseService => 'Choisissez un service';
+
+  @override
+  String get placeInfo => 'Informations';
+
+  @override
+  String get placeDescription => 'Description';
 }
