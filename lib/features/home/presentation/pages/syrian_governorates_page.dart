@@ -15,7 +15,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/places/bloc/places_bloc.dart';
 import 'package:untitled4/models/place_model.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
+<<<<<<< Updated upstream
 import 'package:untitled4/widgets/common/shimmer_effect/places_shimmer.dart';
+=======
+import 'package:untitled4/navigation/app_router.dart';
+>>>>>>> Stashed changes
 
 class SyrianGovernoratesTabs extends StatelessWidget {
   final VoidCallback? onBack;
@@ -105,7 +109,7 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/home');
+                NavigationService.navigateToAndRemoveUntil(AppRouter.home);
               },
             ),
           ),
