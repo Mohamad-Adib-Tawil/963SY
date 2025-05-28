@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled4/const.dart';
 import 'package:photo_view/photo_view.dart';
@@ -71,8 +72,8 @@ class _PhotosScreenState extends State<PhotosScreen> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: Image.network(
-            widget.place.photo,
+          child: CachedNetworkImage(
+            imageUrl: widget.place.photo,
             fit: BoxFit.cover,
           ),
         ),

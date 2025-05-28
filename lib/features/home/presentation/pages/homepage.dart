@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:untitled4/const.dart' as app_const;
@@ -16,9 +17,9 @@ import 'package:untitled4/core/widgets/base_screen.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/providers/language_provider.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/home/bloc/home_bloc.dart';
+import 'package:untitled4/widgets/common/shimmer_effect/slider_shimmer.dart';
 
 class DirectionalText extends StatelessWidget {
   final String text;
@@ -77,7 +78,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is HomeError) {
-          return Center(child: Text(state.message));
+          return Center(child: Text(l10n.error));
         }
 
         if (state is HomeLoaded) {
@@ -197,22 +198,29 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                   return Builder(
                                     builder: (BuildContext context) {
                                       return GestureDetector(
-                                        onTap: () {
-                                          NavigationService.navigateTo(
-                                              '/details',
-                                              arguments: PlaceDetailsScreen(
-                                                  place: imagePath));
-                                        },
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          child: Image.network(
-                                            imagePath.photo,
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                          ),
-                                        ).animate().fadeIn(duration: 500.ms),
-                                      );
+                                          onTap: () {
+                                            NavigationService.navigateTo(
+                                                '/details',
+                                                arguments: PlaceDetailsScreen(
+                                                    place: imagePath));
+                                          },
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                                image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image:
+                                                      CachedNetworkImageProvider(
+                                                    imagePath.photo,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ));
                                     },
                                   );
                                 }).toList(),
@@ -224,8 +232,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                               return Center(
                                   child: Text(sliderState.errorMessage));
                             } else {
-                              return const Center(
-                                  child: CircularProgressIndicator());
+                              return const SliderShimmer();
                             }
                           },
                         ),

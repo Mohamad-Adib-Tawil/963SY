@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled4/const.dart';
 import 'package:untitled4/core/services/get_it_service.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/places/bloc/places_bloc.dart';
 import 'package:untitled4/models/place_model.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
+import 'package:untitled4/widgets/common/shimmer_effect/places_shimmer.dart';
 
 class SyrianGovernoratesTabs extends StatelessWidget {
   final VoidCallback? onBack;
@@ -158,11 +160,6 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<PlacesCubitCubit, PlacesCubitState>(
       builder: (context, state) {
-        if (state is PlacesCubitLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
         if (state is PlacesCubitSuccess) {
           log('___Cubit:*******PLACES : ${state.places.toString()}');
           return ListView.builder(
@@ -178,7 +175,7 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
         } else if (state is PlacesCubitFailuer) {
           return Center(child: Text(state.errorMessage));
         } else {
-          return const Center(child: Text('Something went wrong'));
+          return const PlacesShimmer();
         }
       },
     );
@@ -208,8 +205,8 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
               ),
-              child: Image.network(
-                place.photo,
+              child: CachedNetworkImage(
+                imageUrl: place.photo,
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,

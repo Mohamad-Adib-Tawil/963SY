@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:untitled4/const.dart';
 import 'package:untitled4/features/places/cubit/place_details_cubit.dart';
 import 'package:untitled4/features/places/data/models/coordinates.dart';
@@ -142,11 +144,21 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
         bottomLeft: Radius.circular(24),
         bottomRight: Radius.circular(24),
       ),
-      child: Image.network(
-        widget.place.photo,
+      child: CachedNetworkImage(
+        imageUrl: widget.place.photo,
         height: 240,
         width: double.infinity,
         fit: BoxFit.cover,
+        placeholder: (context, url) => Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(
+            height: 240,
+            width: double.infinity,
+            color: Colors.white,
+          ),
+        ),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );
   }

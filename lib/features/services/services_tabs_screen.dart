@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled4/const.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/models/place_model.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
 import 'package:untitled4/features/home/presentation/pages/homepage.dart';
+import 'package:untitled4/widgets/common/shimmer_effect/service_shimmer.dart';
 
 class RedesignedServiceScreen extends StatefulWidget {
   const RedesignedServiceScreen({super.key, required this.category});
@@ -206,8 +208,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                       },
                       builder: (context, placeState) {
                         if (placeState is PlaceServiceLoading) {
-                          return const Center(
-                              child: CircularProgressIndicator());
+                          return const ServiceShimmer();
                         }
                         if (placeState is PlaceServiceSuccess) {
                           return Expanded(
@@ -217,8 +218,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        if (serviceId != null &&
-                                            serviceId != 0) ...[
+                                        if (serviceId != 0) ...[
                                           Icon(
                                             Icons.search_off_rounded,
                                             size: 80,
@@ -377,16 +377,16 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                                     width: 130,
                                                     height: 90,
                                                     decoration: BoxDecoration(
-                                                        color: AppColors.primary
-                                                            .withOpacity(0.1),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              item.photo!),
-                                                          fit: BoxFit.cover,
-                                                        )),
+                                                      color: AppColors.primary
+                                                          .withOpacity(0.1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                    ),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: item.photo!,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                   title: RTLText(
                                                     text: item.placeName!,
@@ -423,10 +423,10 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                   ),
                           );
                         }
-                        return Center(
+                        return const Center(
                           child: RTLText(
                             text: 'اختر خدمة',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey,
                             ),

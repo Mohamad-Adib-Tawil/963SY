@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled4/features/home/models/category_model.dart';
+import 'package:untitled4/widgets/common/shimmer_effect/category_shimmer.dart';
 
 class Category_Card extends StatelessWidget {
   final dynamic category; // Can be either CategoryModel or Map
@@ -42,15 +44,10 @@ class Category_Card extends StatelessWidget {
               children: [
                 Positioned.fill(
                   child: category is CategoryModel
-                      ? Image.network(
-                          _imagePath,
+                      ? CachedNetworkImage(
+                          imageUrl:  _imagePath,
+                          placeholder: (context, url) => const CategoryShimmer(),
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: Colors.grey[300],
-                              child: const Icon(Icons.error),
-                            );
-                          },
                         )
                       : Image.asset(
                           _imagePath,
