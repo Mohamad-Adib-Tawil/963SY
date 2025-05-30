@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/core/widgets/base_screen.dart';
@@ -13,6 +14,7 @@ import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:untitled4/models/place_model.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
+import 'package:untitled4/widgets/common/shimmer_effect/places_shimmer.dart';
 
 class SearchPage extends BaseScreen {
   const SearchPage({super.key}) : super(navigationIndex: 1);
@@ -118,51 +120,55 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: state is SearchCubitLoding
-                        ? const Center(child: CircularProgressIndicator())
-                        : state is SearchCubitSuccess
+                        ? const PlacesShimmer()
+                        : state is SearchCubitSuccess && state.places.isNotEmpty
                             ? ListView.builder(
                                 itemCount: state.places.length,
                                 itemBuilder: (context, index) =>
                                     _buildPlaceCard(
                                         context, state.places[index]),
                               )
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    l10n.findPlaces,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ).animate().fadeIn(delay: 200.ms),
-                                  const SizedBox(height: 20),
-                                  Expanded(
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.search_off_rounded,
-                                            size: 100,
-                                            color: Colors.grey[400],
-                                          ).animate().scale(delay: 400.ms),
-                                          const SizedBox(height: 16),
-                                          Text(
-                                            l10n.searchResults,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.grey[600],
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ).animate().fadeIn(delay: 600.ms),
-                                        ],
+                            : state is SearchCubitSuccess &&
+                                    state.places.isEmpty
+                                ? Center(child: Text(l10n.noResults))
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        l10n.findPlaces,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ).animate().fadeIn(delay: 200.ms),
+                                      const SizedBox(height: 20),
+                                      Expanded(
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.search_off_rounded,
+                                                size: 100,
+                                                color: Colors.grey[400],
+                                              ).animate().scale(delay: 400.ms),
+                                              const SizedBox(height: 16),
+                                              Text(
+                                                l10n.searchResults,
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.grey[600],
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ).animate().fadeIn(delay: 600.ms),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                ],
-                              ),
                   ),
                 ),
               ],
@@ -196,8 +202,8 @@ class _SearchPageState extends BaseScreenState<SearchPage> {
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
               ),
-              child: Image.network(
-                place.photo,
+              child: CachedNetworkImage(
+                imageUrl: place.photo,
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,
