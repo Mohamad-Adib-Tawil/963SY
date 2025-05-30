@@ -153,5 +153,12 @@
   "userRightsContent": "Hai il diritto di accedere, modificare o eliminare i tuoi dati. Puoi anche richiedere l'esportazione dei tuoi dati.",
   "deviceRegisteredSuccess": "Dispositivo registrato con successo",
   "deviceRegistrationError": "Errore: {error}",
-  "chooseService": "Scegli un servizio"
+  "chooseService": "Scegli un servizio",
+  "placeInfo": "Informazioni",
+  "placeDescription": "Descrizione",
+  "noPlaces": "Nessun luogo trovato",
+  "noPlacesFound": "Nessun luogo trovato",
+  "noPlacesInGovernorate": "Non ci sono ancora luoghi disponibili in questo governatorato",
+  "offlineTitle": "Sei offline",
+  "offlineDescription": "Controlla la tua connessione Internet e riprova."
 } 

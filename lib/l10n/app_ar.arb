@@ -157,6 +157,10 @@
   "deviceRegistrationError": "خطأ: {error}",
   "chooseService": "اختر خدمة",
   "placeInfo": "معلومات",
-  "placeDescription": "الوصف",
-  "noPlaces": "لا يوجد مكانات"
+  "placeDescription": "وصف",
+  "noPlaces": "لا يوجد مواقع",
+  "noPlacesFound": "لم يتم العثور على أماكن",
+  "noPlacesInGovernorate": "لا توجد أماكن متاحة في هذه المحافظة بعد",
+  "offlineTitle": "أنت غير متصل بالإنترنت",
+  "offlineDescription": "يرجى التحقق من اتصالك بالإنترنت وحاول مرة أخرى."
 } 

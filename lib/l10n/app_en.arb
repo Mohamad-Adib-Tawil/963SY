@@ -157,5 +157,9 @@
   "deviceRegistrationError": "Error: {error}",
   "chooseService": "Choose a service",
   "placeInfo": "Information",
-  "placeDescription": "Description"
+  "placeDescription": "Description",
+  "noPlacesFound": "No Places Found",
+  "noPlacesInGovernorate": "There are no places available in this governorate yet",
+  "offlineTitle": "You are offline",
+  "offlineDescription": "Please check your internet connection and try again."
 }

@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -484,8 +482,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get chooseService => 'Choose a service';
 
   @override
-  String get placeInfo => 'Information';
+  String get placeInfo => '信息';
 
   @override
-  String get placeDescription => 'Description';
+  String get placeDescription => '描述';
+
+  @override
+  String get noPlacesFound => '未找到地点';
+
+  @override
+  String get noPlacesInGovernorate => '该省目前还没有可用的地点';
+
+  @override
+  String get offlineTitle => '您已离线';
+
+  @override
+  String get offlineDescription => '请检查您的互联网连接，然后重试。';
 }

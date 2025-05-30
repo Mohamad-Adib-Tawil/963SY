@@ -143,5 +143,10 @@
   "cannotOpenGoogleMaps": "Impossible d'ouvrir Google Maps",
   "somethingWentWrong": "Une erreur s'est produite",
   "placeInfo": "Informations",
-  "placeDescription": "Description"
+  "placeDescription": "Description",
+  "noPlaces": "Aucun lieu trouvé",
+  "noPlacesFound": "Aucun lieu trouvé",
+  "noPlacesInGovernorate": "Il n'y a pas encore de lieux disponibles dans cette gouvernorat",
+  "offlineTitle": "Vous êtes hors ligne",
+  "offlineDescription": "Veuillez vérifier votre connexion Internet et réessayer."
 } 

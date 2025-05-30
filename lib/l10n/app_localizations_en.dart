@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -488,4 +486,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get placeDescription => 'Description';
+
+  @override
+  String get noPlacesFound => 'No Places Found';
+
+  @override
+  String get noPlacesInGovernorate => 'There are no places available in this governorate yet';
+
+  @override
+  String get offlineTitle => 'You are offline';
+
+  @override
+  String get offlineDescription => 'Please check your internet connection and try again.';
 }

@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -484,8 +482,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get chooseService => 'Choose a service';
 
   @override
-  String get placeInfo => 'Information';
+  String get placeInfo => 'Bilgi';
 
   @override
-  String get placeDescription => 'Description';
+  String get placeDescription => 'Açıklama';
+
+  @override
+  String get noPlacesFound => 'Yer bulunamadı';
+
+  @override
+  String get noPlacesInGovernorate => 'Bu valilikte henüz yer bulunmamaktadır';
+
+  @override
+  String get offlineTitle => 'Çevrimdışısınız';
+
+  @override
+  String get offlineDescription => 'Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.';
 }

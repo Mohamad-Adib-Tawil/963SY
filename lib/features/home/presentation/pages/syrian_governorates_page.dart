@@ -29,7 +29,8 @@ class SyrianGovernoratesTabs extends StatelessWidget {
     this.onBack,
     required this.tourismType,
     required this.languageId,
-    required this.categoryId, required this.title,
+    required this.categoryId,
+    required this.title,
   });
 
   @override
@@ -68,7 +69,8 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
     required this.onBack,
     required this.tourismType,
     required this.languageId,
-    required this.categoryId, required this.title,
+    required this.categoryId,
+    required this.title,
   });
 
   @override
@@ -182,10 +184,39 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
                   .slideX(begin: 0.1, end: 0, duration: 500.ms);
             },
           );
-        }else if (state is PlacesCubitSuccess && state.places.isEmpty) {
-          return const Center(child: Text('لا يوجد مواقع'));
-        }
-         else if (state is PlacesCubitFailuer) {
+        } else if (state is PlacesCubitSuccess && state.places.isEmpty) {
+          final l10n = AppLocalizations.of(context)!;
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.location_off_rounded,
+                  size: 80,
+                  color: AppColors.primary.withOpacity(0.5),
+                ),
+                const SizedBox(height: 16),
+                RTLText(
+                  text: l10n.noPlacesFound,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                RTLText(
+                  text: l10n.noPlacesInGovernorate,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.textPrimary.withOpacity(0.7),
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else if (state is PlacesCubitFailuer) {
           return Center(child: Text(state.errorMessage));
         } else {
           return const PlacesShimmer();

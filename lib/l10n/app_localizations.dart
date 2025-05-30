@@ -1058,6 +1058,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Description'**
   String get placeDescription;
+
+  /// No description provided for @noPlacesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No Places Found'**
+  String get noPlacesFound;
+
+  /// No description provided for @noPlacesInGovernorate.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no places available in this governorate yet'**
+  String get noPlacesInGovernorate;
+
+  /// No description provided for @offlineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You are offline'**
+  String get offlineTitle;
+
+  /// No description provided for @offlineDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your internet connection and try again.'**
+  String get offlineDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -152,5 +152,12 @@
     "userRights": "用户权利",
     "userRightsContent": "您有权访问、修改或删除您的数据。您还可以请求导出您的数据。",
     "deviceRegisteredSuccess": "设备注册成功",
-    "deviceRegistrationError": "错误：{error}"
+    "deviceRegistrationError": "错误：{error}",
+    "placeInfo": "信息",
+    "placeDescription": "描述",
+    "noPlaces": "未找到地点",
+    "noPlacesFound": "未找到地点",
+    "noPlacesInGovernorate": "该省目前还没有可用的地点",
+    "offlineTitle": "您已离线",
+    "offlineDescription": "请检查您的互联网连接，然后重试。"
 }
