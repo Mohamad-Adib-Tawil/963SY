@@ -202,9 +202,6 @@ class PrivacyPolicyScreen extends StatelessWidget {
     }
     try {
       await _registerDevice();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Device registered successfully')),
-      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
