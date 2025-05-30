@@ -51,7 +51,7 @@ class AppRouter {
       case map:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => CityCubit(getIt<ServiceRepo>())..getServiceCities(firstCategoty.id),
+                  create: (context) => CityCubit(getIt<ServiceRepo>())..getServiceCities(firstCategoty != null ? firstCategoty!.id : 1),
                   child: const SyriaMapPage(),
                 ));
       case about:
@@ -92,8 +92,10 @@ class AppRouter {
         final tourismType = args?['tourismType'] as String? ?? '';
         final languageId = args?['languageId'] as int? ?? 1;
         final categoryId = args?['categoryId'] as int? ?? 1;
+        final categoryName = args?['categoryName'] as String? ?? '';
         return MaterialPageRoute(
           builder: (_) => SyrianGovernoratesTabs(
+            title: categoryName,
             tourismType: tourismType,
             languageId: languageId,
             categoryId: categoryId,

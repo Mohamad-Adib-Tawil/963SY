@@ -23,12 +23,13 @@ class SyrianGovernoratesTabs extends StatelessWidget {
   final String tourismType;
   final int languageId;
   final int categoryId;
+  final String title;
   const SyrianGovernoratesTabs({
     super.key,
     this.onBack,
     required this.tourismType,
     required this.languageId,
-    required this.categoryId,
+    required this.categoryId, required this.title,
   });
 
   @override
@@ -42,6 +43,7 @@ class SyrianGovernoratesTabs extends StatelessWidget {
       child: BlocProvider(
         create: (context) => PlacesCubitCubit(getIt<HomeRepo>()),
         child: _SyrianGovernoratesTabsContent(
+          title: title,
           onBack: onBack ??
               () {
                 Navigator.pushReplacementNamed(context, '/home');
@@ -60,12 +62,13 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
   final String tourismType;
   final int languageId;
   final int categoryId;
+  final String title;
 
   const _SyrianGovernoratesTabsContent({
     required this.onBack,
     required this.tourismType,
     required this.languageId,
-    required this.categoryId,
+    required this.categoryId, required this.title,
   });
 
   @override
@@ -95,7 +98,7 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: RTLText(
-                text: l10n.tourismSites,
+                text: title,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -167,7 +170,7 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<PlacesCubitCubit, PlacesCubitState>(
       builder: (context, state) {
-        if (state is PlacesCubitSuccess) {
+        if (state is PlacesCubitSuccess && state.places.isNotEmpty) {
           log('___Cubit:*******PLACES : ${state.places.toString()}');
           return ListView.builder(
             padding: const EdgeInsets.all(16),
@@ -179,7 +182,10 @@ class _SyrianGovernoratesTabsContent extends StatelessWidget {
                   .slideX(begin: 0.1, end: 0, duration: 500.ms);
             },
           );
-        } else if (state is PlacesCubitFailuer) {
+        }else if (state is PlacesCubitSuccess && state.places.isEmpty) {
+          return const Center(child: Text('لا يوجد مواقع'));
+        }
+         else if (state is PlacesCubitFailuer) {
           return Center(child: Text(state.errorMessage));
         } else {
           return const PlacesShimmer();

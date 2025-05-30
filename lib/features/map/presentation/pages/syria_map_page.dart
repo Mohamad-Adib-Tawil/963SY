@@ -298,16 +298,22 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
         }
       },
       builder: (context, state) {
-        return FlutterMap(
-          options: const MapOptions(
-            initialCenter: LatLng(35.0, 38.5),
-            initialZoom: 6.0,
-          ),
-          children: [
-            _buildTileLayer(),
-            _buildMarkerLayer(),
-          ],
-        );
+        if (state is CitySuccess) {
+          return FlutterMap(
+            options: const MapOptions(
+              initialCenter: LatLng(35.0, 38.5),
+              initialZoom: 6.0,
+            ),
+            children: [
+              _buildTileLayer(),
+              _buildMarkerLayer(),
+            ],
+          );
+        }else if(state is CityFailuer){
+          return const Center(child: Text('you are offline'));
+        }else{
+          return const LinearProgressIndicator(color: Colors.white);
+        }
       },
     );
   }

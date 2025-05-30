@@ -6,4 +6,4 @@ Future<int> getLanguageId() async {
   return prefs.getInt('selected_language_id') ?? 1;
 }
 
-late CategoryModel firstCategoty;
+late CategoryModel? firstCategoty;

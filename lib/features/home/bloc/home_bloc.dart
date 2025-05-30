@@ -57,8 +57,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final categories =
             data.map((json) => CategoryModel.fromJson(json)).toList();
 
-        developer.log('Categories count: ${categories.length}');
-        firstCategoty = categories.first;
+        if(categories != null && categories.isNotEmpty) {
+          firstCategoty = categories.first;
+        }
         emit(HomeLoaded(
           sliderImages: defaultSliderImages,
           categories: categories,

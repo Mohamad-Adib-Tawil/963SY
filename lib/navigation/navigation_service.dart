@@ -86,8 +86,9 @@ class NavigationService {
   }
 
   static Future<dynamic> navigateToGovernorates(String tourismType,
-      {required int languageId, required int categoryId}) {
+      {required int languageId, required int categoryId, required String title}) {
     return navigateToWithReplacement(AppRouter.governorates, arguments: {
+      'categoryName': title,
       'tourismType': tourismType,
       'languageId': languageId,
       'categoryId': categoryId,

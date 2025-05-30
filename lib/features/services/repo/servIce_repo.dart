@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
@@ -21,7 +20,8 @@ class ServiceRepo {
     int lang = await getLanguageId();
     try {
       var response = await apiService.get(
-          endPoints: '/city1/cities/category/$categoryId/language/$lang');
+        endPoints: '/city1/cities/category/$categoryId/language/$lang',
+      );
       List<dynamic> data = response['data'];
       final cities = data.map((json) => CityModel.fromMap(json)).toList();
       log('-----RESPONSE OF CITY:${data.toString()} Langage:$lang');
@@ -61,7 +61,8 @@ class ServiceRepo {
     try {
       var response = await apiService.get(
           endPoints:
-              '/place1/places/city/$cityId/category/$categoryId/language/$lang/service/$serviceId');
+              '/place1/places/city/$cityId/category/$categoryId/language/$lang/service/$serviceId',
+          data: {'per_page': 100, 'page': 1});
       List<dynamic> data = response['data'];
       final places = data.map((json) => PlaceOfService.fromMap(json)).toList();
       log('-----RESPONSE OF SERVICE:${data.toString()} Langage:$lang');
@@ -81,7 +82,9 @@ class ServiceRepo {
     int lang = await getLanguageId();
     try {
       var response = await apiService.get(
-          endPoints: '/star1/star/category/$categoryId/language/$lang/service/$serviceId/city/$cityId');
+          endPoints:
+              '/star1/star/category/$categoryId/language/$lang/service/$serviceId/city/$cityId',
+          data: {'per_page': 100, 'page': 1});
       List<dynamic> data = response['data'];
       final stars = data.map((json) => StarModel.fromMap(json)).toList();
       log('-----RESPONSE OF SERVICE:${data.toString()} Langage:$lang');
@@ -93,14 +96,17 @@ class ServiceRepo {
       return Left(ServerFailuer(e.toString()));
     }
   }
-  Future<Either<Failuer, List<PlaceOfService>>> getPlaceOfServiceByStar({required int serviceId,
+
+  Future<Either<Failuer, List<PlaceOfService>>> getPlaceOfServiceByStar(
+      {required int serviceId,
       required int cityId,
       required categoryId,
-      required starId}) async{
+      required starId}) async {
     int lang = await getLanguageId();
     try {
       var response = await apiService.get(
-          endPoints: '/place1/places/city/$cityId/category/$categoryId/language/$lang/service/$serviceId/star/$starId');
+          endPoints:
+              '/place1/places/city/$cityId/category/$categoryId/language/$lang/service/$serviceId/star/$starId');
       List<dynamic> data = response['data'];
       final places = data.map((json) => PlaceOfService.fromMap(json)).toList();
       log('-----RESPONSE OF SERVICE:${data.toString()} Langage:$lang');

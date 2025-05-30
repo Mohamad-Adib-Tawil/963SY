@@ -37,7 +37,8 @@ class HomeRepo {
       int lang = await getLanguageId();
       var response = await apiService.get(
           endPoints:
-              '/place1/places/city/$cityId/category/$categoryId/language/$lang');
+              '/place1/places/city/$cityId/category/$categoryId/language/$lang',
+          data: {'per_page': 50, 'page': 1});
       List<dynamic> data = response['data'];
       final places = data.map((json) => Place.fromJson(json)).toList();
       log('---Cubit:${data.toString()} Langage:$lang');

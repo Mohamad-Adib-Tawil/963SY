@@ -157,5 +157,6 @@
   "deviceRegistrationError": "خطأ: {error}",
   "chooseService": "اختر خدمة",
   "placeInfo": "معلومات",
-  "placeDescription": "الوصف"
+  "placeDescription": "الوصف",
+  "noPlaces": "لا يوجد مكانات"
 } 

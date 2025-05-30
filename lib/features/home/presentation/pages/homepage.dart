@@ -84,7 +84,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is HomeError) {
-          return Center(child: Text(l10n.error));
+          return Center(child: Text('الرجاء التحقق من الاتصال بالانترنت'));
         }
 
         if (state is HomeLoaded) {
@@ -333,6 +333,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                         } else {
                                           NavigationService
                                               .navigateToGovernorates(
+                                            title: category.catName,
                                             categoryType,
                                             languageId: state.languageId,
                                             categoryId: category.id,
