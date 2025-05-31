@@ -155,5 +155,10 @@
     "securityContent": "Utilizamos las últimas tecnologías de seguridad para proteger sus datos. Toda la información sensible está encriptada.",
     "userRights": "Derechos del Usuario",
     "userRightsContent": "Tiene derecho a acceder, modificar o eliminar sus datos. También puede solicitar la exportación de sus datos.",
-    "chooseService": "Elige un servicio"
+    "chooseService": "Elige un servicio",
+    "placeInfo": "Información",
+    "placeDescription": "Descripción",
+    "noPlaces": "No se encontraron lugares",
+    "noPlacesFound": "No se encontraron lugares",
+    "noPlacesInGovernorate": "No hay lugares disponibles en esta gobernación todavía"
   }

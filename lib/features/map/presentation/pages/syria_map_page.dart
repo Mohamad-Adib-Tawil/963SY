@@ -309,9 +309,38 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
               _buildMarkerLayer(),
             ],
           );
-        }else if(state is CityFailuer){
-          return const Center(child: Text('you are offline'));
-        }else{
+        } else if (state is CityFailuer) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.wifi_off,
+                  size: 80,
+                  color: Colors.grey.withOpacity(0.6),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  AppLocalizations.of(context)!.offlineTitle,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  AppLocalizations.of(context)!.offlineDescription,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[700],
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
           return const LinearProgressIndicator(color: Colors.white);
         }
       },

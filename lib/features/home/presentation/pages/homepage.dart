@@ -84,7 +84,51 @@ class _HomepageState extends BaseScreenState<Homepage> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is HomeError) {
-          return Center(child: Text('الرجاء التحقق من الاتصال بالانترنت'));
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 64,
+                    color: app_const.AppColors.primary,
+                  ),
+                  const SizedBox(height: 16),
+                  DirectionalText(
+                    text: l10n.offlineDescription,
+                    isArabic: isArabic,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: app_const.AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      context.read<HomeBloc>().add(HomeStarted());
+                      context.read<HomeCubit>().getCategories();
+                      context.read<LanguageCubit>().getLanguages();
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: Text(l10n.retry),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: app_const.AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
         }
 
         if (state is HomeLoaded) {

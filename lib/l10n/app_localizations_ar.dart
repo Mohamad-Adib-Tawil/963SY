@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -487,5 +485,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get placeInfo => 'معلومات';
 
   @override
-  String get placeDescription => 'الوصف';
+  String get placeDescription => 'وصف';
+
+  @override
+  String get noPlacesFound => 'لم يتم العثور على أماكن';
+
+  @override
+  String get noPlacesInGovernorate => 'لا توجد أماكن متاحة في هذه المحافظة بعد';
+
+  @override
+  String get offlineTitle => 'أنت غير متصل بالإنترنت';
+
+  @override
+  String get offlineDescription => 'يرجى التحقق من اتصالك بالإنترنت وحاول مرة أخرى.';
 }

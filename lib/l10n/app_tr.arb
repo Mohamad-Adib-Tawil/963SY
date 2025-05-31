@@ -152,5 +152,12 @@
   "hotels": "Oteller",
   "tourServices": "Tur Hizmetleri",
   "publicServices": "Kamu Hizmetleri",
-  "hospitals": "Hastaneler"
+  "hospitals": "Hastaneler",
+  "placeInfo": "Bilgi",
+  "placeDescription": "Açıklama",
+  "noPlaces": "Yer bulunamadı",
+  "noPlacesFound": "Yer bulunamadı",
+  "noPlacesInGovernorate": "Bu valilikte henüz yer bulunmamaktadır",
+  "offlineTitle": "Çevrimdışısınız",
+  "offlineDescription": "Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin."
 } 
