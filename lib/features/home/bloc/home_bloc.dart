@@ -57,7 +57,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final categories =
             data.map((json) => CategoryModel.fromJson(json)).toList();
 
-        if(categories != null && categories.isNotEmpty) {
+        if(categories.isNotEmpty) {
           firstCategoty = categories.first;
         }
         emit(HomeLoaded(
