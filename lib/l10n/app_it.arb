@@ -160,5 +160,6 @@
   "noPlacesFound": "Nessun luogo trovato",
   "noPlacesInGovernorate": "Non ci sono ancora luoghi disponibili in questo governatorato",
   "offlineTitle": "Sei offline",
-  "offlineDescription": "Controlla la tua connessione Internet e riprova."
+  "offlineDescription": "Controlla la tua connessione Internet e riprova.",
+  "selectStar": "Seleziona valutazione stelle"
 } 

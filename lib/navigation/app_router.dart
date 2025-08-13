@@ -51,7 +51,9 @@ class AppRouter {
       case map:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => CityCubit(getIt<ServiceRepo>())..getServiceCities(firstCategoty != null ? firstCategoty!.id : 1),
+                  create: (context) => CityCubit(getIt<ServiceRepo>())
+                    ..getServiceCities(
+                        firstCategoty != null ? firstCategoty!.id : 1),
                   child: const SyriaMapPage(),
                 ));
       case about:

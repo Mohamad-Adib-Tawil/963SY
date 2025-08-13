@@ -159,5 +159,7 @@
   "noPlacesFound": "Yer bulunamadı",
   "noPlacesInGovernorate": "Bu valilikte henüz yer bulunmamaktadır",
   "offlineTitle": "Çevrimdışısınız",
-  "offlineDescription": "Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin."
+  "offlineDescription": "Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.",
+  "chooseService": "Bir hizmet seçin",
+  "selectStar": "Yıldız derecelendirmesi seçin"
 } 

@@ -161,6 +161,7 @@
   "noPlaces": "لا يوجد مواقع",
   "noPlacesFound": "لم يتم العثور على أماكن",
   "noPlacesInGovernorate": "لا توجد أماكن متاحة في هذه المحافظة بعد",
-  "offlineTitle": "أنت غير متصل بالإنترنت",
-  "offlineDescription": "يرجى التحقق من اتصالك بالإنترنت وحاول مرة أخرى."
+  "offlineTitle": "أنت غير متصل",
+  "offlineDescription": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.",
+  "selectStar": "اختر تقييم النجوم"
 } 

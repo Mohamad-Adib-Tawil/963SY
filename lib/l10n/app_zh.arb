@@ -159,5 +159,7 @@
     "noPlacesFound": "未找到地点",
     "noPlacesInGovernorate": "该省目前还没有可用的地点",
     "offlineTitle": "您已离线",
-    "offlineDescription": "请检查您的互联网连接，然后重试。"
+    "offlineDescription": "请检查您的互联网连接，然后重试。",
+    "chooseService": "选择一个服务",
+    "selectStar": "选择星级评分"
 }

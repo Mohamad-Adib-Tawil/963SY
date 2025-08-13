@@ -158,8 +158,10 @@
   "chooseService": "Choose a service",
   "placeInfo": "Information",
   "placeDescription": "Description",
+  "noPlaces": "No places found",
   "noPlacesFound": "No Places Found",
   "noPlacesInGovernorate": "There are no places available in this governorate yet",
   "offlineTitle": "You are offline",
-  "offlineDescription": "Please check your internet connection and try again."
+  "offlineDescription": "Please check your internet connection and try again.",
+  "selectStar": "Select Star Rating"
 }

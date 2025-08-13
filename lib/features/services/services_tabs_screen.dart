@@ -15,6 +15,7 @@ import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/models/place_model.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
+import 'package:untitled4/navigation/app_router.dart';
 import 'package:untitled4/features/home/presentation/pages/homepage.dart';
 import 'package:untitled4/widgets/common/shimmer_effect/service_shimmer.dart';
 
@@ -37,6 +38,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isRTL = Localizations.localeOf(context).languageCode == 'ar';
 
     return WillPopScope(
       onWillPop: () async {
@@ -55,6 +57,15 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
               fontWeight: FontWeight.bold,
               letterSpacing: 1,
             ),
+          ),
+          leading: IconButton(
+            icon: Icon(
+              isRTL ? Icons.arrow_forward : Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              NavigationService.navigateToAndRemoveUntil(AppRouter.home);
+            },
           ),
           backgroundColor: AppColors.primary,
           elevation: 0,
@@ -151,7 +162,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                 }
                                 if (serviceState is ServiceSuccess) {
                                   if (serviceState.services.isEmpty) {
-                                    return const Text('no services found');
+                                    return Text(l10n.noPlaces);
                                   }
                                   return _buildDropdownRow(
                                     icon: Icons.category,
@@ -192,9 +203,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                 if (serviceState is ServiceFailuer) {
                                   return Text(serviceState.errorMessage);
                                 }
-                                return Container(
-                                  child: const Text('some thig went wrong'),
-                                );
+                                return Text(l10n.somethingWentWrong);
                               },
                             ),
                           ],
@@ -286,7 +295,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                                         decoration:
                                                             InputDecoration(
                                                           labelText:
-                                                              "selectStar",
+                                                              l10n.selectStar,
                                                           prefixIcon:
                                                               const Icon(
                                                                   Icons.star,
@@ -423,10 +432,10 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                   ),
                           );
                         }
-                        return const Center(
+                        return Center(
                           child: RTLText(
-                            text: 'اختر خدمة',
-                            style: TextStyle(
+                            text: l10n.chooseService,
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.grey,
                             ),
@@ -441,7 +450,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                 log('cubit sends failed to load data : ${cityState.errorMessage}');
                 return Text(cityState.errorMessage);
               }
-              return const Text('some thing went wrong');
+              return Text(l10n.somethingWentWrong);
             },
           ),
         ),

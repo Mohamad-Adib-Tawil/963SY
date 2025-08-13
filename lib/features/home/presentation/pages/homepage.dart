@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:untitled4/const.dart' as app_const;
 import 'package:untitled4/core/constants/app_colors.dart';
 import 'package:untitled4/features/home/cubit/language_cubit.dart';
@@ -21,6 +23,7 @@ import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled4/features/home/bloc/home_bloc.dart';
 import 'package:untitled4/widgets/common/shimmer_effect/slider_shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DirectionalText extends StatelessWidget {
   final String text;
@@ -73,6 +76,53 @@ class _HomepageState extends BaseScreenState<Homepage> {
       if (title == 'Religious Sites') return 'ديني';
     }
     return '';
+  }
+
+  Widget _buildSocialMediaIconOnly({
+    required IconData icon,
+    required String url,
+    required int index,
+  }) {
+    return InkWell(
+      onTap: () => _launchURL(url),
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.backgroundWhite,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Icon(
+          icon,
+          color: AppColors.primary,
+          size: 26,
+        ),
+      ),
+    ).animate().fadeIn(duration: 600.ms).slideX(
+      begin: 0.3,
+      end: 0,
+      delay: (index * 200).ms,
+      duration: 600.ms,
+    );
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('لا يمكن فتح الرابط')),
+        );
+      }
+    }
   }
 
   @override
@@ -145,7 +195,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                   if (homeState is HomeCubitSuccess) {
                     int sliderId = homeState.categories
                         .firstWhere((element) => element.catType == 3,
-                            orElse: () => homeState.categories[0])
+                        orElse: () => homeState.categories[0])
                         .id;
                     context.read<SliderCubit>().getSliderImages(sliderId);
                     log(homeState.categories.length.toString());
@@ -236,7 +286,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                     },
                                   ),
                                   items:
-                                      sliderState.sliderItems.map((imagePath) {
+                                  sliderState.sliderItems.map((imagePath) {
                                     return Builder(
                                       builder: (BuildContext context) {
                                         return GestureDetector(
@@ -248,15 +298,15 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                             },
                                             child: ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(16),
+                                              BorderRadius.circular(16),
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(16),
+                                                  BorderRadius.circular(16),
                                                   image: DecorationImage(
                                                     fit: BoxFit.cover,
                                                     image:
-                                                        CachedNetworkImageProvider(
+                                                    CachedNetworkImageProvider(
                                                       imagePath.photo,
                                                     ),
                                                   ),
@@ -283,7 +333,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children:
-                              List.generate(state.sliderImages.length, (index) {
+                          List.generate(state.sliderImages.length, (index) {
                             bool isActive = state.currentSliderIndex == index;
                             return AnimatedContainer(
                               duration: const Duration(milliseconds: 300),
@@ -345,7 +395,7 @@ class _HomepageState extends BaseScreenState<Homepage> {
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
                                     crossAxisSpacing: 8,
                                     mainAxisSpacing: 8,
@@ -391,6 +441,36 @@ class _HomepageState extends BaseScreenState<Homepage> {
                             ),
                           ),
                         ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildSocialMediaIconOnly(
+                              icon: FontAwesomeIcons.globe,
+                              url: 'https://963sy.net',
+                              index: 0,
+                            ),
+                            _buildSocialMediaIconOnly(
+                              icon: FontAwesomeIcons.facebook,
+                              url:
+                              'https://www.facebook.com/share/12J86eBRuZK/',
+                              index: 1,
+                            ),
+                            _buildSocialMediaIconOnly(
+                              icon: FontAwesomeIcons.instagram,
+                              url:
+                              'https://www.instagram.com/963sy.app?igsh=eWV3bTkzZW14cjA=',
+                              index: 2,
+                            ),
+                            _buildSocialMediaIconOnly(
+                              icon: FontAwesomeIcons.youtube,
+                              url:
+                              'https://youtube.com/@963syapp?si=KpjVYAYEwy8oekRR',
+                              index: 3,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),

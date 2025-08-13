@@ -42,7 +42,7 @@ class _ContactUsScreenState extends BaseScreenState<ContactUsScreen> {
           );
         } else if (state is ContactError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('you are offline')),
+            SnackBar(content: Text(l10n.offlineTitle)),
           );
         }
       },

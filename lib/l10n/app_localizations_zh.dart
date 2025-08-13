@@ -76,9 +76,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get french => '法语';
 
   @override
-  String languageSelected(Object language) {
-    return '已选择语言：@language';
-  }
+  String get languageSelected => '已选择语言：@language';
 
   @override
   String get aboutUsTitle => '关于我们';
@@ -479,13 +477,16 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get chooseService => 'Choose a service';
+  String get chooseService => '选择一个服务';
 
   @override
   String get placeInfo => '信息';
 
   @override
   String get placeDescription => '描述';
+
+  @override
+  String get noPlaces => '未找到地点';
 
   @override
   String get noPlacesFound => '未找到地点';
@@ -498,4 +499,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get offlineDescription => '请检查您的互联网连接，然后重试。';
+
+  @override
+  String get selectStar => '选择星级评分';
 }

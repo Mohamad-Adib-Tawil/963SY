@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:untitled4/navigation/app_router.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
+import 'dart:io';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -18,6 +19,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
     _initializeVideo();
+  }
+
+  Future<bool> _onWillPop() async {
+    exit(0);
+    return false;
   }
 
   Future<void> _initializeVideo() async {
@@ -64,48 +70,54 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          Center(
-            child: _isVideoInitialized
-                ? SizedBox.expand(
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: SizedBox(
-                        width: _controller.value.size.width,
-                        height: _controller.value.size.height,
-                        child: VideoPlayer(_controller),
+    return WillPopScope(
+      onWillPop: () async {
+        exit(0);
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Stack(
+          children: [
+            Center(
+              child: _isVideoInitialized
+                  ? SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: SizedBox(
+                          width: _controller.value.size.width,
+                          height: _controller.value.size.height,
+                          child: VideoPlayer(_controller),
+                        ),
                       ),
+                    )
+                  : const CircularProgressIndicator(
+                      color: Colors.white,
                     ),
-                  )
-                : const CircularProgressIndicator(
-                    color: Colors.white,
+            ),
+            // Skip button
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 16,
+              right: 16,
+              child: TextButton(
+                onPressed: _skipVideo,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.black.withOpacity(0.5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-          ),
-          // Skip button
-          Positioned(
-            top: MediaQuery.of(context).padding.top + 16,
-            right: 16,
-            child: TextButton(
-              onPressed: _skipVideo,
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.black.withOpacity(0.5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
                 ),
-              ),
-              child: Text(
-                l10n.skip,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
+                child: Text(
+                  l10n.skip,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

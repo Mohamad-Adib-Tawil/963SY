@@ -76,9 +76,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get french => 'الفرنسية';
 
   @override
-  String languageSelected(Object language) {
-    return 'اللغة المختارة: @language';
-  }
+  String get languageSelected => 'اللغة المختارة: @language';
 
   @override
   String get aboutUsTitle => 'من نحن';
@@ -488,14 +486,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get placeDescription => 'وصف';
 
   @override
+  String get noPlaces => 'لا يوجد مواقع';
+
+  @override
   String get noPlacesFound => 'لم يتم العثور على أماكن';
 
   @override
   String get noPlacesInGovernorate => 'لا توجد أماكن متاحة في هذه المحافظة بعد';
 
   @override
-  String get offlineTitle => 'أنت غير متصل بالإنترنت';
+  String get offlineTitle => 'أنت غير متصل';
 
   @override
-  String get offlineDescription => 'يرجى التحقق من اتصالك بالإنترنت وحاول مرة أخرى.';
+  String get offlineDescription => 'يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.';
+
+  @override
+  String get selectStar => 'اختر تقييم النجوم';
 }

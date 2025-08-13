@@ -76,9 +76,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get french => 'Fransızca';
 
   @override
-  String languageSelected(Object language) {
-    return 'Seçilen dil: @language';
-  }
+  String get languageSelected => 'Seçilen dil: @language';
 
   @override
   String get aboutUsTitle => 'Biz Kimiz';
@@ -479,13 +477,16 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get chooseService => 'Choose a service';
+  String get chooseService => 'Bir hizmet seçin';
 
   @override
   String get placeInfo => 'Bilgi';
 
   @override
   String get placeDescription => 'Açıklama';
+
+  @override
+  String get noPlaces => 'Yer bulunamadı';
 
   @override
   String get noPlacesFound => 'Yer bulunamadı';
@@ -498,4 +499,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get offlineDescription => 'Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin.';
+
+  @override
+  String get selectStar => 'Yıldız derecelendirmesi seçin';
 }

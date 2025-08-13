@@ -247,7 +247,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Language selected: @language'**
-  String languageSelected(Object language);
+  String get languageSelected;
 
   /// No description provided for @aboutUsTitle.
   ///
@@ -1059,6 +1059,12 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get placeDescription;
 
+  /// No description provided for @noPlaces.
+  ///
+  /// In en, this message translates to:
+  /// **'No places found'**
+  String get noPlaces;
+
   /// No description provided for @noPlacesFound.
   ///
   /// In en, this message translates to:
@@ -1082,6 +1088,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please check your internet connection and try again.'**
   String get offlineDescription;
+
+  /// No description provided for @selectStar.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Star Rating'**
+  String get selectStar;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

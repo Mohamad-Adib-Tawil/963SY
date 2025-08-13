@@ -140,35 +140,39 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
         );
   }
 
-  Widget _buildSocialMediaButton({
+  Widget _buildSocialMediaIconOnly({
     required IconData icon,
-    required Color color,
     required String url,
     required int index,
   }) {
     return InkWell(
       onTap: () => _launchURL(url),
+      borderRadius: BorderRadius.circular(16),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
+          color: AppColors.backgroundWhite,
+          shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
             ),
           ],
         ),
-        child: Icon(icon, color: color, size: 28),
+        child: Icon(
+          icon,
+          color: AppColors.primary, // استخدام اللون الأساسي للتطبيق
+          size: 26,
+        ),
       ),
     ).animate().fadeIn(duration: 600.ms).slideX(
-          begin: 0.3,
-          end: 0,
-          delay: (index * 200).ms,
-          duration: 600.ms,
-        );
+      begin: 0.3,
+      end: 0,
+      delay: (index * 200).ms,
+      duration: 600.ms,
+    );
   }
 
   Future<void> _launchURL(String url) async {
@@ -247,45 +251,40 @@ class _AboutUsPageState extends BaseScreenState<AboutUsPage> {
                       index: 2,
                     ),
                     const SizedBox(height: 24),
-                    Text(
-                      l10n.contactUs,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildSocialMediaButton(
-                          icon: FontAwesomeIcons.globe,
-                          color: Colors.green,
-                          url: 'https://963sy.net',
-                          index: 0,
-                        ),
-                        _buildSocialMediaButton(
-                          icon: FontAwesomeIcons.facebook,
-                          color: Colors.blue,
-                          url: 'https://www.facebook.com/share/12J86eBRuZK/',
-                          index: 1,
-                        ),
-                        _buildSocialMediaButton(
-                          icon: FontAwesomeIcons.instagram,
-                          color: Colors.purple,
-                          url:
-                              'https://www.instagram.com/963sy.app?igsh=eWV3bTkzZW14cjA=',
-                          index: 2,
-                        ),
-                        _buildSocialMediaButton(
-                          icon: FontAwesomeIcons.youtube,
-                          color: Colors.red,
-                          url:
-                              'https://youtube.com/@963syapp?si=KpjVYAYEwy8oekRR',
-                          index: 3,
-                        ),
-                      ],
-                    ),
+                    // Text(
+                    //   l10n.contactUs,
+                    //   style: const TextStyle(
+                    //     fontSize: 24,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 16),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //   children: [
+                    //     _buildSocialMediaIconOnly(
+                    //       icon: FontAwesomeIcons.globe,
+                    //       url: 'https://963sy.net',
+                    //       index: 0,
+                    //     ),
+                    //     _buildSocialMediaIconOnly(
+                    //       icon: FontAwesomeIcons.facebook,
+                    //       url: 'https://www.facebook.com/share/12J86eBRuZK/',
+                    //       index: 1,
+                    //     ),
+                    //     _buildSocialMediaIconOnly(
+                    //       icon: FontAwesomeIcons.instagram,
+                    //       url: 'https://www.instagram.com/963sy.app?igsh=eWV3bTkzZW14cjA=',
+                    //       index: 2,
+                    //     ),
+                    //     _buildSocialMediaIconOnly(
+                    //       icon: FontAwesomeIcons.youtube,
+                    //       url: 'https://youtube.com/@963syapp?si=KpjVYAYEwy8oekRR',
+                    //       index: 3,
+                    //     ),
+                    //   ],
+                    // ),
+
                   ],
                 ),
               ),

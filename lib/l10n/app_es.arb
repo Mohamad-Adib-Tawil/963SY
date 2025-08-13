@@ -22,7 +22,7 @@
     "arabic": "Árabe",
     "english": "Inglés",
     "french": "Francés",
-    "languageSelected": "Idioma seleccionado: {language}",
+    "languageSelected": "Idioma seleccionado: @language",
     "aboutUsTitle": "Sobre Nosotros",
     "privacyPolicy": "Política de Privacidad",
     "accept": "Aceptar",
@@ -160,5 +160,8 @@
     "placeDescription": "Descripción",
     "noPlaces": "No se encontraron lugares",
     "noPlacesFound": "No se encontraron lugares",
-    "noPlacesInGovernorate": "No hay lugares disponibles en esta gobernación todavía"
+    "noPlacesInGovernorate": "No hay lugares disponibles en esta gobernación todavía",
+    "offlineTitle": "Estás desconectado",
+    "offlineDescription": "Por favor verifica tu conexión a Internet e intenta de nuevo.",
+    "selectStar": "Seleccionar calificación de estrellas"
   }

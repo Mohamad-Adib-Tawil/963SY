@@ -76,9 +76,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get french => 'French';
 
   @override
-  String languageSelected(Object language) {
-    return 'Language selected: @language';
-  }
+  String get languageSelected => 'Language selected: @language';
 
   @override
   String get aboutUsTitle => 'About Us';
@@ -488,6 +486,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get placeDescription => 'Description';
 
   @override
+  String get noPlaces => 'No places found';
+
+  @override
   String get noPlacesFound => 'No Places Found';
 
   @override
@@ -498,4 +499,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get offlineDescription => 'Please check your internet connection and try again.';
+
+  @override
+  String get selectStar => 'Select Star Rating';
 }

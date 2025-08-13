@@ -1,5 +1,6 @@
-package com.example.untitled4
+package com.syria_tourism.guide
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity()
+class MainActivity: FlutterActivity() {
+}

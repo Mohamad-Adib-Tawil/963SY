@@ -76,9 +76,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get french => 'Francés';
 
   @override
-  String languageSelected(Object language) {
-    return 'Idioma seleccionado: $language';
-  }
+  String get languageSelected => 'Idioma seleccionado: @language';
 
   @override
   String get aboutUsTitle => 'Sobre Nosotros';
@@ -488,14 +486,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get placeDescription => 'Descripción';
 
   @override
+  String get noPlaces => 'No se encontraron lugares';
+
+  @override
   String get noPlacesFound => 'No se encontraron lugares';
 
   @override
   String get noPlacesInGovernorate => 'No hay lugares disponibles en esta gobernación todavía';
 
   @override
-  String get offlineTitle => 'You are offline';
+  String get offlineTitle => 'Estás desconectado';
 
   @override
-  String get offlineDescription => 'Please check your internet connection and try again.';
+  String get offlineDescription => 'Por favor verifica tu conexión a Internet e intenta de nuevo.';
+
+  @override
+  String get selectStar => 'Seleccionar calificación de estrellas';
 }
