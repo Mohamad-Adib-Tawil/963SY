@@ -298,50 +298,107 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
         }
       },
       builder: (context, state) {
-        if (state is CitySuccess) {
-          return FlutterMap(
-            options: const MapOptions(
-              initialCenter: LatLng(35.0, 38.5),
-              initialZoom: 6.0,
-            ),
-            children: [
-              _buildTileLayer(),
-              _buildMarkerLayer(),
-            ],
-          );
-        } else if (state is CityFailuer) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+        try {
+          if (state is CitySuccess) {
+            return FlutterMap(
+              options: const MapOptions(
+                initialCenter: LatLng(35.0, 38.5),
+                initialZoom: 6.0,
+              ),
               children: [
-                Icon(
-                  Icons.wifi_off,
-                  size: 80,
-                  color: Colors.grey.withOpacity(0.6),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  AppLocalizations.of(context)!.offlineTitle,
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  AppLocalizations.of(context)!.offlineDescription,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[700],
-                  ),
-                ),
+                _buildTileLayer(),
+                _buildMarkerLayer(),
               ],
+            );
+          } else if (state is CityFailuer) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.wifi_off,
+                      size: 80,
+                      color: AppColors.primary.withOpacity(0.6),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      AppLocalizations.of(context)!.offlineTitle,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      AppLocalizations.of(context)!.offlineDescription,
+                      textAlign: TextAlign.center,
+                      style:
+                          const TextStyle(fontSize: 16, color: Colors.black87),
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        context.read<CityCubit>().getServiceCities(1);
+                      },
+                      icon: const Icon(Icons.refresh),
+                      label: Text(AppLocalizations.of(context)!.retry),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return const LinearProgressIndicator(color: Colors.white);
+          }
+        } catch (e) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline, size: 64, color: AppColors.primary),
+                  const SizedBox(height: 16),
+                  Text(
+                    AppLocalizations.of(context)!.offlineDescription,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16, color: Colors.black87),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      context.read<CityCubit>().getServiceCities(1);
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: Text(AppLocalizations.of(context)!.retry),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
-        } else {
-          return const LinearProgressIndicator(color: Colors.white);
         }
       },
     );
