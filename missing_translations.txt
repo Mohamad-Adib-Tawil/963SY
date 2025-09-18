@@ -1,0 +1,16 @@
+{
+  "it": [
+    "aboutUsEnglish",
+    "aboutUsEnglishContent"
+  ],
+
+  "tr": [
+    "aboutUsEnglish",
+    "aboutUsEnglishContent"
+  ],
+
+  "zh": [
+    "aboutUsEnglish",
+    "aboutUsEnglishContent"
+  ]
+}

@@ -367,6 +367,7 @@ class _RedesignedServiceScreenState extends State<RedesignedServiceScreen> {
                                                 NavigationService.navigateTo(
                                                     '/details',
                                                     arguments: PlaceDetailsScreen(
+                                                        isServeice: true,
                                                         place: Place
                                                             .fromServicePlace(
                                                                 item)));

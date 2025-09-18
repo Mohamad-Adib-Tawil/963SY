@@ -25,8 +25,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDetailsScreen extends StatefulWidget {
   final Place place;
-
-  const PlaceDetailsScreen({super.key, required this.place});
+  final bool? isServeice;
+  const PlaceDetailsScreen({super.key, required this.place, this.isServeice});
 
   @override
   State<PlaceDetailsScreen> createState() => _PlaceDetailsScreenState();
@@ -312,8 +312,12 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
         ),
       if (signlanguageLink.isNotEmpty || signlanguageLink != '')
         _FeatureItem(
-          imagePath: 'assets/images/signlanguage-removebg-preview (1).png',
-          label: l10n.signLanguage,
+          imagePath: widget.isServeice != null
+              ? widget.isServeice!
+                  ? 'assets/images/video-removebg-preview (1).png'
+                  : 'assets/images/signlanguage-removebg-preview (1).png'
+              : 'assets/images/signlanguage-removebg-preview (1).png',
+          label: l10n.mediaClips,
           onTap: () {
             _navigateToScreen(
                 context,

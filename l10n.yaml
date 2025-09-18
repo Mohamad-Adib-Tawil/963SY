@@ -2,5 +2,5 @@ arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
 output-class: AppLocalizations
-synthetic-package: false
-preferred-supported-locales: [en, ar, fr, es, tr, zh, it] 
+preferred-supported-locales: [en, ar, fr, es, tr, zh, it]
+untranslated-messages-file: missing_translations.txt
