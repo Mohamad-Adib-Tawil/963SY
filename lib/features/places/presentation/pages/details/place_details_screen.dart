@@ -44,9 +44,10 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
     super.initState();
     final cubit = context.read<PlaceDetailsCubit>();
     cubit.getDetails(
-        placeId: widget.place.id,
-        cityId: widget.place.citiesIdcities,
-        categoryId: widget.place.categoriesIdcategories);
+      placeId: widget.place.id,
+      cityId: widget.place.citiesIdcities,
+      categoryId: widget.place.categoriesIdcategories,
+    );
   }
 
   @override
@@ -62,21 +63,24 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
             final links = state.placeDetailsModel.links;
             way = state.placeDetailsModel.coordinates;
             if (links.isNotEmpty) {
-              youtubeLink = links
+              youtubeLink =
+                  links
                       .firstWhere(
                         (link) => link.linkType == 2 && link.linkHttp != null,
                         orElse: () => Link(linkHttp: ''),
                       )
                       .linkHttp ??
                   '';
-              virtualTourLink = links
+              virtualTourLink =
+                  links
                       .firstWhere(
                         (link) => link.linkType == 3 && link.linkHttp != null,
                         orElse: () => Link(linkHttp: ''),
                       )
                       .linkHttp ??
                   '';
-              signlanguageLink = links
+              signlanguageLink =
+                  links
                       .firstWhere(
                         (link) => link.linkType == 1 && link.linkHttp != null,
                         orElse: () => Link(linkHttp: ''),
@@ -123,10 +127,11 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
       centerTitle: true,
       elevation: 0,
       leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          }),
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       title: RTLText(
         text: widget.place.placeName,
         style: const TextStyle(
@@ -149,15 +154,16 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
         height: 240,
         width: double.infinity,
         fit: BoxFit.cover,
-        placeholder: (context, url) => Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(
-            height: 240,
-            width: double.infinity,
-            color: Colors.white,
-          ),
-        ),
+        placeholder:
+            (context, url) => Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                height: 240,
+                width: double.infinity,
+                color: Colors.white,
+              ),
+            ),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );
@@ -215,62 +221,58 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
       final response = await Dio().get(
         fileUrl,
         options: Options(
-            responseType: ResponseType.plain), // Treat response as plain text
+          responseType: ResponseType.plain,
+        ), // Treat response as plain text
       );
 
       log(response.data.toString());
 
       return response.data.toString();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('some thing went wrong, try again later'),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('some thing went wrong, try again later')),
+      );
       return '';
     }
   }
 
-  List<Widget> _buildFeatureItems(
-    BuildContext context,
-  ) {
+  List<Widget> _buildFeatureItems(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return [
       if (info.isNotEmpty)
         _FeatureItem(
-            imagePath: 'assets/images/info-removebg-preview (1).png',
-            label: l10n.information,
-            onTap: () async {
-              String text = await fetchTextFileContent(info[0].medContent!);
-              if (text.isNotEmpty || text != '') {
-                _navigateToScreen(
-                    context,
-                    InfoScreen(
-                      place: widget.place,
-                      info: text,
-                    ));
-              }
-            }),
+          imagePath: 'assets/images/info-removebg-preview (1).png',
+          label: l10n.information,
+          onTap: () async {
+            String text = await fetchTextFileContent(info[0].medContent!);
+            if (text.isNotEmpty || text != '') {
+              _navigateToScreen(
+                context,
+                InfoScreen(place: widget.place, info: text),
+              );
+            }
+          },
+        ),
       if (photo.isNotEmpty)
         _FeatureItem(
           imagePath: 'assets/images/photo-removebg-preview (1).png',
           label: l10n.photos,
           onTap: () {
             _navigateToScreen(
-                context,
-                PhotosScreen(
-                  photos: photo,
-                  place: widget.place,
-                ));
+              context,
+              PhotosScreen(photos: photo, place: widget.place),
+            );
           },
         ),
       if (virtualTourLink.isNotEmpty || virtualTourLink != '')
         _FeatureItem(
           imagePath: 'assets/images/virtual-removebg-preview (1).png',
           label: l10n.virtualTour,
-          onTap: () => _navigateToScreen(
-              context,
-              VirtualTourScreen(
-                url: virtualTourLink,
-              )),
+          onTap:
+              () => _navigateToScreen(
+                context,
+                VirtualTourScreen(url: virtualTourLink),
+              ),
         ),
       if (way.horizontal != '0' || way.vertical != '0')
         _FeatureItem(
@@ -302,27 +304,37 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => YouTubePlayerScreen(
-                  place: widget.place,
-                  youtubeLink: youtubeLink,
-                ),
+                builder:
+                    (_) => YouTubePlayerScreen(
+                      place: widget.place,
+                      youtubeLink: youtubeLink,
+                    ),
               ),
             );
           },
         ),
       if (signlanguageLink.isNotEmpty || signlanguageLink != '')
         _FeatureItem(
-          imagePath: widget.isServeice != null
-              ? widget.isServeice!
-                  ? 'assets/images/video-removebg-preview (1).png'
-                  : 'assets/images/signlanguage-removebg-preview (1).png'
-              : 'assets/images/signlanguage-removebg-preview (1).png',
-          label: l10n.mediaClips,
+          imagePath:
+              widget.isServeice != null
+                  ? widget.isServeice!
+                      ? 'assets/images/video-removebg-preview (1).png'
+                      : 'assets/images/signlanguage-removebg-preview (1).png'
+                  : 'assets/images/signlanguage-removebg-preview (1).png',
+          label:
+              widget.isServeice != null
+                  ? widget.isServeice!
+                      ? l10n.mediaClips
+                      : l10n.signLanguage
+                  : l10n.signLanguage,
           onTap: () {
             _navigateToScreen(
-                context,
-                YouTubePlayerScreen(
-                    place: widget.place, youtubeLink: signlanguageLink));
+              context,
+              YouTubePlayerScreen(
+                place: widget.place,
+                youtubeLink: signlanguageLink,
+              ),
+            );
           },
         ),
     ];
@@ -350,9 +362,7 @@ class _FeatureItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 2,
         shadowColor: Colors.black12,
         child: Padding(

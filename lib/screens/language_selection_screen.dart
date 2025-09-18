@@ -5,10 +5,10 @@ import 'package:untitled4/core/constants/app_colors.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:untitled4/features/home/cubit/language_cubit.dart';
 import 'package:untitled4/features/home/models/language_model.dart';
+import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/navigation/navigation_service.dart';
 
 import 'package:untitled4/providers/language_provider.dart';
-import 'package:untitled4/l10n/app_localizations.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
   const LanguageSelectionScreen({super.key});
@@ -187,3 +187,5 @@ class _LanguageOption extends StatelessWidget {
     );
   }
 }
+
+
