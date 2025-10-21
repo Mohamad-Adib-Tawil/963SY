@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.syria_tourism.guide">
-
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -9,7 +8,7 @@
     <application
         android:label="963"
         android:icon="@mipmap/launcher_icon"
-        android:usesCleartextTraffic="true">
+        >
 
         <activity
             android:name=".MainActivity"
@@ -35,7 +34,7 @@
             android:value="2" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY_HERE" />
+            android:value="REDACTED" />
     </application>
 
     <queries>
