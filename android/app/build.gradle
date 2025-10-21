@@ -10,6 +10,13 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+// Load MAPS_API_KEY from local.properties (never commit secrets)
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
 android {
     namespace = "com.syria_tourism.guide"
     compileSdk = 36  
@@ -21,6 +28,10 @@ android {
         targetSdk = 35                  
         versionCode = 15
         versionName = "1.5.0"
+        // Provide the Maps API key to the manifest via placeholders
+        manifestPlaceholders = [
+                MAPS_API_KEY: (localProperties.getProperty('MAPS_API_KEY') ?: "")
+        ]
     }
 
     signingConfigs {
