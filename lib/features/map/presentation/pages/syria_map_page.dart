@@ -8,6 +8,7 @@ import 'package:untitled4/features/services/cubit/city_cubit.dart';
 import 'package:untitled4/l10n/app_localizations.dart';
 import 'package:untitled4/core/widgets/rtl_text.dart';
 import 'package:collection/collection.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Governorate {
   late String? name;
@@ -117,6 +118,77 @@ class _SyriaMapPageState extends BaseScreenState<SyriaMapPage> {
       description: 'تقع في الجولان السوري، وتعرضت لدمار كبير بسبب الاحتلال.',
     ),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // اطلب صلاحية الموقع وقت التشغيل عند فتح الصفحة
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _ensureLocationPermission();
+    });
+  }
+
+  Future<void> _ensureLocationPermission() async {
+    // تحقّق من حالة الصلاحية الحالية
+    final status = await Permission.locationWhenInUse.status;
+    if (status.isGranted) return;
+
+    // اطلب الصلاحية
+    final result = await Permission.locationWhenInUse.request();
+
+    if (result.isGranted) return;
+
+    if (result.isPermanentlyDenied) {
+      if (!mounted) return;
+      // اطلب من المستخدم فتح الإعدادات لتمكين الصلاحية
+      _showPermissionDialog(
+        title: 'صلاحية الموقع مطلوبة',
+        message:
+            'بحاجة للوصول إلى موقعك لعرض موقعك على الخريطة. يرجى تفعيل صلاحية الموقع من الإعدادات.',
+        actionLabel: 'فتح الإعدادات',
+        onAction: openAppSettings,
+      );
+      return;
+    }
+
+    if (result.isDenied) {
+      if (!mounted) return;
+      // إعلام المستخدم أن بعض الميزات ستتأثر
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('لم يتم منح صلاحية الموقع. بعض الميزات قد لا تعمل.'),
+        ),
+      );
+    }
+  }
+
+  void _showPermissionDialog({
+    required String title,
+    required String message,
+    required String actionLabel,
+    required Future<bool> Function() onAction,
+  }) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('إلغاء'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await onAction();
+              if (mounted) Navigator.of(ctx).pop();
+            },
+            child: Text(actionLabel),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget buildBody(BuildContext context) {
