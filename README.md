@@ -1,16 +1,9 @@
-# untitled4
+# 963SY Maintenance Notes
 
-A new Flutter project.
+## English
 
-## Getting Started
+I am responsible only for updating this existing Flutter codebase to meet Google Play Store policies, perform the required compliance fixes, and handle the publishing workflow. The original development and feature implementation were created by another team; my scope does not include new feature development or rewrites.
 
-This project is a starting point for a Flutter application.
+## العربية
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+أنا مسؤول فقط عن تعديل هذا المشروع البرمجي القائم ليطابق سياسات متجر Google Play، وتنفيذ الإصلاحات المطلوبة والقيام بعملية الرفع إلى المتجر. تم تطوير الكود والميزات الأساسية من قبل فريق آخر، ودوري لا يشمل تطوير ميزات جديدة أو إعادة بناء المشروع.
