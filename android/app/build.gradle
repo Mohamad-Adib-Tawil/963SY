@@ -12,12 +12,12 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.syria_tourism.guide"
-    compileSdk = 36  
+    compileSdk = 35  
 
     defaultConfig {
         applicationId = "com.syria_tourism.guide"
         minSdk = flutter.minSdkVersion   
-        targetSdk = 36                  
+        targetSdk = 35                  
         versionCode = 15
         versionName = "1.5.0"
     }
