@@ -12,7 +12,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.syria_tourism.guide"
-    compileSdk = 35  
+    compileSdk = 36  
+    ndkVersion "29.0.13113456"
 
     defaultConfig {
         applicationId = "com.syria_tourism.guide"
