@@ -1,6 +1,6 @@
 plugins {
     id "com.android.application"
-    id "org.jetbrains.kotlin.android" version "2.1.0" // ✅ Kotlin محدثة
+    id "org.jetbrains.kotlin.android" version "2.1.0" 
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -12,14 +12,14 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.syria_tourism.guide"
-    compileSdk = 36   // ✅ آخر SDK
+    compileSdk = 36  
 
     defaultConfig {
         applicationId = "com.syria_tourism.guide"
-        minSdk = flutter.minSdkVersion   // ✅ بدل minSdkVersion
-        targetSdk = 36                   // ✅ بدل targetSdkVersion
-        versionCode = 4
-        versionName = "1.2"
+        minSdk = flutter.minSdkVersion   
+        targetSdk = 36                  
+        versionCode = 10
+        versionName = "1.4"
     }
 
     signingConfigs {
@@ -47,7 +47,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"   // ✅ بدل 1.8
+        jvmTarget = "17"  
     }
 
 }
